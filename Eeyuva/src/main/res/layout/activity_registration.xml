@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:id="@+id/mImgLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+    <EditText
+        android:id="@+id/mEdtFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/mImgLogo"
+        android:background="@drawable/rounded_corner_stroke_grey"
+        android:hint="@string/firstname"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/EdtPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/medium" />
+
+    <EditText
+        android:id="@+id/mEdtLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mEdtFirstName"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_corner_stroke_grey"
+        android:hint="@string/lastname"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/EdtPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/medium" />
+
+    <EditText
+        android:id="@+id/mEdtMailid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mEdtLastName"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_corner_stroke_grey"
+        android:hint="@string/mailid"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/EdtPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/medium" />
+
+    <LinearLayout
+        android:id="@+id/mLaygender"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/mEdtMailid"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/gender"
+            android:padding="10dp"
+            android:id="@+id/mTxtgender"/>
+
+        <RadioGroup
+            android:id="@+id/radioSex"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/male"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/female" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/mEdtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mLaygender"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_corner_stroke_grey"
+        android:hint="@string/password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/medium" />
+
+    <EditText
+        android:id="@+id/mEdtConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mEdtPassword"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_corner_stroke_grey"
+        android:hint="@string/confirmpassword"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/medium" />
+
+
+    <Button
+        android:id="@+id/mBtnSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mEdtConfirmPassword"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_corner_green"
+        android:padding="10dp"
+        android:text="@string/signup"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium" />
+
+    <Button
+        android:id="@+id/mBtnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:layout_weight="0.6"
+        android:background="@drawable/rounded_corner_red"
+        android:padding="10dp"
+        android:text="@string/txt_login"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium" />
+
+
+
+
+</RelativeLayout>

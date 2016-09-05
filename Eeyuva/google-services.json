@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "687515804714",
+    "firebase_url": "https://eeyuva-8eeef.firebaseio.com",
+    "project_id": "eeyuva-8eeef",
+    "storage_bucket": "eeyuva-8eeef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687515804714:android:090176c66f6671e2",
+        "android_client_info": {
+          "package_name": "com.eeyuva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687515804714-kfebqu8f83raoumaelqbco7d0lbc13ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4pM62mQ6IheDm4uCdOlj5fuOILDLcy9M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
