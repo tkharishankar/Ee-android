@@ -1,7 +1,7 @@
 package com.eeyuva.screens.authentication;
 
 import com.eeyuva.R;
-import com.eeyuva.interactor.DriverInteractor;
+import com.eeyuva.interactor.ApiInteractor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class LoginPresenterTest {
     LoginPresenterImpl loginPresenter;
 
     @Inject
-    DriverInteractor driverInteractor;
+    ApiInteractor driverInteractor;
 
     @Before
     public void setup() {

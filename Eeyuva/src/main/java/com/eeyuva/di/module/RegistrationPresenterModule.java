@@ -3,9 +3,7 @@ package com.eeyuva.di.module;
 import android.app.Activity;
 
 import com.eeyuva.di.scope.PerActivity;
-import com.eeyuva.interactor.DriverInteractor;
-import com.eeyuva.screens.authentication.LoginContract;
-import com.eeyuva.screens.authentication.LoginPresenterImpl;
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.registration.RegistrationContract;
 import com.eeyuva.screens.registration.RegistrationPresenterImpl;
 import com.eeyuva.utils.preferences.PrefsManager;
@@ -28,7 +26,7 @@ public class RegistrationPresenterModule extends ActivityModule {
 
     @Provides
     @PerActivity
-    public RegistrationContract.Presenter loginPresenter(DriverInteractor driverInteractor, PrefsManager prefsManager) {
+    public RegistrationContract.Presenter loginPresenter(ApiInteractor driverInteractor, PrefsManager prefsManager) {
         return new RegistrationPresenterImpl(driverInteractor,prefsManager);
     }
 }

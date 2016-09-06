@@ -1,15 +1,10 @@
 package com.eeyuva.screens.splash;
 
 import android.content.Intent;
-import android.os.Build;
 
-import com.eeyuva.BuildConfig;
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
-import com.eeyuva.interactor.DriverInteractor;
 import com.eeyuva.base.BaseView;
-import com.eeyuva.base.LoadListener;
-import com.eeyuva.utils.Constants;
-import com.eeyuva.utils.Utils;
 
 /**
  * Created by kavi on 18/07/16.
@@ -20,11 +15,11 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     SplashContract.View mView;
 
-    DriverInteractor mDriverInteractor;
+    ApiInteractor mDriverInteractor;
 
 
 
-    public SplashPresenterImpl(DriverInteractor driverInteractor, PrefsManager prefsManager) {
+    public SplashPresenterImpl(ApiInteractor driverInteractor, PrefsManager prefsManager) {
         this.mDriverInteractor = driverInteractor;
         this.mPrefsManager = prefsManager;
     }

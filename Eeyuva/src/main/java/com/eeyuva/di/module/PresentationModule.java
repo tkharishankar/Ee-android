@@ -1,11 +1,9 @@
 package com.eeyuva.di.module;
 
-import android.content.Context;
-
 import com.eeyuva.apiservice.Api;
 import com.eeyuva.di.scope.GsonRestAdapter;
-import com.eeyuva.interactor.DriverInteractor;
-import com.eeyuva.interactor.DriverInteractorImpl;
+import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.interactor.ApiInteractorImpl;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import javax.inject.Singleton;
@@ -20,9 +18,9 @@ import dagger.Provides;
 public class PresentationModule {
     @Provides
     @Singleton
-    public DriverInteractor driverInteractor(
+    public ApiInteractor driverInteractor(
             @GsonRestAdapter Api remoteService, PrefsManager prefsManager) {
-        return new DriverInteractorImpl(remoteService, prefsManager);
+        return new ApiInteractorImpl(remoteService, prefsManager);
     }
 
 

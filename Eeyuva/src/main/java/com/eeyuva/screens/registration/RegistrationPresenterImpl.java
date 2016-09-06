@@ -1,13 +1,11 @@
 package com.eeyuva.screens.registration;
 
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.eeyuva.R;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
-import com.eeyuva.interactor.DriverInteractor;
-import com.eeyuva.screens.authentication.LoginContract;
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 /**
@@ -18,9 +16,9 @@ public class RegistrationPresenterImpl implements RegistrationContract.Presenter
 
     RegistrationContract.View mView;
 
-    DriverInteractor mDriverInteractor;
+    ApiInteractor mDriverInteractor;
 
-    public RegistrationPresenterImpl(DriverInteractor mDriverInteractor, PrefsManager mPrefsManager) {
+    public RegistrationPresenterImpl(ApiInteractor mDriverInteractor, PrefsManager mPrefsManager) {
         this.mDriverInteractor = mDriverInteractor;
         this.mPrefsManager = mPrefsManager;
     }

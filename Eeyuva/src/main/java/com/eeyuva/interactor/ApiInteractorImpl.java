@@ -10,21 +10,18 @@ import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.registration.RegistrationResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 
 
 /**
  * Created by hari on 22/6/16.
  */
-public class DriverInteractorImpl implements DriverInteractor {
+public class ApiInteractorImpl implements ApiInteractor {
 
     PrefsManager mPrefsManager;
     Api mApi;
 
-    public DriverInteractorImpl(Api remoteService, PrefsManager mPrefsManager) {
+    public ApiInteractorImpl(Api remoteService, PrefsManager mPrefsManager) {
         this.mApi = remoteService;
         this.mPrefsManager = mPrefsManager;
     }

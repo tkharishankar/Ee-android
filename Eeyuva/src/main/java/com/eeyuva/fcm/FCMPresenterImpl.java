@@ -1,9 +1,6 @@
 package com.eeyuva.fcm;
 
-import android.util.Log;
-
-import com.eeyuva.base.LoadListener;
-import com.eeyuva.interactor.DriverInteractor;
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 /**
@@ -11,11 +8,11 @@ import com.eeyuva.utils.preferences.PrefsManager;
  */
 public class FCMPresenterImpl implements FCMContract.Presenter{
 
-    DriverInteractor driverInteractor;
+    ApiInteractor driverInteractor;
 
     PrefsManager preferenceManager;
 
-    public FCMPresenterImpl(DriverInteractor driverInteractor,  PrefsManager preferenceManager) {
+    public FCMPresenterImpl(ApiInteractor driverInteractor, PrefsManager preferenceManager) {
         this.driverInteractor = driverInteractor;
         this.preferenceManager = preferenceManager;
 

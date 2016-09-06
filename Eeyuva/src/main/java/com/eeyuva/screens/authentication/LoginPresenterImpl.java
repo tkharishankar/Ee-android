@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.eeyuva.R;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
-import com.eeyuva.interactor.DriverInteractor;
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 
@@ -19,9 +19,9 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     LoginContract.View mView;
 
-    DriverInteractor mDriverInteractor;
+    ApiInteractor mDriverInteractor;
 
-    public LoginPresenterImpl(DriverInteractor mDriverInteractor, PrefsManager mPrefsManager) {
+    public LoginPresenterImpl(ApiInteractor mDriverInteractor, PrefsManager mPrefsManager) {
         this.mDriverInteractor = mDriverInteractor;
         this.mPrefsManager = mPrefsManager;
     }

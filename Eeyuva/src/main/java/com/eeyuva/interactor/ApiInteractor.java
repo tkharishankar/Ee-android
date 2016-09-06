@@ -11,7 +11,7 @@ import com.eeyuva.screens.registration.RegistrationResponse;
 /**
  * Created by hari on 22/6/16.
  */
-public interface DriverInteractor {
+public interface ApiInteractor {
     void getLoginResponse(BaseView mView, String name, String pass, LoadListener<LoginResponse> mLoginListener);
 
     void getRegistrationResponse(BaseView mView, String firstName, String lastName, String email, String password, String confirmPassword, LoadListener<RegistrationResponse> mRegisterListener);
