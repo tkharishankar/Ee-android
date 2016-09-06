@@ -27,11 +27,10 @@ public interface Api {
     @GET("user_mlogin/")
     Call<LoginResponse> getAuthentication(@Query("username") String name,@Query("password") String pass);
 
-//    @GET
-//    Call<AppConfig> getAppConfig(@Url String url, @Header("channel") String channel, @Header("Authorization") String oAuth);
-//
-//    @POST("api-token-auth/")
-//    Call<Token> sendLogin(@Body Login loginBody);
+    @GET("usermobileregister/")
+    Call<LoginResponse> getRegistration(@Query("firstname") String firstName,@Query("lastname") String lastName,@Query("gender") String gender,@Query("email") String email,
+                                        @Query("password") String password);
+
 
 
 //    @POST("driver/deviceid/")
@@ -39,6 +38,5 @@ public interface Api {
 //
 //    @DELETE("driver/deviceid/")
 //    Call<FCMRegisterResponse> removeFCMToken();
-
 
 }

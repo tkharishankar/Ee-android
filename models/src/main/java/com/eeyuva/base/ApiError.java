@@ -11,6 +11,9 @@ public class ApiError {
     @Expose
     private String statusInfo;
 
+    @SerializedName("status_code")
+    private String statusCode;
+
     /**
      *
      * @return
@@ -30,4 +33,11 @@ public class ApiError {
     }
 
 
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
 }

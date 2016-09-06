@@ -7,6 +7,7 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.registration.RegistrationResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import okhttp3.MediaType;
@@ -33,6 +34,14 @@ public class DriverInteractorImpl implements DriverInteractor {
                 UiCallback<LoginResponse> appConfigUiCallback = new UiCallback(mView, mLoginListener,true);
         Call<LoginResponse> appConfigCall = mApi.getAuthentication(name,pass);
         appConfigUiCallback.start(appConfigCall);
+    }
+
+    @Override
+    public void getRegistrationResponse(BaseView mView, String firstName, String lastName,String gender,
+                                        String email, String password, LoadListener<RegistrationResponse> mRegisterListener) {
+        UiCallback<LoginResponse> callback = new UiCallback(mView, mRegisterListener,true);
+        Call<LoginResponse> call = mApi.getRegistration(firstName,lastName,gender,email,password);
+        callback.start(call);
     }
 
 //    @Override

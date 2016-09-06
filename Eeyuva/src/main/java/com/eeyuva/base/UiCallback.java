@@ -73,7 +73,7 @@ public class UiCallback<T> implements Callback<T> {
                     Object error = null;
                     if (requestCall.request().url().toString().contains(BuildConfig.BASE_URL))
                         error = GsonConverterFactory.create().responseBodyConverter(ApiError.class, ApiError.class.getAnnotations(), null).convert(response.errorBody());
-//                    else
+                    else
                         error = GsonConverterFactory.create().responseBodyConverter(Object.class, Object.class.getAnnotations(), null).convert(response.errorBody());
 
                     loadListener.onError(error);
