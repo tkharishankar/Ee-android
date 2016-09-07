@@ -92,14 +92,14 @@ public class LoginActivity extends ButterAppCompatActivity implements LoginContr
     }
 
     @Override
-    public void movetoDashBoard() {
-        NavigationUtils.startAndFinishActivity(LoginActivity.this, HomeActivity.class);
-    }
-
-    @Override
     public void movetoSignUp() {
         NavigationUtils.startAndFinishActivity(LoginActivity.this, RegistrationActivity.class);
 
+    }
+
+    @Override
+    public void movetoHome() {
+        NavigationUtils.startAndFinishActivity(LoginActivity.this, HomeActivity.class);
     }
 
     TextView.OnEditorActionListener actionListener = new TextView.OnEditorActionListener() {

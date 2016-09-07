@@ -13,9 +13,9 @@ public interface LoginContract {
 
         String getPassword();
 
-        void movetoDashBoard();
-
         void movetoSignUp();
+
+        void movetoHome();
     }
 
     interface Presenter extends BasePresenter {

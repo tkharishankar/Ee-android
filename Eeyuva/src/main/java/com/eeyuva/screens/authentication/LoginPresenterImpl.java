@@ -30,6 +30,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         @Override
         public void onSuccess(LoginResponse responseBody) {
             mPrefsManager.setUserDetail(responseBody);
+            mView.movetoHome();
         }
 
         @Override

@@ -26,7 +26,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     @Override
     public void moveForward() {
-        if (mPrefsManager.getAccessToken() != null && mPrefsManager.getAccessToken().length() > 0)
+        if (mPrefsManager.getUserDetails().getUserid() != null)
             mView.moveToDashboard();
         else
             mView.moveToLogin();

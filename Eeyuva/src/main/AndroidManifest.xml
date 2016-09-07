@@ -30,8 +30,11 @@
         <activity
             android:name="com.eeyuva.screens.authentication.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
- <activity
+        <activity
             android:name="com.eeyuva.screens.registration.RegistrationActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.eeyuva.screens.home.HomeActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
@@ -78,7 +81,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>
