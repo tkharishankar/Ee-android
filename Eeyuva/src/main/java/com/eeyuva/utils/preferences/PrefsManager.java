@@ -2,6 +2,7 @@ package com.eeyuva.utils.preferences;
 
 
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.google.android.gms.maps.model.LatLng;
 
 public interface PrefsManager {
@@ -14,6 +15,7 @@ public interface PrefsManager {
     String PREFS_ACCESS_TOKEN = "UserAuthToken";
     String PREFS_USER_NAME = "UserName";
     String PREFS_USER_DETAILS = "UserName_Detail";
+    String PREFS_MODULE_DETAILS = "Module_Detail";
     String PREFS_FCM_TOKEN = "fcm_token";
     String SHARED_LOCATION_LAT = "lat";
     String SHARED_LOCATION_LNG = "lng";
@@ -27,10 +29,14 @@ public interface PrefsManager {
 
     String getFcmToken();
 
+    ModuleOrderResponse getModules();
+
     LatLng getLastLocation();
 
     void setLastLocation(LatLng clientLocation);
 
     void setUserDetail(LoginResponse responseBody);
     LoginResponse getUserDetails();
+
+    void setModules(ModuleOrderResponse responseBody);
 }

@@ -61,7 +61,7 @@ public class UiCallback<T> implements Callback<T> {
     public void onResponse(Call<T> call, Response<T> response) {
         Log.i("onResponse: ", "" + requestCall.request().url().toString() + " " +
                 response.message() + " code " + response.code());
-
+        try {
         if (loadListener != null) {
             if (response.isSuccessful()) {
                 this.response = response;
@@ -69,7 +69,7 @@ public class UiCallback<T> implements Callback<T> {
                 hideProgress();
                 loadListener.onSuccess(responseBody);
             } else {
-                try {
+
                     Object error = null;
                     if (requestCall.request().url().toString().contains(BuildConfig.BASE_URL))
                         error = GsonConverterFactory.create().responseBodyConverter(ApiError.class, ApiError.class.getAnnotations(), null).convert(response.errorBody());
@@ -77,14 +77,15 @@ public class UiCallback<T> implements Callback<T> {
                         error = GsonConverterFactory.create().responseBodyConverter(Object.class, Object.class.getAnnotations(), null).convert(response.errorBody());
 
                     loadListener.onError(error);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
                 if (baseView != null && withProgress) {
                     baseView.hideProgress();
                     baseView.showLoadErrorDialog();
                 }
             }
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

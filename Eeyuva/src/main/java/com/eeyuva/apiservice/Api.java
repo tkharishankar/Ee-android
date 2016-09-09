@@ -3,6 +3,8 @@ package com.eeyuva.apiservice;
 
 
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.home.GetArticleResponse;
+import com.eeyuva.screens.home.ModuleOrderResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -30,7 +32,10 @@ public interface Api {
     @GET("usermobileregister/")
     Call<LoginResponse> getRegistration(@Query("firstname") String firstName,@Query("lastname") String lastName,@Query("gender") String gender,@Query("email") String email,
                                         @Query("password") String password);
-
+    @GET
+    Call<ModuleOrderResponse> getModule(@Url String url);
+    @GET
+    Call<GetArticleResponse> getArticles(@Url String url);
 
 
 //    @POST("driver/deviceid/")

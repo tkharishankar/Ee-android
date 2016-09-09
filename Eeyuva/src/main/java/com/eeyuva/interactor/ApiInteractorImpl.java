@@ -7,6 +7,8 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.home.GetArticleResponse;
+import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.registration.RegistrationResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 
@@ -38,6 +40,20 @@ public class ApiInteractorImpl implements ApiInteractor {
                                         String email, String password, LoadListener<RegistrationResponse> mRegisterListener) {
         UiCallback<LoginResponse> callback = new UiCallback(mView, mRegisterListener,true);
         Call<LoginResponse> call = mApi.getRegistration(firstName,lastName,gender,email,password);
+        callback.start(call);
+    }
+
+    @Override
+    public void getModuleResponse(BaseView mView, String url, LoadListener<ModuleOrderResponse> mModuleListener) {
+        UiCallback<ModuleOrderResponse> callback = new UiCallback(mView, mModuleListener,true);
+        Call<ModuleOrderResponse> call = mApi.getModule(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getArticlesResponse(BaseView mView, String url, LoadListener<GetArticleResponse> mArticlesListener) {
+        UiCallback<GetArticleResponse> callback = new UiCallback(mView, mArticlesListener,true);
+        Call<GetArticleResponse> call = mApi.getArticles(url);
         callback.start(call);
     }
 

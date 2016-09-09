@@ -2,18 +2,34 @@ package com.eeyuva.screens.home;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
+import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 /**
  * Created by hari on 05/09/16.
@@ -30,6 +46,24 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     @Bind(R.id.tool_bar)
     Toolbar mToolbar;
 
+    @Bind(R.id.label)
+    TextView label;
+
+    @Bind(R.id.imgLoadMore)
+    TextView txtLoadMore;
+
+    private FeatureCoverFlow mCoverFlow;
+    private CoverFlowAdapter mAdapter;
+    private TextSwitcher mTitle;
+    private List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+
+    @Bind(R.id.orderlist)
+    RecyclerView mRecyclerView;
+
+    ArticlesAdapter mArticleAdapter;
+
+    RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +76,52 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mAdapter = new CoverFlowAdapter(this);
+        mModuleList = mPresenter.getModules();
+        mAdapter.setData(mModuleList);
+        mCoverFlow = (FeatureCoverFlow) findViewById(R.id.coverflow);
+        mCoverFlow.setAdapter(mAdapter);
+
+
+        mCoverFlow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(HomeActivity.this, "" + mModuleList.get(position).getTitle(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mCoverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
+            @Override
+            public void onScrolledToPosition(int position) {
+                Log.i("position", "onScrolledToPosition" + position);
+                label.setText("" + mModuleList.get(position).getTitle());
+                mPresenter.getArticles(mModuleList.get(position).getModuleid());
+
+            }
+
+            @Override
+            public void onScrolling() {
+
+            }
+        });
+
     }
+
+    @OnClick(R.id.imgLoadMore)
+    public void onLoadMoreClick() {
+
+    }
+
+    private void initAdapter(List<ResponseItem> responseItem) {
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new GridLayoutManager(this, 1);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mArticleAdapter = new ArticlesAdapter(this, responseItem);
+        mRecyclerView.setAdapter(mArticleAdapter);
+        mArticleAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     protected void onResume() {
@@ -76,6 +155,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         inflater.inflate(R.menu.home_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -88,10 +168,22 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             case R.id.action_add:
                 break;
 
-
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void setDataToAdapter(List<ResponseList> response) {
+        this.mModuleList = response;
+        mAdapter.setData(mModuleList);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setArticleAdapterNotify(List<ResponseItem> responseItem) {
+        initAdapter(responseItem);
+    }
+
 
 }

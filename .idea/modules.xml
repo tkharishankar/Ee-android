@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Eeyuva/Eeyuva.iml" filepath="$PROJECT_DIR$/Eeyuva/Eeyuva.iml" />
       <module fileurl="file://$PROJECT_DIR$/Eeyuva-Android.iml" filepath="$PROJECT_DIR$/Eeyuva-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/coverflow/coverflow.iml" filepath="$PROJECT_DIR$/coverflow/coverflow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/models/models.iml" filepath="$PROJECT_DIR$/models/models.iml" />
     </modules>
   </component>
