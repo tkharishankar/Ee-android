@@ -1,4 +1,4 @@
-package com.eeyuva.screens.home;
+package com.eeyuva.screens.home.coverflow;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eeyuva.R;
+import com.eeyuva.screens.home.ResponseItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

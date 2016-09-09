@@ -7,6 +7,7 @@ import com.eeyuva.screens.authentication.LoginContract;
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeContract;
+import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.registration.RegistrationContract;
 import com.eeyuva.screens.registration.RegistrationResponse;
@@ -22,5 +23,7 @@ public interface ApiInteractor {
     void getModuleResponse(BaseView mView, String s, LoadListener<ModuleOrderResponse> mModuleListener);
 
     void getArticlesResponse(BaseView mView, String s, LoadListener<GetArticleResponse> mArticlesListener);
+
+    void getHotModuleResponse(BaseView mView, String s, LoadListener<HotModuleResponse> mHotModuleListener);
 }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 import com.eeyuva.base.BaseView;
@@ -17,15 +18,15 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     SplashContract.View mView;
 
-    ApiInteractor mDriverInteractor;
+    ApiInteractor mApiInteractor;
 
-    public SplashPresenterImpl(ApiInteractor driverInteractor, PrefsManager prefsManager) {
-        this.mDriverInteractor = driverInteractor;
+    public SplashPresenterImpl(ApiInteractor mApiInteractor, PrefsManager prefsManager) {
+        this.mApiInteractor = mApiInteractor;
         this.mPrefsManager = prefsManager;
     }
     @Override
     public void getHomeModule() {
-        mDriverInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener);
+        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener);
     }
     @Override
     public void moveForward() {
@@ -50,6 +51,26 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         @Override
         public void onSuccess(ModuleOrderResponse responseBody) {
             mPrefsManager.setModules(responseBody);
+            mApiInteractor.getHotModuleResponse(mView, "http://mobile.eeyuva.com/getheaderservice.php", mHotModuleListener);
+
+
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<HotModuleResponse> mHotModuleListener=new LoadListener<HotModuleResponse>() {
+        @Override
+        public void onSuccess(HotModuleResponse responseBody) {
+            mPrefsManager.setHotModules(responseBody);
             if (mPrefsManager.getUserDetails()!= null)
                 mView.moveToDashboard();
             else
@@ -66,7 +87,5 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
         }
     };
-
-
 
 }

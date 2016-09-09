@@ -1,7 +1,9 @@
-package com.eeyuva.screens.home;
+package com.eeyuva.di.component;
 
-import com.eeyuva.di.component.AppComponent;
 import com.eeyuva.di.scope.PerActivity;
+import com.eeyuva.screens.home.HomeActivity;
+import com.eeyuva.screens.home.HomeContract;
+import com.eeyuva.di.module.HomeModule;
 
 import dagger.Component;
 

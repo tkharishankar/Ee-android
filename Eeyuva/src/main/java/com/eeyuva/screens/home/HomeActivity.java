@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,11 +14,15 @@ import android.widget.AdapterView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.di.component.DaggerHomeComponent;
+import com.eeyuva.di.component.HomeComponent;
+import com.eeyuva.di.module.HomeModule;
+import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
+import com.eeyuva.screens.home.hotNewsCoverFlow.HotNewsCoverFlowAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 
 import java.util.ArrayList;
@@ -53,9 +56,12 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     TextView txtLoadMore;
 
     private FeatureCoverFlow mCoverFlow;
+    private FeatureCoverFlow mHotNewscoverflow;
     private CoverFlowAdapter mAdapter;
+    private HotNewsCoverFlowAdapter mHotNewsAdapter;
     private TextSwitcher mTitle;
     private List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    private List<ModuleList> mHotModuleList = new ArrayList<ModuleList>();
 
     @Bind(R.id.orderlist)
     RecyclerView mRecyclerView;
@@ -73,6 +79,8 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -81,6 +89,12 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         mAdapter.setData(mModuleList);
         mCoverFlow = (FeatureCoverFlow) findViewById(R.id.coverflow);
         mCoverFlow.setAdapter(mAdapter);
+
+        mHotNewsAdapter = new HotNewsCoverFlowAdapter(this);
+        mHotModuleList = mPresenter.getHotModules();
+        mHotNewsAdapter.setData(mHotModuleList);
+        mHotNewscoverflow = (FeatureCoverFlow) findViewById(R.id.hotNewscoverflow);
+        mHotNewscoverflow.setAdapter(mHotNewsAdapter);
 
 
         mCoverFlow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,10 +108,19 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         mCoverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                Log.i("position", "onScrolledToPosition" + position);
                 label.setText("" + mModuleList.get(position).getTitle());
                 mPresenter.getArticles(mModuleList.get(position).getModuleid());
+            }
 
+            @Override
+            public void onScrolling() {
+
+            }
+        });
+
+        mHotNewscoverflow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
+            @Override
+            public void onScrolledToPosition(int position) {
             }
 
             @Override
@@ -122,7 +145,6 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         mArticleAdapter.notifyDataSetChanged();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -138,6 +160,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserdetails());
     }
 
     private void initComponent() {

@@ -52,11 +52,20 @@ public class NavDrawerListAdapter extends ArrayAdapter {
             convertView = mInflater.inflate(R.layout.navigation_drawer_list_item, null);
 
         }
-
         TextView txtTitle = (TextView) convertView.findViewById(R.id.titleTextView);
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.iconImageView);
-        imgIcon.setBackgroundResource(navDrawerItems.get(position).icon);
-        txtTitle.setText(navDrawerItems.get(position).title);
+
+        if (!navDrawerItems.get(position).isHeader()) {
+            imgIcon.setVisibility(View.VISIBLE);
+            imgIcon.setBackgroundResource(navDrawerItems.get(position).icon);
+            txtTitle.setText(navDrawerItems.get(position).title);
+            txtTitle.setTextColor(mContext.getResources().getColor(R.color.white));
+
+        } else {
+            imgIcon.setVisibility(View.GONE);
+            txtTitle.setText(navDrawerItems.get(position).title);
+            txtTitle.setTextColor(mContext.getResources().getColor(R.color.red));
+        }
         return convertView;
     }
 }

@@ -2,6 +2,7 @@ package com.eeyuva.screens.home;
 
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
+import com.eeyuva.screens.authentication.LoginResponse;
 
 import java.util.List;
 
@@ -23,5 +24,9 @@ public interface HomeContract {
         void getArticles(String moduleid);
 
         List<ResponseList> getModules();
+
+        List<ModuleList> getHotModules();
+
+        LoginResponse getUserdetails();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -77,6 +78,20 @@ public class PrefsManagerImpl implements PrefsManager {
         remoteEditor.putString(PREFS_MODULE_DETAILS, result);
         remoteEditor.commit();
     }
+
+    @Override
+    public void setHotModules(HotModuleResponse responseBody) {
+        String result = gson.toJson(responseBody);
+        remoteEditor.remove(PREFS_HOT_MODULE_DETAILS);
+        remoteEditor.putString(PREFS_HOT_MODULE_DETAILS, result);
+        remoteEditor.commit();
+    }
+
+    @Override
+    public HotModuleResponse getHotModules() {
+        return gson.fromJson(remotePrefs.getString(PREFS_HOT_MODULE_DETAILS, null), HotModuleResponse.class);
+    }
+
     @Override
     public ModuleOrderResponse getModules() {
         return gson.fromJson(remotePrefs.getString(PREFS_MODULE_DETAILS, null), ModuleOrderResponse.class);

@@ -2,10 +2,10 @@ package com.eeyuva.screens.home;
 
 import android.content.Intent;
 
-import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import java.util.List;
@@ -50,6 +50,16 @@ public class HomePresenterImpl implements HomeContract.Presenter {
         return mPrefsManager.getModules().getResponse();
     }
 
+    @Override
+    public List<ModuleList> getHotModules() {
+        return mPrefsManager.getHotModules().getModuleList();
+    }
+
+    @Override
+    public LoginResponse getUserdetails() {
+        return mPrefsManager.getUserDetails();
+    }
+
     LoadListener<ModuleOrderResponse> mModuleListener= new LoadListener<ModuleOrderResponse>() {
         @Override
         public void onSuccess(ModuleOrderResponse responseBody) {
@@ -83,4 +93,5 @@ public class HomePresenterImpl implements HomeContract.Presenter {
 
         }
     };
+
 }

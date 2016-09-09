@@ -1,4 +1,4 @@
-package com.eeyuva.screens.home.coverflow;
+package com.eeyuva.screens.home.hotNewsCoverFlow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,43 +9,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eeyuva.R;
+import com.eeyuva.screens.home.ModuleList;
 import com.eeyuva.screens.home.ResponseList;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoverFlowAdapter extends BaseAdapter {
+public class HotNewsCoverFlowAdapter extends BaseAdapter {
 
-    private List<ResponseList> mData = new ArrayList<ResponseList>();
+    private List<ModuleList> mData = new ArrayList<ModuleList>();
     private Context mContext;
 
-    public CoverFlowAdapter(Context context) {
+    public HotNewsCoverFlowAdapter(Context context) {
         mContext = context;
     }
 
-    public void setData(List<ResponseList> data) {
+    public void setData(List<ModuleList> data) {
         mData = data;
     }
-
-    private int[] images = {R.drawable.img_1,
-            R.drawable.img_2,
-            R.drawable.img_3,
-            R.drawable.img_4,
-            R.drawable.img_5,
-            R.drawable.img_6,
-            R.drawable.img_7,
-            R.drawable.img_8,
-            R.drawable.img_9,
-            R.drawable.img_10,
-            R.drawable.img_11,
-            R.drawable.img_12,
-            R.drawable.img_13,
-            R.drawable.img_14,
-            R.drawable.img_15,
-            R.drawable.img_16,
-            R.drawable.img_17,
-            R.drawable.img_18,
-    };
 
     @Override
     public int getCount() {
@@ -59,7 +41,7 @@ public class CoverFlowAdapter extends BaseAdapter {
 
     @Override
     public Integer getItem(int i) {
-        return images[i-1];
+        return i;
     }
 
     @Override
@@ -69,7 +51,7 @@ public class CoverFlowAdapter extends BaseAdapter {
 
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.item_coverflow, null);
+            rowView = inflater.inflate(R.layout.item_hotcoverflow, null);
 
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.text = (TextView) rowView.findViewById(R.id.label);
@@ -80,8 +62,8 @@ public class CoverFlowAdapter extends BaseAdapter {
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
         try {
-            holder.image.setImageResource(getItem(Integer.parseInt(mData.get(position).getOrderid())));
-//            holder.text.setText(mData.get(position).getTitle());
+            Picasso.with(mContext).load(mData.get(position).getPicpath()).resize(150, 250).into(holder.image);
+            holder.text.setText(mData.get(position).getModulename());
         } catch (Exception e) {
             e.printStackTrace();
         }

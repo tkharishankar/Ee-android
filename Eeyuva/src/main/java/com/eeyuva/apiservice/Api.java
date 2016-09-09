@@ -1,9 +1,9 @@
 package com.eeyuva.apiservice;
 
 
-
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
+import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 
 import okhttp3.MultipartBody;
@@ -27,15 +27,20 @@ import retrofit2.http.Url;
  */
 public interface Api {
     @GET("user_mlogin/")
-    Call<LoginResponse> getAuthentication(@Query("username") String name,@Query("password") String pass);
+    Call<LoginResponse> getAuthentication(@Query("username") String name, @Query("password") String pass);
 
     @GET("usermobileregister/")
-    Call<LoginResponse> getRegistration(@Query("firstname") String firstName,@Query("lastname") String lastName,@Query("gender") String gender,@Query("email") String email,
+    Call<LoginResponse> getRegistration(@Query("firstname") String firstName, @Query("lastname") String lastName, @Query("gender") String gender, @Query("email") String email,
                                         @Query("password") String password);
+
     @GET
     Call<ModuleOrderResponse> getModule(@Url String url);
+
     @GET
     Call<GetArticleResponse> getArticles(@Url String url);
+
+    @GET
+    Call<HotModuleResponse> getHotNews(@Url String url);
 
 
 //    @POST("driver/deviceid/")
