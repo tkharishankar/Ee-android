@@ -1,6 +1,7 @@
 package com.eeyuva.screens.home;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
@@ -41,8 +42,15 @@ public class HomePresenterImpl implements HomeContract.Presenter {
 
     @Override
     public void getArticles(String moduleid) {
-        mApiInteractor.getArticlesResponse(mView, "http://mobile.eeyuva.com/getarticles.php?moduleid="+moduleid+"&startindex=1&endindex=10", mArticlesListener);
+        mApiInteractor.getArticlesResponse(mView, "http://mobile.eeyuva.com/getarticles.php?moduleid=" + moduleid + "&startindex=0&endindex=10", mArticlesListener,true);
 
+    }
+
+    @Override
+    public void getArticles(String moduleid, int index, int i) {
+        Log.i("index","getArticles"+index);
+        Log.i("index","getArticles last"+i);
+        mApiInteractor.getArticlesResponse(mView, "http://mobile.eeyuva.com/getarticles.php?moduleid=" + moduleid + "&startindex=" + index + "&endindex=10", mLoadArticlesListener,false);
     }
 
     @Override
@@ -60,7 +68,7 @@ public class HomePresenterImpl implements HomeContract.Presenter {
         return mPrefsManager.getUserDetails();
     }
 
-    LoadListener<ModuleOrderResponse> mModuleListener= new LoadListener<ModuleOrderResponse>() {
+    LoadListener<ModuleOrderResponse> mModuleListener = new LoadListener<ModuleOrderResponse>() {
         @Override
         public void onSuccess(ModuleOrderResponse responseBody) {
             mView.setDataToAdapter(responseBody.getResponse());
@@ -77,10 +85,27 @@ public class HomePresenterImpl implements HomeContract.Presenter {
         }
     };
 
-    LoadListener<GetArticleResponse> mArticlesListener=new LoadListener<GetArticleResponse>() {
+    LoadListener<GetArticleResponse> mArticlesListener = new LoadListener<GetArticleResponse>() {
         @Override
         public void onSuccess(GetArticleResponse responseBody) {
             mView.setArticleAdapterNotify(responseBody.getResponseItem());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<GetArticleResponse> mLoadArticlesListener = new LoadListener<GetArticleResponse>() {
+        @Override
+        public void onSuccess(GetArticleResponse responseBody) {
+            mView.setLoadMoredata(responseBody);
         }
 
         @Override

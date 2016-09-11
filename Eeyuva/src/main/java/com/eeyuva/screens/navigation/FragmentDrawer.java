@@ -93,28 +93,28 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     private void setListDrawer() {
         mDrawerItems = new ArrayList<AppSetting>();
         mDrawerItems.add(new AppSetting("Entertainment", R.drawable.ic_content_add,true));
-        mDrawerItems.add(new AppSetting("Box office", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Elements of music", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Jokes and sms", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Events and action", R.drawable.ic_content_add,false));
+        mDrawerItems.add(new AppSetting("Box office", R.drawable.boxoffice,false));
+        mDrawerItems.add(new AppSetting("Elements of music", R.drawable.music,false));
+        mDrawerItems.add(new AppSetting("Jokes and sms", R.drawable.jokes,false));
+        mDrawerItems.add(new AppSetting("Events and action", R.drawable.events,false));
         mDrawerItems.add(new AppSetting("Puzzles and games", R.drawable.ic_content_add,false));
         mDrawerItems.add(new AppSetting("Tech trends", R.drawable.ic_content_add,true));
-        mDrawerItems.add(new AppSetting("Youth trends", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Cars & Bikes", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Gadgets", R.drawable.ic_content_add,false));
+        mDrawerItems.add(new AppSetting("Youth trends", R.drawable.youth,false));
+        mDrawerItems.add(new AppSetting("Cars & Bikes", R.drawable.car,false));
+        mDrawerItems.add(new AppSetting("Gadgets", R.drawable.gadgets,false));
         mDrawerItems.add(new AppSetting("It's my Life", R.drawable.ic_content_add,true));
-        mDrawerItems.add(new AppSetting("Health & fitness", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Beauty & glamour", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Fashion & styles", R.drawable.ic_content_add,false));
+        mDrawerItems.add(new AppSetting("Health & fitness", R.drawable.fitness,false));
+        mDrawerItems.add(new AppSetting("Beauty & glamour", R.drawable.glamor,false));
+        mDrawerItems.add(new AppSetting("Fashion & styles", R.drawable.fashion,false));
         mDrawerItems.add(new AppSetting("Just food", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Travel & Tourism", R.drawable.ic_content_add,false));
+        mDrawerItems.add(new AppSetting("Travel & Tourism", R.drawable.travel,false));
         mDrawerItems.add(new AppSetting("Info Box", R.drawable.ic_content_add,true));
         mDrawerItems.add(new AppSetting("Career & Jobs", R.drawable.ic_content_add,false));
         mDrawerItems.add(new AppSetting("Money & Business", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Sports & Games", R.drawable.ic_content_add,false));
+        mDrawerItems.add(new AppSetting("Sports & Games", R.drawable.sportsgames,false));
         mDrawerItems.add(new AppSetting("Book mark", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("News room", R.drawable.ic_content_add,false));
-        mDrawerItems.add(new AppSetting("Logout", R.drawable.ic_content_add,false));
+        mDrawerItems.add(new AppSetting("News room", R.drawable.newroom,false));
+        mDrawerItems.add(new AppSetting("Logout", R.drawable.logout,false));
 
         // setting the nav drawer list adapter
         mAdapter = new NavDrawerListAdapter(getActivity(), mDrawerItems);
@@ -127,7 +127,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
 
                     Intent i = new Intent();
                     switch (position) {
-                        case 5:
+                        case 22:
                             i.setClass(getActivity(), LoginActivity.class);
                             startActivity(i);
                             break;

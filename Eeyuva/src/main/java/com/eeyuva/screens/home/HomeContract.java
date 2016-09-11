@@ -15,18 +15,22 @@ public interface HomeContract {
         void setDataToAdapter(List<ResponseList> response);
 
         void setArticleAdapterNotify(List<ResponseItem> responseItem);
+
+        void setLoadMoredata(GetArticleResponse responseBody);
     }
 
     interface Presenter extends BasePresenter {
 
         void getHomeModule();
 
-        void getArticles(String moduleid);
+        void getArticles(String moduleid, int index, int i);
 
         List<ResponseList> getModules();
 
         List<ModuleList> getHotModules();
 
         LoginResponse getUserdetails();
+
+        void getArticles(String moduleid);
     }
 }

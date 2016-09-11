@@ -74,6 +74,7 @@ public class SplashActivity extends ButterAppCompatActivity implements SplashCon
     @Override
     public void setVersionNo() {
         mTxtVersion.setText("v " + BuildConfig.VERSION_NAME);
+        mTxtVersion.setVisibility(View.GONE);
     }
 
     @Override

@@ -48,6 +48,20 @@ public class ResponseItem {
     @Expose
     private String innerpic;
 
+    public boolean getLoadtype() {
+        return loadtype;
+    }
+
+    public void setLoadtype(boolean loadtype) {
+        this.loadtype = loadtype;
+    }
+
+    private boolean loadtype;
+
+    public ResponseItem(boolean load) {
+        this.loadtype=load;
+    }
+
     /**
      *
      * @return

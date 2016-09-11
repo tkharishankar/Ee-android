@@ -87,7 +87,7 @@
                             android:background="@drawable/rounded_corner_home_pink"
                             android:gravity="center"
                             android:padding="10dp"
-                            android:text="Load more..."
+                            android:text="Load more"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/white" />
 

@@ -36,6 +36,9 @@
         <activity
             android:name="com.eeyuva.screens.home.HomeActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.home.loadmore.ArticlesActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
         <!-- [START firebase_service] -->

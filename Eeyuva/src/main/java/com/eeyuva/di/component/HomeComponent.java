@@ -4,6 +4,7 @@ import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.di.module.HomeModule;
+import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 
 import dagger.Component;
 
@@ -18,6 +19,8 @@ import dagger.Component;
 public interface HomeComponent {
 
     void inject(HomeActivity homeActivity);
+
+    void inject(ArticlesActivity articlesActivity);
 
     HomeContract.Presenter homePresenter();
 }

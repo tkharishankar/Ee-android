@@ -1,5 +1,6 @@
 package com.eeyuva.screens.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +24,9 @@ import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
 import com.eeyuva.screens.home.hotNewsCoverFlow.HotNewsCoverFlowAdapter;
+import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
+import com.eeyuva.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     ArticlesAdapter mArticleAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
+    public int mScrolledToPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +110,10 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         });
 
         mCoverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
+
             @Override
             public void onScrolledToPosition(int position) {
+                mScrolledToPosition = position;
                 label.setText("" + mModuleList.get(position).getTitle());
                 mPresenter.getArticles(mModuleList.get(position).getModuleid());
             }
@@ -133,7 +139,11 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
     @OnClick(R.id.imgLoadMore)
     public void onLoadMoreClick() {
-
+        Intent intent =
+                new Intent(HomeActivity.this, ArticlesActivity.class);
+        intent.putExtra("index", mModuleList.size());
+        intent.putExtra("module_id", mModuleList.get(mScrolledToPosition).getModuleid());
+        startActivity(intent);
     }
 
     private void initAdapter(List<ResponseItem> responseItem) {
@@ -206,6 +216,11 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     @Override
     public void setArticleAdapterNotify(List<ResponseItem> responseItem) {
         initAdapter(responseItem);
+    }
+
+    @Override
+    public void setLoadMoredata(GetArticleResponse responseBody) {
+
     }
 
 

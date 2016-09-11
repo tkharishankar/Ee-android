@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.eeyuva.R;
 import com.eeyuva.screens.home.ResponseItem;
+import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by hari on 09/09/16.
  */
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
-    private List<ResponseItem> mArticlesList=new ArrayList<ResponseItem>();
+    private List<ResponseItem> mArticlesList = new ArrayList<ResponseItem>();
     private Context mContext;
 
     public ArticlesAdapter(Context context, List<ResponseItem> responseItem) {
@@ -39,13 +40,18 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         final ResponseItem articles = mArticlesList.get(position);
         try {
             holder.txtTitle.setText(articles.getTitle());
-            holder.txtSubDesc.setText(articles.getSummary());
-            Picasso.with(mContext).load(articles.getPicpath()).resize(80, 80).into(holder.imgArticle);
+            holder.txtSubDesc.setText(getSubString(articles.getSummary()));
+            Picasso.with(mContext).load(articles.getPicpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
 
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getSubString(String summary) {
+        if (summary.length() > 190)
+            return summary.substring(0, 190) + "...";
+        return summary;
     }
 
     @Override

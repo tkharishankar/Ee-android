@@ -22,7 +22,7 @@ public interface ApiInteractor {
 
     void getModuleResponse(BaseView mView, String s, LoadListener<ModuleOrderResponse> mModuleListener);
 
-    void getArticlesResponse(BaseView mView, String s, LoadListener<GetArticleResponse> mArticlesListener);
+    void getArticlesResponse(BaseView mView, String s, LoadListener<GetArticleResponse> mArticlesListener, boolean b);
 
     void getHotModuleResponse(BaseView mView, String s, LoadListener<HotModuleResponse> mHotModuleListener);
 }

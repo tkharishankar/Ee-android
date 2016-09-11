@@ -52,8 +52,8 @@ public class ApiInteractorImpl implements ApiInteractor {
     }
 
     @Override
-    public void getArticlesResponse(BaseView mView, String url, LoadListener<GetArticleResponse> mArticlesListener) {
-        UiCallback<GetArticleResponse> callback = new UiCallback(mView, mArticlesListener,true);
+    public void getArticlesResponse(BaseView mView, String url, LoadListener<GetArticleResponse> mArticlesListener, boolean state) {
+        UiCallback<GetArticleResponse> callback = new UiCallback(mView, mArticlesListener,state);
         Call<GetArticleResponse> call = mApi.getArticles(url);
         callback.start(call);
     }
