@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -7,21 +8,23 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/image_cover"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|left"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="40dp"
+        android:layout_gravity="bottom|left"
         android:background="@drawable/bg_transparent"
+        android:gravity="bottom|left"
+        android:lines="2"
+        android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />
 
-</RelativeLayout>
+</FrameLayout>

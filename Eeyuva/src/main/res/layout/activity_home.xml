@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:coverflow="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -22,57 +22,70 @@
                 android:id="@+id/tool_bar"
                 layout="@layout/toolbar"></include>
 
-
-            <RelativeLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
 
-                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                    android:id="@+id/coverflow"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_gravity="top|center"
-                    android:layout_marginBottom="-110dp"
-                    android:layout_marginTop="20dp"
-                    coverflow:coverHeight="@dimen/cover_height"
-                    coverflow:coverWidth="@dimen/cover_width"
-                    coverflow:maxScaleFactor="1.5"
-                    coverflow:reflectionGap="0px"
-                    coverflow:rotationThreshold="0.5"
-                    coverflow:scalingThreshold="0.5"
-                    coverflow:spacing="0.6" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/coverflow"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/label_background"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/white"
-                    tools:text="Title" />
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/label"
-                    android:layout_gravity="bottom">
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
+
+                        <me.crosswall.lib.coverflow.core.LinkagePagerContainer
+                            android:id="@+id/pager_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/cover_pager_height"
+                            app:layout_behavior=".behavior.ScollBehavior">
+
+                            <android.support.v4.view.LinkagePager
+                                android:layout_width="140dp"
+                                android:layout_height="140dp"
+                                android:layout_gravity="center" />
+
+                        </me.crosswall.lib.coverflow.core.LinkagePagerContainer>
+
+                        <ImageView
+                            android:id="@+id/trilabel"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_below="@+id/pager_container"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="-30dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/triangle" />
+
+                        <TextView
+                            android:id="@+id/label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/trilabel"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="-.5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/label_background"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/white"
+                            tools:text="Title" />
+
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/orderlist"
                             android:layout_width="match_parent"
-                            android:layout_height="400dp"
+                            android:layout_height="match_parent"
+
+                            android:layout_below="@+id/label"
                             android:layout_gravity="center"
+                            android:keepScreenOn="false"
                             android:padding="8dp"
                             android:scrollbarSize="3dp"
                             android:scrollbarThumbVertical="@color/colorPrimary"
@@ -82,6 +95,7 @@
                             android:id="@+id/imgLoadMore"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/orderlist"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
                             android:background="@drawable/rounded_corner_home_pink"
@@ -92,43 +106,53 @@
                             android:textColor="@color/white" />
 
                         <TextView
+                            android:id="@+id/txtHotStories"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/imgLoadMore"
                             android:layout_gravity="center"
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Hot Stories"
-                            android:textStyle="bold"
                             android:textAllCaps="true"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/txtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_below="@+id/txtHotStories"
+                            android:background="@color/colorAccent" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtView"
                             android:layout_margin="10dp"
                             android:orientation="vertical">
-
-                            <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                                android:id="@+id/hotNewscoverflow"
+                            <me.crosswall.lib.coverflow.core.PagerContainer
+                                android:id="@+id/bottom_pager_container"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginBottom="-110dp"
-                                android:layout_marginTop="-20dp"
-                                android:layout_gravity="top|center"
-                                coverflow:coverHeight="@dimen/cover_height"
-                                coverflow:coverWidth="300dp"
-                                coverflow:maxScaleFactor="1.5"
-                                coverflow:reflectionGap="0px"
-                                coverflow:rotationThreshold="0.5"
-                                coverflow:scalingThreshold="0.5"
-                                coverflow:spacing="0.6" />
+                                android:layout_height="250dp">
+
+                                <android.support.v4.view.ViewPager
+                                    android:id="@+id/overlap_pager"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="220dp"
+                                    android:layout_gravity="center" />
+
+
+                            </me.crosswall.lib.coverflow.core.PagerContainer>
 
                         </LinearLayout>
-                    </LinearLayout>
-                </ScrollView>
-            </RelativeLayout>
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
         <fragment
@@ -140,4 +164,5 @@
             app:layout="@layout/fragment_drawer"
             tools:layout="@layout/fragment_drawer" />
     </android.support.v4.widget.DrawerLayout>
-</LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

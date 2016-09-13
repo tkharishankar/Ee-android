@@ -7,10 +7,12 @@
     <dimen name="large">25sp</dimen>
     <dimen name="circle_dia">40dp</dimen>
 
-    <dimen name="cover_pager_height">220dp</dimen>
+    <dimen name="cover_pager_height">200dp</dimen>
 
     <dimen name="tab_height">48dp</dimen>
 
     <dimen name="cover_width">120dp</dimen>
+    <dimen name="pager_margin">-30dp</dimen>
+
     <dimen name="cover_height">180dp</dimen>
 </resources>
