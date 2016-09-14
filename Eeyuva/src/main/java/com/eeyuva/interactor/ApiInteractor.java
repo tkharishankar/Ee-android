@@ -3,6 +3,8 @@ package com.eeyuva.interactor;
 
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
+import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
+import com.eeyuva.screens.DetailPage.DetailContract;
 import com.eeyuva.screens.authentication.LoginContract;
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
@@ -25,5 +27,9 @@ public interface ApiInteractor {
     void getArticlesResponse(BaseView mView, String s, LoadListener<GetArticleResponse> mArticlesListener, boolean b);
 
     void getHotModuleResponse(BaseView mView, String s, LoadListener<HotModuleResponse> mHotModuleListener);
+
+    void getArticlesDetails(BaseView mView, String s, LoadListener<ArticleDetailResponse> mArticleListener);
+
+    void getOtherArticlesDetails(BaseView mView, String s, LoadListener<ArticleDetailResponse> mOtherArticleListener);
 }
 

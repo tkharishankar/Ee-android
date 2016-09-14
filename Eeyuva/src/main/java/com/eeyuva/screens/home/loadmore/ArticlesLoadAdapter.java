@@ -2,6 +2,7 @@ package com.eeyuva.screens.home.loadmore;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eeyuva.R;
+import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.ResponseItem;
 import com.squareup.picasso.Picasso;
 
@@ -27,10 +29,14 @@ public class ArticlesLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     OnLoadMoreListener loadMoreListener;
     boolean isLoading = false, isMoreDataAvailable = true;
+    HomeContract.AdapterCallBack mAdapterCallBack;
 
-    public ArticlesLoadAdapter(Context context, List<ResponseItem> responseItem) {
+
+    public ArticlesLoadAdapter(HomeContract.AdapterCallBack AdapterCallBack, Context context, List<ResponseItem> responseItem) {
         this.mContext = context;
         this.mArticlesList = responseItem;
+        this.mAdapterCallBack = AdapterCallBack;
+
     }
 
 //    @Override
@@ -112,7 +118,7 @@ public class ArticlesLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /* VIEW HOLDERS */
 
-    static class MovieHolder extends RecyclerView.ViewHolder {
+    class MovieHolder extends RecyclerView.ViewHolder {
         public TextView txtTitle;
         public TextView txtSubDesc;
         public ImageView imgArticle;
@@ -124,14 +130,20 @@ public class ArticlesLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             imgArticle = (ImageView) v.findViewById(R.id.imgArticle);
         }
 
-        void bindData(ResponseItem articles) {
+        void bindData(final ResponseItem articles) {
             txtTitle.setText(articles.getTitle());
-            txtSubDesc.setText(getSubString(articles.getSummary()));
+            txtSubDesc.setText(Html.fromHtml(getSubString(articles.getSummary())));
             Picasso.with(mContext).load(articles.getPicpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(imgArticle);
+            txtSubDesc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mAdapterCallBack.onItemClick(articles.getArticleid());
+                }
+            });
         }
     }
 
-    static class LoadHolder extends RecyclerView.ViewHolder {
+    class LoadHolder extends RecyclerView.ViewHolder {
         public LoadHolder(View itemView) {
             super(itemView);
         }
@@ -158,7 +170,7 @@ public class ArticlesLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.loadMoreListener = loadMoreListener;
     }
 
-    private static String getSubString(String summary) {
+    private String getSubString(String summary) {
         if (summary.length() > 190)
             return summary.substring(0, 190) + "...";
         return summary;

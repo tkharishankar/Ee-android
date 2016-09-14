@@ -33,4 +33,10 @@ public interface HomeContract {
 
         void getArticles(String moduleid);
     }
+
+    interface AdapterCallBack
+    {
+
+        void onItemClick(String articleid);
+    }
 }

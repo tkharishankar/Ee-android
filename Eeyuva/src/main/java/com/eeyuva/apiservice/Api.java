@@ -1,6 +1,7 @@
 package com.eeyuva.apiservice;
 
 
+import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
@@ -41,6 +42,9 @@ public interface Api {
 
     @GET
     Call<HotModuleResponse> getHotNews(@Url String url);
+
+    @GET
+    Call<ArticleDetailResponse> getArticlesDetails(@Url String url);
 
 
 //    @POST("driver/deviceid/")

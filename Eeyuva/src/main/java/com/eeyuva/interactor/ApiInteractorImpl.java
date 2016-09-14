@@ -6,6 +6,7 @@ import com.eeyuva.apiservice.Api;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
+import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
@@ -62,6 +63,20 @@ public class ApiInteractorImpl implements ApiInteractor {
     public void getHotModuleResponse(BaseView mView, String url, LoadListener<HotModuleResponse> mHotModuleListener) {
         UiCallback<HotModuleResponse> callback = new UiCallback(mView, mHotModuleListener,true);
         Call<HotModuleResponse> call = mApi.getHotNews(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getArticlesDetails(BaseView mView, String url, LoadListener<ArticleDetailResponse> mArticleListener) {
+        UiCallback<ArticleDetailResponse> callback = new UiCallback(mView, mArticleListener,true);
+        Call<ArticleDetailResponse> call = mApi.getArticlesDetails(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getOtherArticlesDetails(BaseView mView, String url, LoadListener<ArticleDetailResponse> mOtherArticleListener) {
+        UiCallback<ArticleDetailResponse> callback = new UiCallback(mView, mOtherArticleListener,false);
+        Call<ArticleDetailResponse> call = mApi.getArticlesDetails(url);
         callback.start(call);
     }
 

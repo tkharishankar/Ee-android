@@ -39,6 +39,9 @@
         <activity
             android:name=".screens.home.loadmore.ArticlesActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.DetailPage.DetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
         <!-- [START firebase_service] -->

@@ -1,10 +1,9 @@
 package com.eeyuva.screens.home;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.view.LinkagePager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -12,18 +11,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
@@ -33,9 +29,10 @@ import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
 import com.eeyuva.screens.home.hotNewsCoverFlow.HotNewsCoverFlowAdapter;
+import com.eeyuva.screens.home.infiniteCoverFlow.InfinitePagerAdapter;
+import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
-import com.eeyuva.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,9 +43,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
-import me.crosswall.lib.coverflow.CoverFlow;
 import me.crosswall.lib.coverflow.core.LinkagePagerContainer;
-import me.crosswall.lib.coverflow.core.PagerContainer;
 
 /**
  * Created by hari on 05/09/16.
@@ -76,8 +71,8 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     private CoverFlowAdapter mAdapter;
     private HotNewsCoverFlowAdapter mHotNewsAdapter;
     private TextSwitcher mTitle;
-    private List<ResponseList> mModuleList = new ArrayList<ResponseList>();
-    private List<ModuleList> mHotModuleList = new ArrayList<ModuleList>();
+    public static List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    public static List<ModuleList> mHotModuleList = new ArrayList<ModuleList>();
 
     @Bind(R.id.orderlist)
     RecyclerView mRecyclerView;
@@ -89,18 +84,29 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
 
     private LinkagePagerContainer customPagerContainer;
-    private LinkagePager pager;
+    //    private LinkagePager pager;
     private AppBarLayout appBarLayout;
     private int parallaxHeight;
     private View tab;
     boolean initialflag;
 
 
-    public final static int PAGES = 5;
+    public static int PAGES = 0;
     // You can choose a bigger number for LOOPS, but you know, nobody will fling
     // more than 1000 times just in order to test your "infinite" ViewPager :D
-    public final static int LOOPS = 1000;
-    public final static int FIRST_PAGE = PAGES * LOOPS / 2;
+    public static int LOOPS = 100;
+    public static int FIRST_PAGE;
+
+    public InfinitePagerAdapter infinitePagerAdapter;
+    public InfiniteHotPagerAdapter infinitehotPagerAdapter;
+    public ViewPager pager;
+    public ViewPager hotpager;
+
+    public static int HotPAGES = 0;
+    // You can choose a bigger number for LOOPS, but you know, nobody will fling
+    // more than 1000 times just in order to test your "infinite" ViewPager :D
+    public static int HotLOOPS = 100;
+    public static int HotFIRST_PAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +115,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         initComponent();
         mPresenter.setView(this);
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-
+        Log.i("Device", "device size" + getResources().getString(R.string.size));
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
@@ -117,6 +123,67 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mModuleList = mPresenter.getModules();
         mHotModuleList = mPresenter.getHotModules();
+
+        PAGES = mModuleList.size();
+        FIRST_PAGE = PAGES * LOOPS / 2;
+
+
+        HotPAGES = mHotModuleList.size();
+        HotFIRST_PAGE = HotPAGES * HotLOOPS / 2;
+
+        pager = (ViewPager) findViewById(R.id.infiniteviewpager);
+
+        infinitePagerAdapter = new InfinitePagerAdapter(this, this.getSupportFragmentManager());
+        pager.setAdapter(infinitePagerAdapter);
+        pager.setPageTransformer(false, infinitePagerAdapter);
+
+        // Set current item to the middle page so we can fling to both
+        // directions left and right
+        pager.setCurrentItem(FIRST_PAGE);
+
+        // Necessary or the pager will only have one extra page to show
+        // make this at least however many pages you can see
+        pager.setOffscreenPageLimit(3);
+
+        // Set margin for pages as a negative number, so a part of next and
+        // previous pages will be showed
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            // Do something for lollipop and above versions
+            pager.setPageMargin(-700);
+        } else {
+            // do something for phones running an SDK before lollipop
+            pager.setPageMargin(-450);
+        }
+
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.i("position", "onPageScrolled" + position);
+                if (!initialflag) {
+                    label.setText(mModuleList.get((position % mModuleList.size())).getTitle());
+                    mPresenter.getArticles(mModuleList.get((position % mModuleList.size())).getModuleid());
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("position", "onPageSelected" + position);
+                mScrolledToPosition = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.i("position", "onPageScrollStateChanged" + state);
+                Log.i("position", "mScrolledToPosition" + mScrolledToPosition);
+
+                if (state == 0) {
+                    label.setText(mModuleList.get((mScrolledToPosition % mModuleList.size())).getTitle());
+                    mPresenter.getArticles(mModuleList.get((mScrolledToPosition % mModuleList.size())).getModuleid());
+                }
+            }
+        });
 
 //        mAdapter = new CoverFlowAdapter(this);
 //        mAdapter.setData(mModuleList);
@@ -162,10 +229,10 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 //
 //            }
 //        });
-
-        parallaxHeight = getResources().getDimensionPixelSize(R.dimen.cover_pager_height) - getResources().getDimensionPixelSize(R.dimen.tab_height);
-
-        Log.d("###", "parallaxHeight:" + parallaxHeight);
+//
+//        parallaxHeight = getResources().getDimensionPixelSize(R.dimen.cover_pager_height) - getResources().getDimensionPixelSize(R.dimen.tab_height);
+//
+//        Log.d("###", "parallaxHeight:" + parallaxHeight);
 
 //        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
 
@@ -182,49 +249,49 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 //            }
 //        });
 
-        customPagerContainer = (LinkagePagerContainer) findViewById(R.id.pager_container);
-
-//        tab = findViewById(R.id.tab);
-        final LinkagePager cover = customPagerContainer.getViewPager();
-
-        PagerAdapter coverAdapter = new MyPagerAdapter();
-        cover.setAdapter(coverAdapter);
-        cover.setOffscreenPageLimit(mModuleList.size());
-
-        new CoverFlow.Builder()
-                .withLinkage(cover)
-                .pagerMargin(0f)
-                .scale(0.3f)
-                .spaceSize(0f)
-                .build();
-
-        cover.addOnPageChangeListener(new LinkagePager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("position", "onPageScrolled" + position);
-                if (!initialflag) {
-                    label.setText("" + mModuleList.get(position).getTitle());
-                    mPresenter.getArticles(mModuleList.get(position).getModuleid());
-                }
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.i("position", "onPageSelected" + position);
-                mScrolledToPosition = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                Log.i("position", "onPageScrollStateChanged" + state);
-                if (state == 0) {
-                    label.setText("" + mModuleList.get(mScrolledToPosition).getTitle());
-                    mPresenter.getArticles(mModuleList.get(mScrolledToPosition).getModuleid());
-                }
-
-            }
-        });
+//        customPagerContainer = (LinkagePagerContainer) findViewById(R.id.pager_container);
+//
+////        tab = findViewById(R.id.tab);
+//        final LinkagePager cover = customPagerContainer.getViewPager();
+//
+//        PagerAdapter coverAdapter = new MyPagerAdapter();
+//        cover.setAdapter(coverAdapter);
+//        cover.setOffscreenPageLimit(mModuleList.size());
+//
+//        new CoverFlow.Builder()
+//                .withLinkage(cover)
+//                .pagerMargin(0f)
+//                .scale(0.3f)
+//                .spaceSize(0f)
+//                .build();
+//
+//        cover.addOnPageChangeListener(new LinkagePager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                Log.i("position", "onPageScrolled" + position);
+//                if (!initialflag) {
+//                    label.setText("" + mModuleList.get(position).getTitle());
+//                    mPresenter.getArticles(mModuleList.get(position).getModuleid());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                Log.i("position", "onPageSelected" + position);
+//                mScrolledToPosition = position;
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                Log.i("position", "onPageScrollStateChanged" + state);
+//                if (state == 0) {
+//                    label.setText("" + mModuleList.get(mScrolledToPosition).getTitle());
+//                    mPresenter.getArticles(mModuleList.get(mScrolledToPosition).getModuleid());
+//                }
+//
+//            }
+//        });
 //        pager = (LinkagePager) findViewById(R.id.pager);
 //
 //        MyListPagerAdapter adapter = new MyListPagerAdapter();
@@ -236,18 +303,34 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 //        pager.setLinkagePager(cover);
 
 
-        PagerContainer container = (PagerContainer) findViewById(R.id.bottom_pager_container);
-        ViewPager pager = container.getViewPager();
-        pager.setAdapter(new BottomPagerAdapter());
-        pager.setClipChildren(false);
-        pager.setOffscreenPageLimit(15);
-        new CoverFlow.Builder()
-                .with(pager)
-                .scale(0.3f)
-                .pagerMargin(0)
-                .spaceSize(0f)
-                .build();
+//        PagerContainer container = (PagerContainer) findViewById(R.id.bottom_pager_container);
+//        ViewPager pager = container.getViewPager();
+//        pager.setAdapter(new BottomPagerAdapter());
+//        pager.setClipChildren(false);
+//        pager.setOffscreenPageLimit(15);
+//        new CoverFlow.Builder()
+//                .with(pager)
+//                .scale(0.3f)
+//                .pagerMargin(0)
+//                .spaceSize(0f)
+//                .build();
 
+        hotpager = (ViewPager) findViewById(R.id.infinitehotviewpager);
+        infinitehotPagerAdapter = new InfiniteHotPagerAdapter(this, this.getSupportFragmentManager());
+        hotpager.setAdapter(infinitehotPagerAdapter);
+        hotpager.setPageTransformer(false, infinitehotPagerAdapter);
+
+        // Set current item to the middle page so we can fling to both
+        // directions left and right
+        hotpager.setCurrentItem(HotFIRST_PAGE);
+
+        // Necessary or the pager will only have one extra page to show
+        // make this at least however many pages you can see
+        hotpager.setOffscreenPageLimit(3);
+
+        // Set margin for pages as a negative number, so a part of next and
+        // previous pages will be showed
+        hotpager.setPageMargin(0);
 
     }
 
@@ -256,7 +339,9 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         Intent intent =
                 new Intent(HomeActivity.this, ArticlesActivity.class);
         intent.putExtra("index", mModuleList.size());
-        intent.putExtra("module_id", mModuleList.get(mScrolledToPosition).getModuleid());
+        intent.putExtra("module_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getModuleid());
+        intent.putExtra("order_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getOrderid());
+        intent.putExtra("module_name", mModuleList.get(mScrolledToPosition % mModuleList.size()).getTitle());
         startActivity(intent);
     }
 
@@ -284,7 +369,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 }
             }
         });
-        drawerFragment.setImage(mPresenter.getUserdetails());
+//        drawerFragment.setImage(mPresenter.getUserdetails());
     }
 
     private void initComponent() {
@@ -393,7 +478,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView view = new ImageView(HomeActivity.this);
-            Log.i("position","position"+position);
+            Log.i("position", "position" + position);
             view.setImageResource(getItem(Integer.parseInt(mModuleList.get(position).getOrderid())));
             container.addView(view);
             return view;

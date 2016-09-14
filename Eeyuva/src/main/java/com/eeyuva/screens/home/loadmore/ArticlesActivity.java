@@ -1,5 +1,6 @@
 package com.eeyuva.screens.home.loadmore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eeyuva.ButterAppCompatActivity;
@@ -15,6 +17,7 @@ import com.eeyuva.R;
 import com.eeyuva.di.component.DaggerHomeComponent;
 import com.eeyuva.di.component.HomeComponent;
 import com.eeyuva.di.module.HomeModule;
+import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.ResponseItem;
@@ -30,7 +33,7 @@ import butterknife.Bind;
 /**
  * Created by hari on 05/09/16.
  */
-public class ArticlesActivity extends ButterAppCompatActivity implements HomeContract.View {
+public class ArticlesActivity extends ButterAppCompatActivity implements HomeContract.View, HomeContract.AdapterCallBack {
 
     @Inject
     HomeContract.Presenter mPresenter;
@@ -45,14 +48,20 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
 
     private int mPrevIndex = 0;
 
-    private String mModuleId;
+    String mModuleId;
+
+    String mModuleName;
 
     @Bind(R.id.orderlist)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.txtHotStories)
+    TextView mTxtHotStories;
+
     ArticlesLoadAdapter mArticleAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
+    private String mOrderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +78,9 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
 
         mPrevIndex = getIntent().getExtras().getInt("index");
         mModuleId = getIntent().getExtras().getString("module_id");
+        mOrderId = getIntent().getExtras().getString("order_id");
+        mModuleName = getIntent().getExtras().getString("module_name");
+        mTxtHotStories.setText(mModuleName);
         mPresenter.getArticles(mModuleId);
     }
 
@@ -77,7 +89,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mArticleAdapter = new ArticlesLoadAdapter(this, mArticlesList);
+        mArticleAdapter = new ArticlesLoadAdapter(this, this, mArticlesList);
         mArticleAdapter.setLoadMoreListener(new ArticlesLoadAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -123,7 +135,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         Log.i("index", "mArticlesList after load" + mArticlesList.size());
 
         try {
-            mLayoutManager.scrollToPosition(mArticlesList.size()-5);
+            mLayoutManager.scrollToPosition(mArticlesList.size() - 5);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -188,4 +200,14 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
     }
 
 
+    @Override
+    public void onItemClick(String articleid) {
+        Intent intent =
+                new Intent(ArticlesActivity.this, DetailActivity.class);
+        intent.putExtra("module_id", mModuleId);
+        intent.putExtra("article_id", articleid);
+        intent.putExtra("order_id", mOrderId);
+        intent.putExtra("module_name", mModuleName);
+        startActivity(intent);
+    }
 }

@@ -2,6 +2,7 @@ package com.eeyuva.screens.home.coverflow;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         final ResponseItem articles = mArticlesList.get(position);
         try {
             holder.txtTitle.setText(articles.getTitle());
-            holder.txtSubDesc.setText(getSubString(articles.getSummary()));
+            holder.txtSubDesc.setText(Html.fromHtml(getSubString(articles.getSummary())));
             Picasso.with(mContext).load(articles.getPicpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
 
         } catch (Exception e) {
