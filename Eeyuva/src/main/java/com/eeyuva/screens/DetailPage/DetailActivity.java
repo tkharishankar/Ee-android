@@ -15,10 +15,7 @@ import com.eeyuva.R;
 import com.eeyuva.di.component.DaggerDetailComponent;
 import com.eeyuva.di.component.DetailComponent;
 import com.eeyuva.di.module.DetailModule;
-import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherFragment;
 import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherPagerAdapter;
-import com.eeyuva.screens.home.infiniteCoverFlow.InfinitePagerAdapter;
-import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -83,7 +80,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
         mModuleName = getIntent().getExtras().getString("module_name");
 
         mTxtModuleName.setText(mModuleName);
-        mImgModuleImg.setImageResource(images[Integer.parseInt(mOrderId)]);
+        mImgModuleImg.setImageResource(getItem(Integer.parseInt(mOrderId)));
         mPresenter.getArticlesDetails(mModuleId, mArticleId);
         mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
 
@@ -118,6 +115,9 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             R.drawable.img_18,
     };
 
+    public Integer getItem(int i) {
+        return images[i - 1];
+    }
 
     public InfiniteOtherPagerAdapter infinitehotPagerAdapter;
 
@@ -137,7 +137,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
         String complete = "Posted by: " + articleDetail.getCreatedby() + " on " + articleDetail.getCreateddate();
         SpannableString styledString = new SpannableString("Posted by: " + articleDetail.getCreatedby() + " on " + articleDetail.getCreateddate());
         styledString.setSpan(new ForegroundColorSpan(Color.RED), 0, posted.length(), 0);
-        styledString.setSpan(new ForegroundColorSpan(Color.BLUE), posted.length(), posted.length() + articleDetail.getCreatedby().length(), 0);
+        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), posted.length(), posted.length() + articleDetail.getCreatedby().length(), 0);
         styledString.setSpan(new ForegroundColorSpan(Color.RED), posted.length() + articleDetail.getCreatedby().length(), complete.length(), 0);
         mTxtTimeInfo.setText(styledString);
         Picasso.with(this).load(articleDetail.getGalleryimg()).into(mImgArticleImg);

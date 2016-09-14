@@ -36,19 +36,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/imgTopLogo"
                             android:layout_width="400dp"
                             android:layout_height="50dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            android:layout_marginTop="20dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="App logo" />
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:src="@drawable/logo"
+                            android:textSize="20sp" />
 
                         <android.support.v4.view.ViewPager
                             android:id="@+id/infiniteviewpager"
