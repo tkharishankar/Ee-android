@@ -7,6 +7,7 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.searchpage.model.SearchResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import java.util.List;
@@ -43,6 +44,12 @@ public class HomePresenterImpl implements HomeContract.Presenter {
     @Override
     public void getArticles(String moduleid) {
         mApiInteractor.getArticlesResponse(mView, "http://mobile.eeyuva.com/getarticles.php?moduleid=" + moduleid + "&startindex=0&endindex=10", mArticlesListener,true);
+
+    }
+
+    @Override
+    public void getSearchResponse(String key) {
+        mApiInteractor.getSearchResponse(mView, "http://mobile.eeyuva.com/getsearchinfo.php?search_key="+key, mLoadSearchListener,false);
 
     }
 
@@ -105,6 +112,23 @@ public class HomePresenterImpl implements HomeContract.Presenter {
     LoadListener<GetArticleResponse> mLoadArticlesListener = new LoadListener<GetArticleResponse>() {
         @Override
         public void onSuccess(GetArticleResponse responseBody) {
+            mView.setLoadMoredata(responseBody);
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<SearchResponse> mLoadSearchListener = new LoadListener<SearchResponse>() {
+        @Override
+        public void onSuccess(SearchResponse responseBody) {
             mView.setLoadMoredata(responseBody);
         }
 

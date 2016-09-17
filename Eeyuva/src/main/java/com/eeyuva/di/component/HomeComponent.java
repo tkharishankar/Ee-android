@@ -5,6 +5,7 @@ import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
+import com.eeyuva.screens.searchpage.SearchActivity;
 
 import dagger.Component;
 
@@ -21,6 +22,8 @@ public interface HomeComponent {
     void inject(HomeActivity homeActivity);
 
     void inject(ArticlesActivity articlesActivity);
+
+    void inject(SearchActivity searchActivity);
 
     HomeContract.Presenter homePresenter();
 }

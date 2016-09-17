@@ -42,6 +42,13 @@
         <activity
             android:name=".screens.DetailPage.DetailActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.searchpage.SearchActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.gridpages.GridHomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
         <!-- [START firebase_service] -->

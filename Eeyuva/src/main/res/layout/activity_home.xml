@@ -12,156 +12,177 @@
         android:layout_height="match_parent"
         android:elevation="7dp">
 
-        <LinearLayout
-            android:id="@+id/LayToolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/tool_bar"
-                layout="@layout/toolbar"></include>
-
-            <ScrollView
+            <LinearLayout
+                android:id="@+id/LayToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom">
+                android:layout_above="@+id/LayBottom"
 
-                <LinearLayout
+                android:layout_alignParentTop="true"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/tool_bar"
+                    layout="@layout/toolbar"></include>
+
+
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/imgTopLogo"
-                            android:layout_width="400dp"
-                            android:layout_height="50dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="20dp"
-                            android:gravity="center"
-                            android:src="@drawable/logo"
-                            android:textSize="20sp" />
-
-                        <android.support.v4.view.ViewPager
-                            android:id="@+id/infiniteviewpager"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            android:layout_below="@+id/imgTopLogo"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="-50dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="-50dp"
-                            android:overScrollMode="never" />
+                            android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:id="@+id/trilabel"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_below="@+id/infiniteviewpager"
-                            android:layout_centerHorizontal="true"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="-30dp"
-                            android:src="@drawable/triangle" />
-
-                        <TextView
-                            android:id="@+id/label"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/trilabel"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="-.5dp"
-                            android:background="@drawable/label_background"
-                            android:gravity="center"
-                            android:padding="10dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/white"
-                            tools:text="Title" />
-
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/orderlist"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-
-                            android:layout_below="@+id/label"
-                            android:layout_gravity="center"
-                            android:keepScreenOn="false"
-                            android:padding="8dp"
-                            android:scrollbarSize="3dp"
-                            android:scrollbarThumbVertical="@color/colorPrimary"
-                            android:scrollbars="vertical" />
-
-                        <TextView
-                            android:id="@+id/imgLoadMore"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/orderlist"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:background="@drawable/rounded_corner_home_pink"
-                            android:gravity="center"
-                            android:padding="10dp"
-                            android:text="Load more"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:id="@+id/txtHotStories"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/imgLoadMore"
-                            android:layout_gravity="center"
-                            android:gravity="left"
-                            android:padding="10dp"
-                            android:text="Hot Stories"
-                            android:textAllCaps="true"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:id="@+id/txtView"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_below="@+id/txtHotStories"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@color/colorAccent" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtView"
-                            android:layout_margin="10dp"
-                            android:orientation="vertical">
-
-                            <android.support.v4.view.ViewPager
-                                android:id="@+id/infinitehotviewpager"
-                                android:layout_width="match_parent"
-                                android:layout_height="200dp"
+                            <ImageView
+                                android:id="@+id/imgTopLogo"
+                                android:layout_width="400dp"
+                                android:layout_height="50dp"
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="20dp"
+                                android:gravity="center"
+                                android:src="@drawable/logo"
+                                android:textSize="20sp" />
+
+                            <android.support.v4.view.ViewPager
+                                android:id="@+id/infiniteviewpager"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                android:layout_below="@+id/imgTopLogo"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="-50dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="-50dp"
                                 android:overScrollMode="never" />
 
-                        </LinearLayout>
+                            <ImageView
+                                android:id="@+id/trilabel"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_below="@+id/infiniteviewpager"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="-30dp"
+                                android:src="@drawable/triangle" />
 
-                    </RelativeLayout>
-                </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
+                            <TextView
+                                android:id="@+id/label"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/trilabel"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="-.5dp"
+                                android:background="@drawable/label_background"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/white"
+                                tools:text="Title" />
+
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/orderlist"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:layout_below="@+id/label"
+                                android:layout_gravity="center"
+                                android:keepScreenOn="false"
+                                android:padding="8dp"
+                                android:scrollbarSize="3dp"
+                                android:scrollbarThumbVertical="@color/colorPrimary"
+                                android:scrollbars="vertical" />
+
+                            <TextView
+                                android:id="@+id/imgLoadMore"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/orderlist"
+                                android:layout_gravity="center"
+                                android:layout_margin="10dp"
+                                android:background="@drawable/rounded_corner_home_pink"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Load more"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:id="@+id/txtHotStories"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgLoadMore"
+                                android:layout_gravity="center"
+                                android:gravity="left"
+                                android:padding="10dp"
+                                android:text="Hot Stories"
+                                android:textAllCaps="true"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:id="@+id/txtView"
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:layout_below="@+id/txtHotStories"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:background="@color/colorAccent" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtView"
+                                android:layout_margin="10dp"
+                                android:orientation="vertical">
+
+                                <android.support.v4.view.ViewPager
+                                    android:id="@+id/infinitehotviewpager"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:overScrollMode="never" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LayBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/bottom_bar"
+                    layout="@layout/bottom_menu"></include>
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <fragment
             android:id="@+id/fragment_navigation_drawer"

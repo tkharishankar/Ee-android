@@ -2,6 +2,7 @@ package com.eeyuva.screens.DetailPage;
 
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
+import com.eeyuva.screens.home.ResponseList;
 
 import java.util.List;
 
@@ -21,5 +22,7 @@ public interface DetailContract {
         void getArticlesDetails(String mModuleId, String mArticleId);
 
         void getOtherArticlesDetails(String mModuleId, String mArticleId);
+
+        List<ResponseList> getModules();
     }
 }

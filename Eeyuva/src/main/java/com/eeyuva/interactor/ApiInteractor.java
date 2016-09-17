@@ -13,6 +13,7 @@ import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.registration.RegistrationContract;
 import com.eeyuva.screens.registration.RegistrationResponse;
+import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 /**
  * Created by hari on 22/6/16.
@@ -31,5 +32,7 @@ public interface ApiInteractor {
     void getArticlesDetails(BaseView mView, String s, LoadListener<ArticleDetailResponse> mArticleListener);
 
     void getOtherArticlesDetails(BaseView mView, String s, LoadListener<ArticleDetailResponse> mOtherArticleListener);
+
+    void getSearchResponse(BaseView mView, String s, LoadListener<SearchResponse> mArticlesListener, boolean b);
 }
 

@@ -5,6 +5,15 @@ package com.eeyuva.screens.navigation;
  */
 public class AppSetting {
     public int icon;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String title;
 
     public boolean isHeader() {

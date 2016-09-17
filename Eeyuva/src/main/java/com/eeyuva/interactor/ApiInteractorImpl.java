@@ -12,6 +12,7 @@ import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.registration.RegistrationResponse;
+import com.eeyuva.screens.searchpage.model.SearchResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import retrofit2.Call;
@@ -77,6 +78,13 @@ public class ApiInteractorImpl implements ApiInteractor {
     public void getOtherArticlesDetails(BaseView mView, String url, LoadListener<ArticleDetailResponse> mOtherArticleListener) {
         UiCallback<ArticleDetailResponse> callback = new UiCallback(mView, mOtherArticleListener,false);
         Call<ArticleDetailResponse> call = mApi.getArticlesDetails(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getSearchResponse(BaseView mView, String url, LoadListener<SearchResponse> mArticlesListener, boolean b) {
+        UiCallback<SearchResponse> callback = new UiCallback(mView, mArticlesListener,true);
+        Call<SearchResponse> call = mApi.getSearchResponse(url);
         callback.start(call);
     }
 

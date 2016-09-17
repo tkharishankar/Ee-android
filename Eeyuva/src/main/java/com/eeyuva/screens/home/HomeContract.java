@@ -3,6 +3,7 @@ package com.eeyuva.screens.home;
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface HomeContract {
         void setArticleAdapterNotify(List<ResponseItem> responseItem);
 
         void setLoadMoredata(GetArticleResponse responseBody);
+
+        void setLoadMoredata(SearchResponse responseBody);
     }
 
     interface Presenter extends BasePresenter {
@@ -32,6 +35,8 @@ public interface HomeContract {
         LoginResponse getUserdetails();
 
         void getArticles(String moduleid);
+
+        void getSearchResponse(String key);
     }
 
     interface AdapterCallBack

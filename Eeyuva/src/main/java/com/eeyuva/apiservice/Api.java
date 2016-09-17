@@ -6,6 +6,7 @@ import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
+import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -45,6 +46,9 @@ public interface Api {
 
     @GET
     Call<ArticleDetailResponse> getArticlesDetails(@Url String url);
+
+    @GET
+    Call<SearchResponse> getSearchResponse(@Url String url);
 
 
 //    @POST("driver/deviceid/")

@@ -1,4 +1,4 @@
-package com.eeyuva.screens.home.loadmore;
+package com.eeyuva.screens.searchpage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,8 +34,9 @@ import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.ResponseList;
+import com.eeyuva.screens.home.loadmore.ArticlesLoadAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
-import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.screens.searchpage.model.Doc;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ import butterknife.OnClick;
 /**
  * Created by hari on 05/09/16.
  */
-public class ArticlesActivity extends ButterAppCompatActivity implements HomeContract.View, HomeContract.AdapterCallBack {
+public class SearchActivity extends ButterAppCompatActivity implements HomeContract.View, HomeContract.AdapterCallBack {
 
     @Inject
     HomeContract.Presenter mPresenter;
@@ -61,7 +62,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
     @Bind(R.id.tool_bar)
     Toolbar mToolbar;
 
-    private List<ResponseItem> mArticlesList = new ArrayList<ResponseItem>();
+    private List<Doc> mDocsList = new ArrayList<Doc>();
 
     private int mPrevIndex = 0;
 
@@ -75,7 +76,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
     @Bind(R.id.txtHotStories)
     TextView mTxtHotStories;
 
-    ArticlesLoadAdapter mArticleAdapter;
+    SearchLoadAdapter mSearchAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
     private String mOrderId;
@@ -91,11 +92,12 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
     ImageView imgViedo;
     @Bind(R.id.imgComment)
     ImageView imgComment;
+    private String mkeyword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article);
+        setContentView(R.layout.activity_search);
         initComponent();
         mPresenter.setView(this);
 
@@ -106,83 +108,76 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
-        mPrevIndex = getIntent().getExtras().getInt("index");
-        mModuleId = getIntent().getExtras().getString("module_id");
-        mOrderId = getIntent().getExtras().getString("order_id");
-        mModuleName = getIntent().getExtras().getString("module_name");
-        mTxtHotStories.setText(mModuleName);
-        mPresenter.getArticles(mModuleId);
+        mkeyword = getIntent().getExtras().getString("keyword");
+        mPresenter.getSearchResponse(mkeyword);
     }
 
-    private void initAdapter(final List<ResponseItem> responseItem) {
-        this.mArticlesList = responseItem;
+    private void initAdapter(final List<Doc> responseItem) {
+        this.mDocsList = responseItem;
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mArticleAdapter = new ArticlesLoadAdapter(this, this, mArticlesList);
-        mArticleAdapter.setLoadMoreListener(new ArticlesLoadAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-
-                mRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        int index = mArticlesList.size();
-                        loadMore(index);
-                    }
-
-
-                });
-                //Calling loadMore function in Runnable to fix the
-                // java.lang.IllegalStateException: Cannot call this method while RecyclerView is computing a layout or scrolling error
-            }
-        });
-        mRecyclerView.setAdapter(mArticleAdapter);
-        mArticleAdapter.notifyDataSetChanged();
-        if (mPrevIndex != 0)
-            loadMore(mArticlesList.size());
-
+        mSearchAdapter = new SearchLoadAdapter(this, this, mDocsList);
+//        mSearchAdapter.setLoadMoreListener(new SearchLoadAdapter.OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//
+//                mRecyclerView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        int index = mDocsList.size();
+//                        loadMore(index);
+//                    }
+//
+//
+//                });
+//                //Calling loadMore function in Runnable to fix the
+//                // java.lang.IllegalStateException: Cannot call this method while RecyclerView is computing a layout or scrolling error
+//            }
+//        });
+        mRecyclerView.setAdapter(mSearchAdapter);
+        mSearchAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setLoadMoredata(GetArticleResponse responseBody) {
         //remove loading view
 
-        mArticlesList.remove(mArticlesList.size() - 1);
-        Log.i("index", "mArticlesList after rem" + mArticlesList.size());
-
-        List<ResponseItem> result = responseBody.getResponseItem();
-        Log.i("index", "mArticlesList result" + result.size());
-
-        if (result.size() > 0) {
-            //add loaded data
-            mArticlesList.addAll(result);
-        } else {//result size 0 means there is no more data available at server
-            mArticleAdapter.setMoreDataAvailable(false);
-            //telling adapter to stop calling load more as no more server data available
-            Toast.makeText(this, "No More Data Available", Toast.LENGTH_LONG).show();
-        }
-        mArticleAdapter.notifyDataChanged();
-        Log.i("index", "mArticlesList after load" + mArticlesList.size());
-
-        try {
-            mLayoutManager.scrollToPosition(mArticlesList.size() - 5);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
     public void setLoadMoredata(SearchResponse responseBody) {
-
+        initAdapter(responseBody.getResponse().getDocs());
+        mTxtHotStories.setText(responseBody.getResponse().getDocs().size() + " results crawled for " + mkeyword + " Keyword");
+//        mDocsList.remove(mDocsList.size() - 1);
+//        Log.i("index", "mArticlesList after rem" + mDocsList.size());
+//
+//        List<Doc> result = responseBody.getResponse().getDocs();
+//        Log.i("index", "mArticlesList result" + result.size());
+//
+//        if (result.size() > 0) {
+//            //add loaded data
+//            mDocsList.addAll(result);
+//        } else {//result size 0 means there is no more data available at server
+//            mSearchAdapter.setMoreDataAvailable(false);
+//            //telling adapter to stop calling load more as no more server data available
+//            Toast.makeText(this, "No More Data Available", Toast.LENGTH_LONG).show();
+//        }
+//        mSearchAdapter.notifyDataChanged();
+//        Log.i("index", "mArticlesList after load" + mDocsList.size());
+//
+//        try {
+//            mLayoutManager.scrollToPosition(mDocsList.size() - 5);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void loadMore(int index) {
-        Log.i("index", "mArticlesList before" + mArticlesList.size());
+        Log.i("index", "mArticlesList before" + mDocsList.size());
         Log.i("index", "index" + index);
-        mArticlesList.add(new ResponseItem(true));
-        mArticleAdapter.notifyItemInserted(mArticlesList.size() - 1);
+        mDocsList.add(new Doc(true));
+        mSearchAdapter.notifyItemInserted(mDocsList.size() - 1);
         mPresenter.getArticles(mModuleId, index + 1, index);
 
     }
@@ -216,7 +211,6 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
     }
 
 
-
     @Override
     public void setDataToAdapter(List<ResponseList> response) {
 
@@ -224,14 +218,13 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
 
     @Override
     public void setArticleAdapterNotify(List<ResponseItem> responseItem) {
-        initAdapter(responseItem);
     }
 
 
     @Override
     public void onItemClick(String articleid) {
         Intent intent =
-                new Intent(ArticlesActivity.this, DetailActivity.class);
+                new Intent(SearchActivity.this, DetailActivity.class);
         intent.putExtra("module_id", mModuleId);
         intent.putExtra("article_id", articleid);
         intent.putExtra("order_id", mOrderId);
@@ -242,7 +235,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
     @OnClick(R.id.imgHome)
     public void onHomeClick() {
         Intent intent =
-                new Intent(ArticlesActivity.this, HomeActivity.class);
+                new Intent(SearchActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
@@ -267,10 +260,11 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
 
     public void moveNext(int i) {
         Intent intent =
-                new Intent(ArticlesActivity.this, GridHomeActivity.class);
+                new Intent(SearchActivity.this, GridHomeActivity.class);
         intent.putExtra("index", i);
         startActivity(intent);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -295,6 +289,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
 
         return super.onOptionsItemSelected(item);
     }
+
     AlertDialog mDialog;
 
     public void showDialog() {
@@ -318,15 +313,11 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
                     sKeyword = mEdtSearch.getText().toString().trim();
                     if (sKeyword != null && sKeyword.length() != 0) {
                         mDialog.dismiss();
-                        Intent intent =
-                                new Intent(ArticlesActivity.this, SearchActivity.class);
-                        intent.putExtra("keyword", sKeyword);
-                        startActivity(intent);
+                        mPresenter.getSearchResponse(mkeyword);
                         return;
                     }
                 }
             });
-
             mDialog = builder.create();
             mDialog.setCancelable(true);
             mDialog.show();

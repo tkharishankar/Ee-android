@@ -6,7 +6,10 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.home.ModuleOrderResponse;
+import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.utils.preferences.PrefsManager;
+
+import java.util.List;
 
 /**
  * Created by hari on 14/09/16.
@@ -44,6 +47,12 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         mApiInteractor.getOtherArticlesDetails(mView, "http://mobile.eeyuva.com/getrelatedarticles.php?articleid=" + mArticleId + "&modid=" + mModuleId, mOtherArticleListener);
 
     }
+
+    @Override
+    public List<ResponseList> getModules() {
+        return mPrefsManager.getModules().getResponse();
+    }
+
 
     LoadListener<ArticleDetailResponse> mArticleListener = new LoadListener<ArticleDetailResponse>() {
         @Override

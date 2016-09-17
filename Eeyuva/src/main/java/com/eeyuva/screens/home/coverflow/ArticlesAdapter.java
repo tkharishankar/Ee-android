@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eeyuva.R;
+import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.squareup.picasso.Picasso;
@@ -23,10 +24,13 @@ import java.util.List;
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
     private List<ResponseItem> mArticlesList = new ArrayList<ResponseItem>();
     private Context mContext;
+    private HomeContract.AdapterCallBack mAdapterCallBack;
 
-    public ArticlesAdapter(Context context, List<ResponseItem> responseItem) {
+    public ArticlesAdapter(HomeContract.AdapterCallBack AdapterCallBack,Context context, List<ResponseItem> responseItem) {
         this.mContext = context;
         this.mArticlesList = responseItem;
+        this.mAdapterCallBack = AdapterCallBack;
+
     }
 
     @Override
@@ -43,7 +47,12 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             holder.txtTitle.setText(articles.getTitle());
             holder.txtSubDesc.setText(Html.fromHtml(getSubString(articles.getSummary())));
             Picasso.with(mContext).load(articles.getPicpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
-
+            holder.txtSubDesc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mAdapterCallBack.onItemClick(articles.getArticleid());
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,6 +79,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             txtTitle = (TextView) v.findViewById(R.id.txtTitle);
             txtSubDesc = (TextView) v.findViewById(R.id.txtSubDesc);
             imgArticle = (ImageView) v.findViewById(R.id.imgArticle);
+
         }
     }
 }
