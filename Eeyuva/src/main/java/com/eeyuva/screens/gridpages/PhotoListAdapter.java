@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eeyuva.R;
+import com.eeyuva.screens.gridpages.model.PhotoList;
 import com.eeyuva.screens.home.ResponseList;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +20,12 @@ import java.util.List;
 /**
  * Created by hari on 17/09/16.
  */
-public class GridLoadAdapter extends RecyclerView.Adapter<GridLoadAdapter.ViewHolder> {
-    List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.ViewHolder> {
+    List<PhotoList> mModuleList = new ArrayList<PhotoList>();
     Context mContext;
     GridContract.AdapterCallBack mAdapterCallBack;
 
-    public GridLoadAdapter(GridContract.AdapterCallBack mAdapterCallBack, Context context, List<ResponseList> mModuleList) {
+    public PhotoListAdapter(GridContract.AdapterCallBack mAdapterCallBack, Context context, List<PhotoList> mModuleList) {
         Log.i("GridLoadAdapter", "GridLoadAdapter called");
         this.mAdapterCallBack = mAdapterCallBack;
         this.mContext = context;
@@ -35,16 +37,17 @@ public class GridLoadAdapter extends RecyclerView.Adapter<GridLoadAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                          int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_grid_home, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item_cover, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ResponseList rl = mModuleList.get(position);
-        Log.i("mModuleList", "mModuleList" + rl.getTitle());
-        holder.mImgItem.setImageResource(getItem(Integer.parseInt(rl.getOrderid())));
+        final PhotoList rl = mModuleList.get(position);
+        Picasso.with(mContext).load(rl.getGallerypic()).into(holder.mImgItem);
+        holder.mImgItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        holder.mImgLabel.setText(rl.getTitle());
         holder.mImgItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,10 +64,12 @@ public class GridLoadAdapter extends RecyclerView.Adapter<GridLoadAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView mImgItem;
+        public TextView mImgLabel;
 
         public ViewHolder(View v) {
             super(v);
-            mImgItem = (ImageView) v.findViewById(R.id.mImgItem);
+            mImgItem = (ImageView) v.findViewById(R.id.image_cover);
+            mImgLabel = (TextView) v.findViewById(R.id.label);
         }
     }
 

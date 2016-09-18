@@ -2,6 +2,7 @@ package com.eeyuva.screens.gridpages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,16 +23,15 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
-import com.eeyuva.screens.gridpages.model.PhotoList;
+import com.eeyuva.screens.gridpages.infiniteGalleryCoverFlow.InfiniteGalleryPagerAdapter;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
-import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeActivity;
-import com.eeyuva.screens.home.HomeContract;
-import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.ResponseList;
+import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
-import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ import butterknife.OnClick;
 /**
  * Created by hari on 17/09/16.
  */
-public class GridHomeActivity extends ButterAppCompatActivity implements GridContract.View, GridContract.AdapterCallBack {
+public class PhotoGalleryActivity extends ButterAppCompatActivity implements GridContract.View {
 
     @Inject
     GridContract.Presenter mPresenter;
@@ -68,22 +68,24 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     @Bind(R.id.imgComment)
     ImageView imgComment;
     FragmentDrawer drawerFragment;
-
     int mIndex;
+    public static List<PhotoGalleryList> mHotModuleList = new ArrayList<PhotoGalleryList>();
+    String mModuleId;
 
-    @Bind(R.id.orderlist)
-    RecyclerView mRecyclerView;
 
-    GridLoadAdapter mGridLoadAdapter;
+    public InfiniteGalleryPagerAdapter infinitehotPagerAdapter;
+    public ViewPager hotpager;
 
-    RecyclerView.LayoutManager mLayoutManager;
-
-    public List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    public static int HotPAGES = 0;
+    // You can choose a bigger number for LOOPS, but you know, nobody will fling
+    // more than 1000 times just in order to test your "infinite" ViewPager :D
+    public static int HotLOOPS = 100;
+    public static int HotFIRST_PAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gridhome);
+        setContentView(R.layout.activity_photogallery);
         initComponent();
         mPresenter.setView(this);
 
@@ -94,10 +96,28 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
-        mIndex = getIntent().getExtras().getInt("index");
         moveNext(mIndex);
-        mModuleList = mPresenter.getModules();
-        initAdapter();
+        mHotModuleList = mPresenter.getPhotoGallery();
+
+        HotPAGES = mHotModuleList.size();
+        HotFIRST_PAGE = HotPAGES * HotLOOPS / 2;
+
+        hotpager = (ViewPager) findViewById(R.id.infinitehotviewpager);
+        infinitehotPagerAdapter = new InfiniteGalleryPagerAdapter(this, this.getSupportFragmentManager());
+        hotpager.setAdapter(infinitehotPagerAdapter);
+        hotpager.setPageTransformer(false, infinitehotPagerAdapter);
+
+        // Set current item to the middle page so we can fling to both
+        // directions left and right
+        hotpager.setCurrentItem(HotFIRST_PAGE);
+
+        // Necessary or the pager will only have one extra page to show
+        // make this at least however many pages you can see
+        hotpager.setOffscreenPageLimit(3);
+
+        // Set margin for pages as a negative number, so a part of next and
+        // previous pages will be showed
+        hotpager.setPageMargin(0);
     }
 
     private void moveNext(int i) {
@@ -111,13 +131,14 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         mIndex = i;
     }
 
-    private void initAdapter() {
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(this, 3);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mGridLoadAdapter = new GridLoadAdapter(this, this, mModuleList);
-        mRecyclerView.setAdapter(mGridLoadAdapter);
-        mGridLoadAdapter.notifyDataSetChanged();
+    @Override
+    public void setAdapter(PhotoListResponse responseBody) {
+
+    }
+
+    @Override
+    public void moveToGalleryView() {
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -175,23 +196,23 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     @OnClick(R.id.imgHome)
     public void onHomeClick() {
         Intent intent =
-                new Intent(GridHomeActivity.this, HomeActivity.class);
+                new Intent(PhotoGalleryActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.imgList)
     public void onListClick() {
-        moveNext(1);
+//        moveNext(1);
     }
 
     @OnClick(R.id.imgPhoto)
     public void onPhotoClick() {
-        moveNext(2);
+//        moveNext(2);
     }
 
     @OnClick(R.id.imgViedo)
     public void onVideoClick() {
-        moveNext(3);
+//        moveNext(3);
     }
 
 
@@ -219,7 +240,7 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
                     if (sKeyword != null && sKeyword.length() != 0) {
                         mDialog.dismiss();
                         Intent intent =
-                                new Intent(GridHomeActivity.this, SearchActivity.class);
+                                new Intent(PhotoGalleryActivity.this, SearchActivity.class);
                         intent.putExtra("keyword", sKeyword);
                         startActivity(intent);
                         return;
@@ -241,31 +262,5 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         }
     }
 
-    @Override
-    public void setAdapter(PhotoListResponse responseBody) {
 
-    }
-
-    @Override
-    public void moveToGalleryView() {
-
-    }
-
-    @Override
-    public void setSelectItem(ResponseList rl) {
-        if (mIndex == 1) {
-            Intent intent =
-                    new Intent(GridHomeActivity.this, PhotoListActivity.class);
-            intent.putExtra("title", rl.getTitle());
-            intent.putExtra("title", rl.getTitle());
-            intent.putExtra("order_id", rl.getOrderid());
-            intent.putExtra("module_id", rl.getModuleid());
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public void setSelectItem(PhotoList rl) {
-
-    }
 }

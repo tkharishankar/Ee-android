@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
@@ -44,7 +45,7 @@ import butterknife.OnClick;
 /**
  * Created by hari on 17/09/16.
  */
-public class GridHomeActivity extends ButterAppCompatActivity implements GridContract.View, GridContract.AdapterCallBack {
+public class PhotoListActivity extends ButterAppCompatActivity implements GridContract.View, GridContract.AdapterCallBack {
 
     @Inject
     GridContract.Presenter mPresenter;
@@ -74,16 +75,18 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     @Bind(R.id.orderlist)
     RecyclerView mRecyclerView;
 
-    GridLoadAdapter mGridLoadAdapter;
+    PhotoListAdapter mGridLoadAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
 
-    public List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    String mModuleId;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gridhome);
+        setContentView(R.layout.activity_photolist);
         initComponent();
         mPresenter.setView(this);
 
@@ -94,10 +97,12 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
-        mIndex = getIntent().getExtras().getInt("index");
-        moveNext(mIndex);
-        mModuleList = mPresenter.getModules();
-        initAdapter();
+        mTitle = getIntent().getExtras().getString("title");
+        mModuleId = getIntent().getExtras().getString("module_id");
+        mTxtHotStories.setText(mTitle);
+//        mModuleList = mPresenter.getModules();
+        mPresenter.getPhotoList(mModuleId);
+
     }
 
     private void moveNext(int i) {
@@ -115,10 +120,30 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(this, 3);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mGridLoadAdapter = new GridLoadAdapter(this, this, mModuleList);
+//        mGridLoadAdapter = new GridLoadAdapter(this, mModuleList);
         mRecyclerView.setAdapter(mGridLoadAdapter);
         mGridLoadAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void setAdapter(PhotoListResponse responseBody) {
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new GridLayoutManager(this, 2);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mGridLoadAdapter = new PhotoListAdapter(this, this, responseBody.getResponse());
+        mRecyclerView.setAdapter(mGridLoadAdapter);
+        mGridLoadAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void moveToGalleryView() {
+//        if (mIndexx == 1) {
+            Intent intent =
+                    new Intent(PhotoListActivity.this, PhotoGalleryActivity.class);
+            startActivity(intent);
+//        }
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -175,23 +200,23 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     @OnClick(R.id.imgHome)
     public void onHomeClick() {
         Intent intent =
-                new Intent(GridHomeActivity.this, HomeActivity.class);
+                new Intent(PhotoListActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.imgList)
     public void onListClick() {
-        moveNext(1);
+//        moveNext(1);
     }
 
     @OnClick(R.id.imgPhoto)
     public void onPhotoClick() {
-        moveNext(2);
+//        moveNext(2);
     }
 
     @OnClick(R.id.imgViedo)
     public void onVideoClick() {
-        moveNext(3);
+//        moveNext(3);
     }
 
 
@@ -219,7 +244,7 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
                     if (sKeyword != null && sKeyword.length() != 0) {
                         mDialog.dismiss();
                         Intent intent =
-                                new Intent(GridHomeActivity.this, SearchActivity.class);
+                                new Intent(PhotoListActivity.this, SearchActivity.class);
                         intent.putExtra("keyword", sKeyword);
                         startActivity(intent);
                         return;
@@ -241,31 +266,13 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         }
     }
 
-    @Override
-    public void setAdapter(PhotoListResponse responseBody) {
-
-    }
-
-    @Override
-    public void moveToGalleryView() {
-
-    }
 
     @Override
     public void setSelectItem(ResponseList rl) {
-        if (mIndex == 1) {
-            Intent intent =
-                    new Intent(GridHomeActivity.this, PhotoListActivity.class);
-            intent.putExtra("title", rl.getTitle());
-            intent.putExtra("title", rl.getTitle());
-            intent.putExtra("order_id", rl.getOrderid());
-            intent.putExtra("module_id", rl.getModuleid());
-            startActivity(intent);
-        }
     }
 
     @Override
     public void setSelectItem(PhotoList rl) {
-
+        mPresenter.getPhotoGalleryList(rl.getTrid());
     }
 }

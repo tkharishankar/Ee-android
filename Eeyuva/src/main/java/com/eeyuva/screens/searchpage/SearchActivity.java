@@ -38,6 +38,7 @@ import com.eeyuva.screens.home.loadmore.ArticlesLoadAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.model.Doc;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
+import com.eeyuva.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +148,7 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
 
     @Override
     public void setLoadMoredata(SearchResponse responseBody) {
+        Utils.hideSoftKeyBoard(this);
         initAdapter(responseBody.getResponse().getDocs());
         mTxtHotStories.setText(responseBody.getResponse().getDocs().size() + " results crawled for " + mkeyword + " Keyword");
 //        mDocsList.remove(mDocsList.size() - 1);
@@ -313,7 +315,8 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
                     sKeyword = mEdtSearch.getText().toString().trim();
                     if (sKeyword != null && sKeyword.length() != 0) {
                         mDialog.dismiss();
-                        mPresenter.getSearchResponse(mkeyword);
+                        mkeyword=sKeyword;
+                        mPresenter.getSearchResponse(sKeyword);
                         return;
                     }
                 }

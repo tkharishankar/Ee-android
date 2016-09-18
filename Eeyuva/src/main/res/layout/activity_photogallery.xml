@@ -40,7 +40,8 @@
                     android:textAllCaps="true"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <View
                     android:id="@+id/txtView"
@@ -49,18 +50,25 @@
                     android:layout_below="@+id/txtHotStories"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/colorAccent" />
+                    android:background="@color/colorAccent"
+                    android:visibility="gone"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/orderlist"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:scrollbarSize="3dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:scrollbarThumbVertical="@color/colorPrimary"
-                    android:scrollbars="vertical" />
+                    android:layout_below="@+id/txtView"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/infinitehotviewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:overScrollMode="never" />
+
+                </LinearLayout>
 
 
             </LinearLayout>

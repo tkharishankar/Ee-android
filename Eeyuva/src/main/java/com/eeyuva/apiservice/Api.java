@@ -3,6 +3,8 @@ package com.eeyuva.apiservice;
 
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
+import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
@@ -49,6 +51,12 @@ public interface Api {
 
     @GET
     Call<SearchResponse> getSearchResponse(@Url String url);
+
+    @GET
+    Call<PhotoListResponse> getPhotoList(@Url String url);
+
+    @GET
+    Call<PhotoGalleryResponse> getPhotoGalleryList(@Url String url);
 
 
 //    @POST("driver/deviceid/")

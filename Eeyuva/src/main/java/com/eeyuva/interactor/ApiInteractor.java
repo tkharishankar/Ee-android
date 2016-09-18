@@ -7,6 +7,9 @@ import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.DetailPage.DetailContract;
 import com.eeyuva.screens.authentication.LoginContract;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.gridpages.GridContract;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
+import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.HotModuleResponse;
@@ -34,5 +37,9 @@ public interface ApiInteractor {
     void getOtherArticlesDetails(BaseView mView, String s, LoadListener<ArticleDetailResponse> mOtherArticleListener);
 
     void getSearchResponse(BaseView mView, String s, LoadListener<SearchResponse> mArticlesListener, boolean b);
+
+    void getPhotoList(BaseView mView, String s, LoadListener<PhotoListResponse> mPhotoListListener);
+
+    void getPhotoGalleryList(BaseView mView, String s, LoadListener<PhotoGalleryResponse> mPhotoGalleryListListener);
 }
 

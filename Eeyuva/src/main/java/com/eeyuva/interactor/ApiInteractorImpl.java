@@ -8,6 +8,8 @@ import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
+import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
@@ -85,6 +87,20 @@ public class ApiInteractorImpl implements ApiInteractor {
     public void getSearchResponse(BaseView mView, String url, LoadListener<SearchResponse> mArticlesListener, boolean b) {
         UiCallback<SearchResponse> callback = new UiCallback(mView, mArticlesListener,true);
         Call<SearchResponse> call = mApi.getSearchResponse(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getPhotoList(BaseView mView, String url, LoadListener<PhotoListResponse> mPhotoListListener) {
+        UiCallback<PhotoListResponse> callback = new UiCallback(mView, mPhotoListListener,true);
+        Call<PhotoListResponse> call = mApi.getPhotoList(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getPhotoGalleryList(BaseView mView, String url, LoadListener<PhotoGalleryResponse> mPhotoGalleryListListener) {
+        UiCallback<PhotoGalleryResponse> callback = new UiCallback(mView, mPhotoGalleryListListener,true);
+        Call<PhotoGalleryResponse> call = mApi.getPhotoGalleryList(url);
         callback.start(call);
     }
 

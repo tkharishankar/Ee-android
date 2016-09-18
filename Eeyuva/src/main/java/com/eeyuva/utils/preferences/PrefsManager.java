@@ -2,9 +2,12 @@ package com.eeyuva.utils.preferences;
 
 
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
 
 public interface PrefsManager {
 
@@ -18,6 +21,7 @@ public interface PrefsManager {
     String PREFS_USER_DETAILS = "UserName_Detail";
     String PREFS_MODULE_DETAILS = "Module_Detail";
     String PREFS_HOT_MODULE_DETAILS = "Hot_Module_Detail";
+    String PREFS_PHOTO_GALLERY_DETAILS = "photo_gallery_list";
     String PREFS_FCM_TOKEN = "fcm_token";
     String SHARED_LOCATION_LAT = "lat";
     String SHARED_LOCATION_LNG = "lng";
@@ -45,4 +49,8 @@ public interface PrefsManager {
     void setHotModules(HotModuleResponse responseBody);
 
     HotModuleResponse getHotModules();
+
+    void setPhotoGalleryList(PhotoGalleryResponse responseBody);
+
+    PhotoGalleryResponse getPhotoGalleryList();
 }

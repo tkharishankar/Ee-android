@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.google.android.gms.maps.model.LatLng;
@@ -90,6 +91,19 @@ public class PrefsManagerImpl implements PrefsManager {
     @Override
     public HotModuleResponse getHotModules() {
         return gson.fromJson(remotePrefs.getString(PREFS_HOT_MODULE_DETAILS, null), HotModuleResponse.class);
+    }
+
+    @Override
+    public void setPhotoGalleryList(PhotoGalleryResponse responseBody) {
+        String result = gson.toJson(responseBody);
+        remoteEditor.remove(PREFS_PHOTO_GALLERY_DETAILS);
+        remoteEditor.putString(PREFS_PHOTO_GALLERY_DETAILS, result);
+        remoteEditor.commit();
+    }
+
+    @Override
+    public PhotoGalleryResponse getPhotoGalleryList() {
+        return gson.fromJson(remotePrefs.getString(PREFS_PHOTO_GALLERY_DETAILS, null), PhotoGalleryResponse.class);
     }
 
     @Override
