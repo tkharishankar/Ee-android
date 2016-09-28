@@ -100,10 +100,12 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         mPresenter.setView(this);
 
         setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+//        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         mPrevIndex = getIntent().getExtras().getInt("index");
@@ -340,5 +342,15 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+    }
+
+
+    public void gotoHome(View v)
+    {
+        Intent intent =
+                new Intent(ArticlesActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 }

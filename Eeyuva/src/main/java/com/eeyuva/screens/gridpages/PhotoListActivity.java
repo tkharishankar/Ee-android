@@ -22,9 +22,12 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
+import com.eeyuva.screens.gridpages.model.UserNewsList;
+import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.HomeContract;
@@ -95,25 +98,16 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         mTitle = getIntent().getExtras().getString("title");
         mModuleId = getIntent().getExtras().getString("module_id");
         mTxtHotStories.setText(mTitle);
 //        mModuleList = mPresenter.getModules();
-        mPresenter.getPhotoList(mModuleId);
+        mPresenter.getPhotoList("http://mobile.eeyuva.com/getphotoalbums.php?", mModuleId);
 
-    }
-
-    private void moveNext(int i) {
-        if (mIndex == 1)
-            mTxtHotStories.setText("Images");
-        else if (mIndex == 2)
-            mTxtHotStories.setText("Videos");
-        else if (mIndex == 3)
-            mTxtHotStories.setText("User News");
-
-        mIndex = i;
     }
 
     private void initAdapter() {
@@ -138,10 +132,21 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
     @Override
     public void moveToGalleryView() {
 //        if (mIndexx == 1) {
-            Intent intent =
-                    new Intent(PhotoListActivity.this, PhotoGalleryActivity.class);
-            startActivity(intent);
+        Intent intent =
+                new Intent(PhotoListActivity.this, PhotoGalleryActivity.class);
+        intent.putExtra("title", mTitle);
+        startActivity(intent);
 //        }
+    }
+
+    @Override
+    public void setAdapter(PhotoGalleryResponse responseBody) {
+
+    }
+
+    @Override
+    public void setAdapter(UserNewsListResponse responseBody) {
+
     }
 
 
@@ -206,17 +211,29 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
 
     @OnClick(R.id.imgList)
     public void onListClick() {
-//        moveNext(1);
+        moveNext(1);
     }
 
     @OnClick(R.id.imgPhoto)
     public void onPhotoClick() {
-//        moveNext(2);
+        moveNext(2);
     }
 
     @OnClick(R.id.imgViedo)
     public void onVideoClick() {
-//        moveNext(3);
+        moveNext(3);
+    }
+
+    @OnClick(R.id.imgComment)
+    public void onCommentClick() {
+    }
+
+    public void moveNext(int i) {
+        Intent intent =
+                new Intent(PhotoListActivity.this, GridHomeActivity.class);
+        intent.putExtra("index", i);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -273,6 +290,24 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
 
     @Override
     public void setSelectItem(PhotoList rl) {
-        mPresenter.getPhotoGalleryList(rl.getTrid());
+        mPresenter.getPhotoGalleryList("http://mobile.eeyuva.com/getphotogallery.php?", rl.getTrid());
+    }
+
+    @Override
+    public void setSelectItem(PhotoGalleryList rl) {
+
+    }
+
+    @Override
+    public void setSelectItem(UserNewsList rl) {
+
+    }
+
+
+    public void gotoHome(View v)
+    {
+        Intent intent =
+                new Intent(PhotoListActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 }

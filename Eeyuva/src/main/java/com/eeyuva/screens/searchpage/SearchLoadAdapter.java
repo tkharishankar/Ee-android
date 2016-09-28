@@ -19,7 +19,11 @@ import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.searchpage.model.Doc;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -136,7 +140,7 @@ public class SearchLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void bindData(final Doc articles) {
             txtTitle.setText(articles.getTitle().get(0));
-            String complete = articles.getDate();
+            String complete = getISOTime(articles.getDate().trim());
             SpannableString styledString = new SpannableString(complete);
             styledString.setSpan(new ForegroundColorSpan(Color.RED), 0, complete.length(), 0);
             txtSubDesc.setText(styledString);
@@ -155,5 +159,24 @@ public class SearchLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (summary.length() > 190)
             return summary.substring(0, 190) + "...";
         return summary;
+    }
+    private String getISOTime(String time)  {
+        try {
+            if(!time.equalsIgnoreCase("N/A")&&time.length()!=0) {
+                Date date = new Date();
+                DateFormat format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+                simpleDateFormat.applyPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                date = simpleDateFormat.parse(time);
+                format.setTimeZone(simpleDateFormat.getTimeZone());
+                date.getTime();
+                return format.format(date);
+            }else {
+                return "N/A";
+            }
+        }catch (ParseException e){
+            e.printStackTrace();
+            return "";
+        }
     }
 }

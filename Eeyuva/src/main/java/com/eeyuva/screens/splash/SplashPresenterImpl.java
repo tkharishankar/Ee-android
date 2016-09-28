@@ -26,7 +26,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
     }
     @Override
     public void getHomeModule() {
-        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener);
+        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener,false);
     }
     @Override
     public void moveForward() {
@@ -36,7 +36,6 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
     @Override
     public void setView(BaseView view) {
         mView = (SplashContract.View) view;
-
         mView.setVersionNo();
         mView.setLoadAnim();
         moveForward();
@@ -51,7 +50,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         @Override
         public void onSuccess(ModuleOrderResponse responseBody) {
             mPrefsManager.setModules(responseBody);
-            mApiInteractor.getHotModuleResponse(mView, "http://mobile.eeyuva.com/getheaderservice.php", mHotModuleListener);
+            mApiInteractor.getHotModuleResponse(mView, "http://mobile.eeyuva.com/getheaderservice.php", mHotModuleListener,false);
 
 
         }

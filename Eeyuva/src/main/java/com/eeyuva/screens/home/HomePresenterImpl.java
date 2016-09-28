@@ -38,7 +38,7 @@ public class HomePresenterImpl implements HomeContract.Presenter {
 
     @Override
     public void getHomeModule() {
-        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener);
+        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener, false);
     }
 
     @Override

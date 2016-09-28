@@ -57,6 +57,18 @@
         <activity
             android:name=".screens.gridpages.PhotoGalleryActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.VideoListActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.VideoGalleryActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.VideoPlayActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.UserNewsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
         <!-- [START firebase_service] -->

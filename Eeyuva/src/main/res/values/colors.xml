@@ -7,7 +7,9 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="green">#46C454</color>
+    <color name="dialog_green">#35C464</color>
     <color name="red">#E96449</color>
+    <color name="dialog_red">#FF0118</color>
     <color name="home_red">#E13E40</color>
     <color name="home_dark_pink">#C33369</color>
 

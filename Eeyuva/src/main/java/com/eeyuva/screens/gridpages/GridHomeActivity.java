@@ -22,8 +22,12 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
+import com.eeyuva.screens.gridpages.model.UserNewsList;
+import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.HomeContract;
@@ -92,6 +96,8 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         mIndex = getIntent().getExtras().getInt("index");
@@ -101,14 +107,15 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     }
 
     private void moveNext(int i) {
-        if (mIndex == 1)
+        mIndex = i;
+
+        if (mIndex == 2)
             mTxtHotStories.setText("Images");
-        else if (mIndex == 2)
-            mTxtHotStories.setText("Videos");
         else if (mIndex == 3)
+            mTxtHotStories.setText("Videos");
+        else if (mIndex == 1)
             mTxtHotStories.setText("User News");
 
-        mIndex = i;
     }
 
     private void initAdapter() {
@@ -252,11 +259,35 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     }
 
     @Override
+    public void setAdapter(PhotoGalleryResponse responseBody) {
+
+    }
+
+    @Override
+    public void setAdapter(UserNewsListResponse responseBody) {
+
+    }
+
+    @Override
     public void setSelectItem(ResponseList rl) {
-        if (mIndex == 1) {
+        if (mIndex == 2) {
             Intent intent =
                     new Intent(GridHomeActivity.this, PhotoListActivity.class);
             intent.putExtra("title", rl.getTitle());
+            intent.putExtra("order_id", rl.getOrderid());
+            intent.putExtra("module_id", rl.getModuleid());
+            startActivity(intent);
+        } else if (mIndex == 3) {
+            Intent intent =
+                    new Intent(GridHomeActivity.this, VideoListActivity.class);
+            intent.putExtra("title", rl.getTitle());
+            intent.putExtra("order_id", rl.getOrderid());
+            intent.putExtra("module_id", rl.getModuleid());
+            startActivity(intent);
+        }else if(mIndex==1)
+        {
+            Intent intent =
+                    new Intent(GridHomeActivity.this, UserNewsActivity.class);
             intent.putExtra("title", rl.getTitle());
             intent.putExtra("order_id", rl.getOrderid());
             intent.putExtra("module_id", rl.getModuleid());
@@ -267,5 +298,22 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
     @Override
     public void setSelectItem(PhotoList rl) {
 
+    }
+
+    @Override
+    public void setSelectItem(PhotoGalleryList rl) {
+
+    }
+
+    @Override
+    public void setSelectItem(UserNewsList rl) {
+
+    }
+
+    public void gotoHome(View v)
+    {
+        Intent intent =
+                new Intent(GridHomeActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,10 +1,14 @@
 package com.eeyuva.screens.DetailPage;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.DetailPage.model.CommentListResponse;
+import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
+import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.utils.preferences.PrefsManager;
@@ -53,6 +57,26 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         return mPrefsManager.getModules().getResponse();
     }
 
+    @Override
+    public void setLikeOrDislike(String article_id, String type, String module_id, String uid) {
+        Log.i("api", "apilll" + "http://eeyuva.com/mlike_dislike/?article_id=" + article_id + "&type=" + type + "&module_id=" + module_id + "&uid=" + mPrefsManager.getUserDetails().getUserid());
+        mApiInteractor.setLikeorDislike(mView, "http://eeyuva.com/mlike_dislike/?article_id=" + article_id + "&type=" + type + "&module_id=" + module_id + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mDislikeListener);
+    }
+
+    @Override
+    public void getViewComments(String mModuleId) {
+        Log.i("api", "apilll" + "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&uid=" + mPrefsManager.getUserDetails().getUserid());
+        mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mCommentListArticleListener);
+
+    }
+
+    @Override
+    public void setPostComments(String trim, String mModuleId, String articleid) {
+        mApiInteractor.getPostComments(mView, "http://mobile.eeyuva.com/postcomments.php?uid=" + mPrefsManager.getUserDetails().getUserid() + "&modid="
+                + mModuleId + "&eid=" + articleid + "&msg=" + trim, mCommentPostListener);
+
+    }
+
 
     LoadListener<ArticleDetailResponse> mArticleListener = new LoadListener<ArticleDetailResponse>() {
         @Override
@@ -74,6 +98,56 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         @Override
         public void onSuccess(ArticleDetailResponse responseBody) {
             mView.setOtherArticleDetails(responseBody.getResponse());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+    LoadListener<CommentListResponse> mCommentListArticleListener = new LoadListener<CommentListResponse>() {
+        @Override
+        public void onSuccess(CommentListResponse responseBody) {
+            mView.setCommentsListToAdapter(responseBody.getResponse());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<CommentPostResponse> mCommentPostListener = new LoadListener<CommentPostResponse>() {
+        @Override
+        public void onSuccess(CommentPostResponse responseBody) {
+            mView.showErrorDialog(responseBody.getStatusInfo());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<LikeDislikeResponse> mDislikeListener = new LoadListener<LikeDislikeResponse>() {
+        @Override
+        public void onSuccess(LikeDislikeResponse responseBody) {
+            mView.showErrorDialog(responseBody.getStatusInfo());
         }
 
         @Override

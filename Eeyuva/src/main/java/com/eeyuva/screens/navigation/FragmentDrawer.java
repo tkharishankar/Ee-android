@@ -139,6 +139,11 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
 //                    case 22:
                 try {
                     if (!mDrawerItems.get(position).isHeader()) {
+                        if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("logout")) {
+                            Intent intent =
+                                    new Intent(getActivity(), LoginActivity.class);
+                            startActivity(intent);
+                        }
                         ResponseList rl = getPosition(position);
                         Intent intent =
                                 new Intent(getActivity(), ArticlesActivity.class);

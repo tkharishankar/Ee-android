@@ -27,6 +27,7 @@ import com.eeyuva.screens.gridpages.infiniteGalleryCoverFlow.InfiniteGalleryPage
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
+import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
@@ -94,9 +95,11 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
-        moveNext(mIndex);
+//        moveNext(mIndex);
         mHotModuleList = mPresenter.getPhotoGallery();
 
         HotPAGES = mHotModuleList.size();
@@ -120,16 +123,6 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
         hotpager.setPageMargin(0);
     }
 
-    private void moveNext(int i) {
-        if (mIndex == 1)
-            mTxtHotStories.setText("Images");
-        else if (mIndex == 2)
-            mTxtHotStories.setText("Videos");
-        else if (mIndex == 3)
-            mTxtHotStories.setText("User News");
-
-        mIndex = i;
-    }
 
     @Override
     public void setAdapter(PhotoListResponse responseBody) {
@@ -138,6 +131,16 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
 
     @Override
     public void moveToGalleryView() {
+
+    }
+
+    @Override
+    public void setAdapter(PhotoGalleryResponse responseBody) {
+
+    }
+
+    @Override
+    public void setAdapter(UserNewsListResponse responseBody) {
 
     }
 
@@ -202,17 +205,29 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
 
     @OnClick(R.id.imgList)
     public void onListClick() {
-//        moveNext(1);
+        moveNext(1);
     }
 
     @OnClick(R.id.imgPhoto)
     public void onPhotoClick() {
-//        moveNext(2);
+        moveNext(2);
     }
 
     @OnClick(R.id.imgViedo)
     public void onVideoClick() {
-//        moveNext(3);
+        moveNext(3);
+    }
+
+    @OnClick(R.id.imgComment)
+    public void onCommentClick() {
+    }
+
+    public void moveNext(int i) {
+        Intent intent =
+                new Intent(PhotoGalleryActivity.this, GridHomeActivity.class);
+        intent.putExtra("index", i);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -262,5 +277,11 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
         }
     }
 
+    public void gotoHome(View v)
+    {
+        Intent intent =
+                new Intent(PhotoGalleryActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
 
 }

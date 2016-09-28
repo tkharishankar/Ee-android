@@ -56,6 +56,27 @@ public class ArticleDetail {
 
     @SerializedName("categoryid")
     private String categoryid;
+    @SerializedName("likecount")
+    private String likecount;
+
+    public String getDislikecount() {
+        return dislikecount;
+    }
+
+    public void setDislikecount(String dislikecount) {
+        this.dislikecount = dislikecount;
+    }
+
+    public String getLikecount() {
+        return likecount;
+    }
+
+    public void setLikecount(String likecount) {
+        this.likecount = likecount;
+    }
+
+    @SerializedName("dislikecount")
+    private String dislikecount;
 
     public String getModulename() {
         return modulename;
@@ -72,6 +93,7 @@ public class ArticleDetail {
     public void setCategoryid(String categoryid) {
         this.categoryid = categoryid;
     }
+
     /**
      * @return The seqid
      */

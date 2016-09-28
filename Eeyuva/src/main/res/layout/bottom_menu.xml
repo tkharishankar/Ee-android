@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:padding="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/boxoffice" />
+        android:src="@drawable/bottom_home" />
 
     <View
         android:layout_width="2dp"
@@ -29,7 +29,7 @@
         android:layout_weight="1"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/music" />
+        android:src="@drawable/bottom_slide" />
 
     <View
         android:layout_width="2dp"
@@ -44,7 +44,7 @@
         android:layout_weight="1"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/jokes" />
+        android:src="@drawable/bottom_picture" />
 
     <View
         android:layout_width="2dp"
@@ -59,7 +59,7 @@
         android:layout_weight="1"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/fitness" />
+        android:src="@drawable/bottom_video" />
 
     <View
         android:layout_width="2dp"
@@ -74,5 +74,5 @@
         android:layout_weight="1"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/car" />
+        android:src="@drawable/bottom_chat" />
 </LinearLayout>

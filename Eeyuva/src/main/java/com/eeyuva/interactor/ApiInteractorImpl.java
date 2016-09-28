@@ -7,9 +7,13 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
+import com.eeyuva.screens.DetailPage.model.CommentListResponse;
+import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
+import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
+import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
@@ -49,8 +53,8 @@ public class ApiInteractorImpl implements ApiInteractor {
     }
 
     @Override
-    public void getModuleResponse(BaseView mView, String url, LoadListener<ModuleOrderResponse> mModuleListener) {
-        UiCallback<ModuleOrderResponse> callback = new UiCallback(mView, mModuleListener,true);
+    public void getModuleResponse(BaseView mView, String url, LoadListener<ModuleOrderResponse> mModuleListener, boolean b) {
+        UiCallback<ModuleOrderResponse> callback = new UiCallback(mView, mModuleListener,b);
         Call<ModuleOrderResponse> call = mApi.getModule(url);
         callback.start(call);
     }
@@ -63,8 +67,8 @@ public class ApiInteractorImpl implements ApiInteractor {
     }
 
     @Override
-    public void getHotModuleResponse(BaseView mView, String url, LoadListener<HotModuleResponse> mHotModuleListener) {
-        UiCallback<HotModuleResponse> callback = new UiCallback(mView, mHotModuleListener,true);
+    public void getHotModuleResponse(BaseView mView, String url, LoadListener<HotModuleResponse> mHotModuleListener, boolean b) {
+        UiCallback<HotModuleResponse> callback = new UiCallback(mView, mHotModuleListener,b);
         Call<HotModuleResponse> call = mApi.getHotNews(url);
         callback.start(call);
     }
@@ -101,6 +105,34 @@ public class ApiInteractorImpl implements ApiInteractor {
     public void getPhotoGalleryList(BaseView mView, String url, LoadListener<PhotoGalleryResponse> mPhotoGalleryListListener) {
         UiCallback<PhotoGalleryResponse> callback = new UiCallback(mView, mPhotoGalleryListListener,true);
         Call<PhotoGalleryResponse> call = mApi.getPhotoGalleryList(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void setLikeorDislike(BaseView mView, String url, LoadListener<LikeDislikeResponse> mOtherArticleListener) {
+        UiCallback<LikeDislikeResponse> callback = new UiCallback(mView, mOtherArticleListener,true);
+        Call<LikeDislikeResponse> call = mApi.setLikeorDislike(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getViewComments(BaseView mView, String url, LoadListener<CommentListResponse> mOtherArticleListener) {
+        UiCallback<CommentListResponse> callback = new UiCallback(mView, mOtherArticleListener,true);
+        Call<CommentListResponse> call = mApi.getCommentlist(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getPostComments(BaseView mView, String url, LoadListener<CommentPostResponse> mCommentListArticleListener) {
+        UiCallback<CommentPostResponse> callback = new UiCallback(mView, mCommentListArticleListener,true);
+        Call<CommentPostResponse> call = mApi.getPostComments(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getUserList(BaseView mView, String url, LoadListener<UserNewsListResponse> mUserNewsListListener) {
+        UiCallback<UserNewsListResponse> callback = new UiCallback(mView, mUserNewsListListener,true);
+        Call<UserNewsListResponse> call = mApi.geUserNews(url);
         callback.start(call);
     }
 

@@ -1,5 +1,6 @@
 package com.eeyuva.screens.home.infiniteHotCoverFlow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eeyuva.R;
+import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.home.HomeActivity;
+import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.squareup.picasso.Picasso;
 
 public class InfiniteHotFragment extends Fragment {
@@ -33,7 +36,7 @@ public class InfiniteHotFragment extends Fragment {
         LinearLayout l = (LinearLayout)
                 inflater.inflate(R.layout.hot_mf, container, false);
 
-        int pos = this.getArguments().getInt("pos");
+        final int pos = this.getArguments().getInt("pos");
 //        ImageView tv = (ImageView) l.findViewById(R.id.hotimage);
 //        Log.i("InfiniteHotFragmentpos","InfiniteHotFragmentpos"+pos);
 ////        tv.setImageResource(getItem(Integer.parseInt(HomeActivity.mHotModuleList.get(pos).getOrderid())));
@@ -50,7 +53,18 @@ public class InfiniteHotFragment extends Fragment {
         InfiniteHotLinearLayout root = (InfiniteHotLinearLayout) l.findViewById(R.id.hotroot);
         float scale = this.getArguments().getFloat("scale");
         root.setScaleBoth(scale);
-
+//        root.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent =
+//                        new Intent(getContext(), DetailActivity.class);
+////                intent.putExtra("article_id", articleid);
+//                intent.putExtra("module_id", HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModid());
+//                intent.putExtra("order_id", HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getEntityid());
+//                intent.putExtra("module_name", HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModulename());
+//                startActivity(intent);
+//            }
+//        });
         return l;
     }
 

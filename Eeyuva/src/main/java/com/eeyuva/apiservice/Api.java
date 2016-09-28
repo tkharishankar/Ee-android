@@ -2,9 +2,13 @@ package com.eeyuva.apiservice;
 
 
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
+import com.eeyuva.screens.DetailPage.model.CommentListResponse;
+import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
+import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
 import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
+import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
@@ -57,6 +61,18 @@ public interface Api {
 
     @GET
     Call<PhotoGalleryResponse> getPhotoGalleryList(@Url String url);
+
+    @GET
+    Call<LikeDislikeResponse> setLikeorDislike(@Url String url);
+
+    @GET
+    Call<CommentPostResponse> getPostComments(@Url String url);
+
+    @GET
+    Call<CommentListResponse> getCommentlist(@Url String url);
+
+    @GET
+    Call<UserNewsListResponse> geUserNews(@Url String url);
 
 
 //    @POST("driver/deviceid/")

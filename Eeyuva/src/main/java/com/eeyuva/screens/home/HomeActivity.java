@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -98,6 +99,9 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     @Bind(R.id.orderlist)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.Layscroll)
+    ScrollView Layscroll;
+
     ArticlesAdapter mArticleAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
@@ -139,10 +143,11 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         Log.i("Device", "device size" + getResources().getString(R.string.size));
         setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
+//        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         mModuleList = mPresenter.getModules();
         mHotModuleList = mPresenter.getHotModules();
 
@@ -468,6 +473,8 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     @Override
     public void setArticleAdapterNotify(List<ResponseItem> responseItem) {
         initialflag = true;
+        Layscroll.setVisibility(View.VISIBLE);
+
         initAdapter(responseItem);
     }
 
@@ -647,4 +654,6 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             e.printStackTrace();
         }
     }
+
+
 }

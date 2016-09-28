@@ -59,8 +59,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     }
 
     private String getSubString(String summary) {
-        if (summary.length() > 190)
-            return summary.substring(0, 190) + "...";
+        if (summary.length() > 290)
+            return summary.substring(0, 290) + "...";
         return summary;
     }
 

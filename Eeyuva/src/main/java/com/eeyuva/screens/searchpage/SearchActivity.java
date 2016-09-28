@@ -107,6 +107,8 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         mkeyword = getIntent().getExtras().getString("keyword");
@@ -334,5 +336,13 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void gotoHome(View v)
+    {
+        Intent intent =
+                new Intent(SearchActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 }

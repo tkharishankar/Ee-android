@@ -8,6 +8,7 @@ import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
+import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.utils.preferences.PrefsManager;
 
@@ -42,13 +43,18 @@ public class GridPresenterImpl implements GridContract.Presenter {
     }
 
     @Override
-    public void getPhotoList(String mModuleId) {
-        mApiInteractor.getPhotoList(mView, "http://mobile.eeyuva.com/getphotoalbums.php?modid=" + mModuleId, mPhotoListListener);
+    public void getPhotoList(String url, String mModuleId) {
+        mApiInteractor.getPhotoList(mView, url+"modid=" + mModuleId, mPhotoListListener);
     }
 
     @Override
-    public void getPhotoGalleryList(String trid) {
-        mApiInteractor.getPhotoGalleryList(mView, "http://mobile.eeyuva.com/getphotogallery.php?galid=" + trid, mPhotoGalleryListListener);
+    public void getPhotoGalleryList(String url, String trid) {
+        mApiInteractor.getPhotoGalleryList(mView, url+"galid=" + trid, mPhotoGalleryListListener);
+    }
+
+    @Override
+    public void getVideoGalleryList(String url, String trid) {
+        mApiInteractor.getPhotoGalleryList(mView, url+"galid=" + trid, mVideoGalleryListListener);
     }
 
     @Override
@@ -56,7 +62,28 @@ public class GridPresenterImpl implements GridContract.Presenter {
         return mPrefsManager.getPhotoGalleryList().getResponse();
     }
 
-    LoadListener<PhotoListResponse> mPhotoListListener = new LoadListener<PhotoListResponse>() {
+    @Override
+    public void getUserList(String url, String mModuleId) {
+        mApiInteractor.getUserList(mView, url, mUserNewsListListener);
+
+    }
+
+    LoadListener<UserNewsListResponse> mUserNewsListListener = new LoadListener<UserNewsListResponse>() {
+        @Override
+        public void onSuccess(UserNewsListResponse responseBody) {
+            mView.setAdapter(responseBody);
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    }; LoadListener<PhotoListResponse> mPhotoListListener = new LoadListener<PhotoListResponse>() {
         @Override
         public void onSuccess(PhotoListResponse responseBody) {
             mView.setAdapter(responseBody);
@@ -78,6 +105,23 @@ public class GridPresenterImpl implements GridContract.Presenter {
         public void onSuccess(PhotoGalleryResponse responseBody) {
             mPrefsManager.setPhotoGalleryList(responseBody);
             mView.moveToGalleryView();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<PhotoGalleryResponse> mVideoGalleryListListener = new LoadListener<PhotoGalleryResponse>() {
+        @Override
+        public void onSuccess(PhotoGalleryResponse responseBody) {
+            mView.setAdapter(responseBody);
         }
 
         @Override

@@ -23,5 +23,11 @@ public interface GridComponent {
 
     void inject(PhotoGalleryActivity photoGalleryActivity);
 
+    void inject(VideoGalleryActivity videoGalleryActivity);
+
+    void inject(VideoListActivity videoListActivity);
+
+    void inject(UserNewsActivity userNewsActivity);
+
     GridContract.Presenter gridPresenter();
 }
