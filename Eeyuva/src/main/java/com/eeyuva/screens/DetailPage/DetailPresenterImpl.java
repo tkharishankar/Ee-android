@@ -9,7 +9,6 @@ import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
 import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
 import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
-import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.utils.preferences.PrefsManager;
 
@@ -64,9 +63,9 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
     }
 
     @Override
-    public void getViewComments(String mModuleId) {
+    public void getViewComments(String mModuleId, String articleid) {
         Log.i("api", "apilll" + "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&uid=" + mPrefsManager.getUserDetails().getUserid());
-        mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mCommentListArticleListener);
+        mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
 
     }
 

@@ -1,6 +1,13 @@
 package com.eeyuva.screens.gridpages;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +18,8 @@ import android.widget.TextView;
 
 import com.eeyuva.R;
 import com.eeyuva.screens.home.ResponseList;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +53,17 @@ public class GridLoadAdapter extends RecyclerView.Adapter<GridLoadAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ResponseList rl = mModuleList.get(position);
         Log.i("mModuleList", "mModuleList" + rl.getTitle());
-        holder.mImgItem.setImageResource(getItem(Integer.parseInt(rl.getOrderid())));
+        holder.txtModulename.setText(rl.getTitle());
+//        holder.mImgItem.setImageResource(getItem(Integer.parseInt(rl.getOrderid())));
+        Bitmap mbitmap = ((BitmapDrawable) mContext.getResources().getDrawable(getItem(Integer.parseInt(rl.getOrderid())))).getBitmap();
+        Bitmap imageRounded = Bitmap.createBitmap(mbitmap.getWidth(), mbitmap.getHeight(), mbitmap.getConfig());
+        Canvas canvas = new Canvas(imageRounded);
+        Paint mpaint = new Paint();
+        mpaint.setAntiAlias(true);
+        mpaint.setShader(new BitmapShader(mbitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        canvas.drawRoundRect((new RectF(0, 0, mbitmap.getWidth(), mbitmap.getHeight())), 10, 10, mpaint);// Round Image Corner 100 100 100 100
+        holder.mImgItem.setImageBitmap(imageRounded);
+
         holder.mImgItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,10 +80,12 @@ public class GridLoadAdapter extends RecyclerView.Adapter<GridLoadAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView mImgItem;
+        public TextView txtModulename;
 
         public ViewHolder(View v) {
             super(v);
             mImgItem = (ImageView) v.findViewById(R.id.mImgItem);
+            txtModulename = (TextView) v.findViewById(R.id.txtModulename);
         }
     }
 

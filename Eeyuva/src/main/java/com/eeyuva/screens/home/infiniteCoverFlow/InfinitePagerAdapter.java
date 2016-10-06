@@ -11,7 +11,7 @@ import com.eeyuva.screens.home.HomeActivity;
 
 public class InfinitePagerAdapter extends FragmentPagerAdapter implements ViewPager.PageTransformer {
     public final static float BIG_SCALE = 1.0f;
-    public final static float SMALL_SCALE = 0.3f;
+    public final static float SMALL_SCALE = 0.7f;
     public final static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
 
     private InfiniteLinearLayout cur = null;

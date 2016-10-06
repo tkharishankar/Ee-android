@@ -24,6 +24,11 @@
         <item name="android:background">@color/transparent_orange</item>
     </style>
 
+
+    <style name="tab_bg" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="Theme.D1NoTitleDim" parent="android:style/Theme.Translucent">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>

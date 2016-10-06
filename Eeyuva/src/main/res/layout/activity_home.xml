@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -52,10 +51,10 @@
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_gravity="center"
+                                android:layout_marginBottom="-50dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="-10dp"
-                                android:layout_marginBottom="-50dp"
                                 android:gravity="center"
                                 android:src="@drawable/eeyuva_logo" />
 
@@ -104,10 +103,10 @@
                                 android:id="@+id/orderlist"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-
                                 android:layout_below="@+id/label"
                                 android:layout_gravity="center"
                                 android:keepScreenOn="false"
+                                android:nestedScrollingEnabled="false"
                                 android:padding="8dp"
                                 android:scrollbarSize="3dp"
                                 android:scrollbarThumbVertical="@color/colorPrimary"
@@ -134,8 +133,8 @@
                                 android:layout_below="@+id/imgLoadMore"
                                 android:layout_gravity="center"
                                 android:drawableLeft="@drawable/hot_stories"
-                                android:gravity="left|center"
                                 android:drawablePadding="5dp"
+                                android:gravity="left|center"
                                 android:padding="10dp"
                                 android:text="Hot Stories"
                                 android:textAllCaps="true"

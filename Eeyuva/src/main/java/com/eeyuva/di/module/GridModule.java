@@ -1,10 +1,12 @@
-package com.eeyuva.screens.gridpages;
+package com.eeyuva.di.module;
 
 import android.app.Activity;
 
 import com.eeyuva.di.module.ActivityModule;
 import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.gridpages.GridContract;
+import com.eeyuva.screens.gridpages.GridPresenterImpl;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.HomePresenterImpl;
 import com.eeyuva.utils.preferences.PrefsManager;

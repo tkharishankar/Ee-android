@@ -70,6 +70,14 @@
             android:name=".screens.gridpages.UserNewsActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
+        <activity
+            android:name=".screens.profile.ProfileActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.profile.ChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
 
         <!-- [START firebase_service] -->
         <service android:name="com.eeyuva.fcm.DeliverxFBMessagingService">

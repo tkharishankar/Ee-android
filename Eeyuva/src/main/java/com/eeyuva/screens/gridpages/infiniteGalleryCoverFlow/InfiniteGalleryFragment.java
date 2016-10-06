@@ -37,8 +37,8 @@ public class InfiniteGalleryFragment extends Fragment {
         ImageView imageView = (ImageView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
         TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
-        Picasso.with(getActivity()).load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).into(imageView);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Picasso.with(getActivity()).load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).placeholder(getActivity().getResources().getDrawable(R.drawable.y_logo)).into(imageView);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         label.setText(getSubString(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getTitle()));
 
         InfiniteGalleryLinearLayout root = (InfiniteGalleryLinearLayout) l.findViewById(R.id.hotroot);

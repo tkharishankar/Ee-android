@@ -22,20 +22,19 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.di.component.DaggerGridComponent;
+import com.eeyuva.di.component.GridComponent;
+import com.eeyuva.di.module.GridModule;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.gridpages.model.UserNewsList;
 import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
-import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeActivity;
-import com.eeyuva.screens.home.HomeContract;
-import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
-import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,14 @@
-package com.eeyuva.screens.gridpages;
+package com.eeyuva.di.component;
 
-import com.eeyuva.di.component.AppComponent;
-import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.di.scope.PerActivity;
-import com.eeyuva.screens.gridpages.model.PhotoList;
-import com.eeyuva.screens.home.HomeContract;
+import com.eeyuva.screens.gridpages.GridContract;
+import com.eeyuva.screens.gridpages.GridHomeActivity;
+import com.eeyuva.di.module.GridModule;
+import com.eeyuva.screens.gridpages.PhotoGalleryActivity;
+import com.eeyuva.screens.gridpages.PhotoListActivity;
+import com.eeyuva.screens.gridpages.UserNewsActivity;
+import com.eeyuva.screens.gridpages.VideoGalleryActivity;
+import com.eeyuva.screens.gridpages.VideoListActivity;
 
 import dagger.Component;
 

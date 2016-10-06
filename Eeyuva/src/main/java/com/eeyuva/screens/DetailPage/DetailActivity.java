@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import com.eeyuva.R;
 import com.eeyuva.di.component.DaggerDetailComponent;
 import com.eeyuva.di.component.DetailComponent;
 import com.eeyuva.di.module.DetailModule;
+import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherFragment;
 import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherPagerAdapter;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
@@ -55,7 +57,7 @@ import butterknife.OnClick;
 /**
  * Created by hari on 14/09/16.
  */
-public class DetailActivity extends ButterAppCompatActivity implements DetailContract.View {
+public class DetailActivity extends ButterAppCompatActivity implements DetailContract.View,InfiniteOtherFragment.CommmunicateListener{
     @Inject
     DetailContract.Presenter mPresenter;
 
@@ -117,8 +119,12 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     @Bind(R.id.mBtnShare)
     TextView mBtnShare;
 
+    @Bind(R.id.layScroll)
+    LinearLayout layScroll;
+
     ArticleDetail mArticleDetail;
     private int type;
+    private int mScrolledToPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,6 +241,36 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
         // Set margin for pages as a negative number, so a part of next and
         // previous pages will be showed
         hotpager.setPageMargin(0);
+        hotpager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        hotpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("position", "onPageSelected" + position);
+                mScrolledToPosition = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.layScroll)
+    public void LayOnclick() {
+
+        Log.i("onclick", "onclick" + mHotModuleList.get(hotpager.getCurrentItem()).getArticleid());
+        Log.i("onclick", "onclick" + mHotModuleList.get(hotpager.getCurrentItem()).getModulename());
     }
 
 
@@ -613,7 +649,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             final EditText comments = (EditText) dialogView.findViewById(R.id.mEdtMailid);
 
             mlistview = (RecyclerView) dialogView.findViewById(R.id.orderlist);
-            mPresenter.getViewComments(mModuleId);
+            mPresenter.getViewComments(mModuleId,mArticleDetail.getArticleid());
 
             mBtnok.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -657,5 +693,18 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
         mCommentsAdapter = new CommentsLoadAdapter(this, response);
         mlistview.setAdapter(mCommentsAdapter);
         mCommentsAdapter.notifyDataSetChanged();
+    }
+
+    public void gotoHome(View v) {
+        Intent intent =
+                new Intent(DetailActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showUpdatedDetails(String mArticleId) {
+        this.mArticleId=mArticleId;
+        mPresenter.getArticlesDetails(mModuleId, mArticleId);
+        mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
     }
 }

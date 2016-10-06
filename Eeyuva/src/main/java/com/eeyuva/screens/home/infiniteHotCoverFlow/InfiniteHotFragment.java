@@ -1,5 +1,6 @@
 package com.eeyuva.screens.home.infiniteHotCoverFlow;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 
 import com.eeyuva.R;
 import com.eeyuva.screens.DetailPage.DetailActivity;
+import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherFragment;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.squareup.picasso.Picasso;
 
 public class InfiniteHotFragment extends Fragment {
+
+    private CommmunicateListener commmunicateListener;
 
     public static Fragment newInstance(HomeActivity context, int pos, float scale) {
         Bundle b = new Bundle();
@@ -53,18 +57,13 @@ public class InfiniteHotFragment extends Fragment {
         InfiniteHotLinearLayout root = (InfiniteHotLinearLayout) l.findViewById(R.id.hotroot);
         float scale = this.getArguments().getFloat("scale");
         root.setScaleBoth(scale);
-//        root.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent =
-//                        new Intent(getContext(), DetailActivity.class);
-////                intent.putExtra("article_id", articleid);
-//                intent.putExtra("module_id", HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModid());
-//                intent.putExtra("order_id", HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getEntityid());
-//                intent.putExtra("module_name", HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModulename());
-//                startActivity(intent);
-//            }
-//        });
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                commmunicateListener.showUpdatedDetails(HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModid());
+            }
+        });
         return l;
     }
 
@@ -97,5 +96,21 @@ public class InfiniteHotFragment extends Fragment {
         if (summary.length() > 100)
             return summary.substring(0, 100) + "...";
         return summary;
+    }
+
+    public interface CommmunicateListener {
+
+        void showUpdatedDetails(String articleid);
+
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            commmunicateListener = (InfiniteHotFragment.CommmunicateListener) activity;
+        } catch (Exception e) {
+        }
     }
 }

@@ -38,6 +38,7 @@ import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
 import com.eeyuva.screens.home.hotNewsCoverFlow.HotNewsCoverFlowAdapter;
 import com.eeyuva.screens.home.infiniteCoverFlow.InfinitePagerAdapter;
+import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotFragment;
 import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
@@ -58,7 +59,7 @@ import me.crosswall.lib.coverflow.core.LinkagePagerContainer;
 /**
  * Created by hari on 05/09/16.
  */
-public class HomeActivity extends ButterAppCompatActivity implements HomeContract.View, HomeContract.AdapterCallBack {
+public class HomeActivity extends ButterAppCompatActivity implements HomeContract.View, HomeContract.AdapterCallBack, InfiniteHotFragment.CommmunicateListener {
 
     @Inject
     HomeContract.Presenter mPresenter;
@@ -119,7 +120,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     public static int PAGES = 0;
     // You can choose a bigger number for LOOPS, but you know, nobody will fling
     // more than 1000 times just in order to test your "infinite" ViewPager :D
-    public static int LOOPS = 100;
+    public static int LOOPS = 10;
     public static int FIRST_PAGE;
 
     public InfinitePagerAdapter infinitePagerAdapter;
@@ -130,7 +131,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     public static int HotPAGES = 0;
     // You can choose a bigger number for LOOPS, but you know, nobody will fling
     // more than 1000 times just in order to test your "infinite" ViewPager :D
-    public static int HotLOOPS = 100;
+    public static int HotLOOPS = 10;
     public static int HotFIRST_PAGE;
 
 
@@ -174,14 +175,24 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
         // Set margin for pages as a negative number, so a part of next and
         // previous pages will be showed
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            // Do something for lollipop and above versions
-            pager.setPageMargin(-700);
-        } else {
-            // do something for phones running an SDK before lollipop
-            pager.setPageMargin(-450);
-        }
+//        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+//        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            // Do something for lollipop and above versions
+//            pager.setPageMargin(-700);
+//        } else {
+////         do something for phones running an SDK before lollipop
+//            pager.setPageMargin(-400);
+//        }
+        if (getResources().getString(R.string.size).equals("mdpi"))
+            pager.setPageMargin(-600);
+        else if (getResources().getString(R.string.size).equals("hdpi"))
+            pager.setPageMargin(-650);
+        else if (getResources().getString(R.string.size).equals("xhdpi"))
+            pager.setPageMargin(-650);
+        else if (getResources().getString(R.string.size).equals("xxhdpi"))
+            pager.setPageMargin(-650);
+
+        Log.i("screen size", "screen" + getResources().getString(R.string.dimens));
 
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -401,6 +412,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         intent.putExtra("index", i);
         startActivity(intent);
     }
+
     private void initAdapter(List<ResponseItem> responseItem) {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(this, 1);
@@ -497,6 +509,23 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         intent.putExtra("order_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getOrderid());
         intent.putExtra("module_name", mModuleList.get(mScrolledToPosition % mModuleList.size()).getTitle());
         startActivity(intent);
+    }
+
+    @Override
+    public void showUpdatedDetails(String module_id) {
+        for (ModuleList ml : mHotModuleList) {
+            if (ml.getModid().equals(module_id)) {
+                Intent intent =
+                        new Intent(HomeActivity.this, DetailActivity.class);
+//                intent.putExtra("article_id", ml.getModid());
+//                intent.putExtra("module_id", module_id);
+////                intent.putExtra("order_id", mHotModuleList.get(0).);
+//                intent.putExtra("module_name", ml.getModulename());
+                startActivity(intent);
+                finish();
+            }
+        }
+
     }
 
     class MyListPagerAdapter extends PagerAdapter {
@@ -655,5 +684,8 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         }
     }
 
+    public void gotoHome(View v) {
+
+    }
 
 }

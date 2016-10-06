@@ -1,7 +1,9 @@
 package com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotLinearLayout;
 import com.squareup.picasso.Picasso;
 
 public class InfiniteOtherFragment extends Fragment {
+
+    private CommmunicateListener commmunicateListener;
 
     public static Fragment newInstance(DetailActivity context, int pos, float scale) {
         Bundle b = new Bundle();
@@ -34,7 +38,7 @@ public class InfiniteOtherFragment extends Fragment {
         LinearLayout l = (LinearLayout)
                 inflater.inflate(R.layout.other_mf, container, false);
 
-        int pos = this.getArguments().getInt("pos");
+        final int pos = this.getArguments().getInt("pos");
         ImageView imageView = (ImageView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
         TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
@@ -46,7 +50,14 @@ public class InfiniteOtherFragment extends Fragment {
         InfiniteOtherLinearLayout root = (InfiniteOtherLinearLayout) l.findViewById(R.id.hotroot);
         float scale = this.getArguments().getFloat("scale");
         root.setScaleBoth(scale);
-
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commmunicateListener.showUpdatedDetails(DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getArticleid());
+                Log.i("onclick", "onclick" + DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getArticleid());
+                Log.i("onclick", "onclick" + DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getModulename());
+            }
+        });
         return l;
     }
 
@@ -54,5 +65,22 @@ public class InfiniteOtherFragment extends Fragment {
         if (summary.length() > 100)
             return summary.substring(0, 100) + "...";
         return summary;
+    }
+
+
+    public interface CommmunicateListener {
+
+        void showUpdatedDetails(String articleid);
+
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            commmunicateListener = (CommmunicateListener) activity;
+        } catch (Exception e) {
+        }
     }
 }

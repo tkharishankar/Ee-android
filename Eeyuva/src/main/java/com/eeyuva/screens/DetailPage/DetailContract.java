@@ -30,7 +30,7 @@ public interface DetailContract {
 
         void setLikeOrDislike(String article_id, String type, String module_id, String uid);
 
-        void getViewComments(String mModuleId);
+        void getViewComments(String mModuleId, String articleid);
 
         void setPostComments(String trim, String mModuleId, String articleid);
     }

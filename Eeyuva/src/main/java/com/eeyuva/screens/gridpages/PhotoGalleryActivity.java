@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,14 +21,15 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.di.component.DaggerGridComponent;
+import com.eeyuva.di.component.GridComponent;
+import com.eeyuva.di.module.GridModule;
 import com.eeyuva.screens.gridpages.infiniteGalleryCoverFlow.InfiniteGalleryPagerAdapter;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.HomeActivity;
-import com.eeyuva.screens.home.ResponseList;
-import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
 

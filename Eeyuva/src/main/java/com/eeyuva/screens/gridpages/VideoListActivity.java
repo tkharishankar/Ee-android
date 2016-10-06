@@ -22,6 +22,9 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.di.component.DaggerGridComponent;
+import com.eeyuva.di.component.GridComponent;
+import com.eeyuva.di.module.GridModule;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;

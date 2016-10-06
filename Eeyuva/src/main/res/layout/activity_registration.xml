@@ -134,7 +134,6 @@
         android:background="@drawable/rounded_corner_stroke_grey"
         android:drawableRight="@drawable/confirm_password"
         android:hint="@string/confirmpassword"
-
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:padding="10dp"
