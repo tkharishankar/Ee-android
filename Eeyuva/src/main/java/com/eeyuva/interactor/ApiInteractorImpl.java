@@ -17,6 +17,9 @@ import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
+import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.EditResponse;
+import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.registration.RegistrationResponse;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 import com.eeyuva.utils.preferences.PrefsManager;
@@ -133,6 +136,27 @@ public class ApiInteractorImpl implements ApiInteractor {
     public void getUserList(BaseView mView, String url, LoadListener<UserNewsListResponse> mUserNewsListListener) {
         UiCallback<UserNewsListResponse> callback = new UiCallback(mView, mUserNewsListListener,true);
         Call<UserNewsListResponse> call = mApi.geUserNews(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getProfile(BaseView mView, String url, LoadListener<ProfileResponse> mProfileListener) {
+        UiCallback<ProfileResponse> callback = new UiCallback(mView, mProfileListener,true);
+        Call<ProfileResponse> call = mApi.getProfile(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getEditProfile(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener) {
+        UiCallback<EditResponse> callback = new UiCallback(mView, mEditProfileListener,true);
+        Call<EditResponse> call = mApi.getEditProfile(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void getUserAlerts(BaseView mView, String url, LoadListener<AlertResponse> mAlertListner) {
+        UiCallback<AlertResponse> callback = new UiCallback(mView, mAlertListner,true);
+        Call<AlertResponse> call = mApi.getUserAlert(url);
         callback.start(call);
     }
 

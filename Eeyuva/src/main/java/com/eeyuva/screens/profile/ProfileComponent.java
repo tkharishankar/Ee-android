@@ -1,8 +1,9 @@
 package com.eeyuva.screens.profile;
 
 import com.eeyuva.di.component.AppComponent;
-import com.eeyuva.di.module.GridModule;
 import com.eeyuva.di.scope.PerActivity;
+import com.eeyuva.screens.profile.alerts.AlertActivity;
+import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 
 import dagger.Component;
 
@@ -18,6 +19,8 @@ public interface ProfileComponent {
     void inject(ProfileActivity profileActivity);
 
     void inject(ChangePasswordActivity changePasswordActivity);
+
+    void inject(AlertActivity alertActivity);
 
     ProfileContract.Presenter profilePresenter();
 }

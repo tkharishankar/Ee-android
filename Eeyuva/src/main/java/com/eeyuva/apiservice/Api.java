@@ -12,6 +12,9 @@ import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
+import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.EditResponse;
+import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import okhttp3.MultipartBody;
@@ -73,6 +76,15 @@ public interface Api {
 
     @GET
     Call<UserNewsListResponse> geUserNews(@Url String url);
+
+    @GET
+    Call<ProfileResponse> getProfile(@Url String url);
+
+    @GET
+    Call<EditResponse> getEditProfile(@Url String url);
+
+    @GET
+    Call<AlertResponse> getUserAlert(@Url String url);
 
 
 //    @POST("driver/deviceid/")

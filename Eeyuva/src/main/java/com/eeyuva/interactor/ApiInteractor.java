@@ -18,6 +18,10 @@ import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
+import com.eeyuva.screens.profile.ProfileContract;
+import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.EditResponse;
+import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.registration.RegistrationContract;
 import com.eeyuva.screens.registration.RegistrationResponse;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
@@ -53,5 +57,11 @@ public interface ApiInteractor {
     void getPostComments(BaseView mView, String url, LoadListener<CommentPostResponse> mCommentListArticleListener);
 
     void getUserList(BaseView mView, String url, LoadListener<UserNewsListResponse> mUserNewsListListener);
+
+    void getProfile(BaseView mView, String s, LoadListener<ProfileResponse> mProfileListener);
+
+    void getEditProfile(BaseView mView, String s, LoadListener<EditResponse> mEditProfileListener);
+
+    void getUserAlerts(BaseView mView, String s, LoadListener<AlertResponse> mAlertListner);
 }
 

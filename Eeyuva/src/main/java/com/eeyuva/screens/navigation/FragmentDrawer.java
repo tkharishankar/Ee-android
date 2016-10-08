@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,20 +21,16 @@ import android.widget.TextView;
 import com.eeyuva.R;
 import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.authentication.LoginResponse;
-import com.eeyuva.screens.home.HomeActivity;
-import com.eeyuva.screens.home.ModuleList;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.profile.ChangePasswordActivity;
-import com.eeyuva.screens.profile.ProfileActivity;
+import com.eeyuva.screens.profile.alerts.AlertActivity;
+import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import io.socket.client.Url;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +50,8 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
 
     public RelativeLayout LayProfile;
 
+    Button mBtnStuff, mBtnAlert;
+
     ImageView imgProfile;
     TextView txtName;
     public List<ResponseList> mMenuModuleList = new ArrayList<ResponseList>();
@@ -70,12 +68,33 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         mDrawerList = (ListView) view.findViewById(R.id.list);
         imgProfile = (ImageView) view.findViewById(R.id.imgProfile);
         txtName = (TextView) view.findViewById(R.id.txtName);
+        mBtnStuff = (Button) view.findViewById(R.id.mBtnStuff);
+        mBtnAlert = (Button) view.findViewById(R.id.mBtnAlerts);
+
         LayProfile = (RelativeLayout) view.findViewById(R.id.LayProfile);
         LayProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent =
                         new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        mBtnStuff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =
+                        new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        mBtnAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =
+                        new Intent(getActivity(), AlertActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }

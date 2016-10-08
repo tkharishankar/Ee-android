@@ -23,73 +23,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/LayBottom"
-                android:background="@color/light_gray_line"
                 android:layout_alignParentTop="true"
+                android:background="@color/light_gray_line"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/tool_bar"
                     layout="@layout/toolbar"></include>
 
-                <ImageView
-                    android:id="@+id/imgProfile"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:clickable="true"
-                    android:src="@drawable/ic_profile_default" />
 
-                <TextView
-                    android:id="@+id/mTxtName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Name"
-                    android:textAllCaps="true" />
 
-                <TextView
-                    android:id="@+id/mTxtMail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Mail id"
-                    android:padding="5dp"
-                    android:textAllCaps="true" />
+                        <ImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:clickable="true"
+                            android:src="@drawable/ic_profile_default" />
 
-                <TextView
-                    android:id="@+id/mTxtEditProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Edit Profile"
-                    android:background="@drawable/rounded_corner_stroke_grey"
-                    android:textAllCaps="true" />
+                        <TextView
+                            android:id="@+id/mTxtName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Name"
+                            android:textAllCaps="true" />
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tab_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/toolbar"
-                    android:background="@color/home_dark_pink"
-                    app:tabTextColor="@color/black"
-                    app:tabSelectedTextColor="@color/home_dark_pink"
-                    app:tabIndicatorColor="@color/home_dark_pink"
-                    android:layout_marginTop="10dp"
-                    android:elevation="1dp"
-                    android:minHeight="?attr/actionBarSize"
-                    android:theme="@style/tab_bg"/>
+                        <TextView
+                            android:id="@+id/mTxtMail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Mail id"
+                            android:textAllCaps="true" />
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_below="@id/tab_layout"/>
+                        <TextView
+                            android:id="@+id/mTxtEditProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_corner_stroke_grey"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Edit Profile"
+                            android:textAllCaps="true" />
+
+                        <android.support.design.widget.TabLayout
+                            android:id="@+id/tab_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/toolbar"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/home_dark_pink"
+                            android:nestedScrollingEnabled="false"
+                            android:elevation="1dp"
+                            android:minHeight="?attr/actionBarSize"
+                            android:theme="@style/tab_bg"
+                            app:tabIndicatorColor="@color/home_dark_pink"
+                            app:tabSelectedTextColor="@color/home_dark_pink"
+                            app:tabTextColor="@color/black" />
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/pager"
+                            android:layout_width="match_parent"
+                            android:nestedScrollingEnabled="false"
+                            android:layout_height="fill_parent"
+                            android:layout_below="@id/tab_layout" />
+
             </LinearLayout>
 
             <LinearLayout

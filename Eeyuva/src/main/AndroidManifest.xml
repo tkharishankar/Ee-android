@@ -71,11 +71,15 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
-            android:name=".screens.profile.ProfileActivity"
+            android:name=".screens.profile.userdetails.ProfileActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".screens.profile.ChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.profile.alerts.AlertActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
 

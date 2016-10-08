@@ -1,11 +1,11 @@
-package com.eeyuva.screens.profile;
+package com.eeyuva.screens.profile.alerts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,13 +18,23 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
+import com.eeyuva.screens.profile.DaggerProfileComponent;
+import com.eeyuva.screens.profile.ProfileComponent;
+import com.eeyuva.screens.profile.ProfileContract;
+import com.eeyuva.screens.profile.ProfileModule;
+import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.screens.searchpage.SearchLoadAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,7 +45,7 @@ import butterknife.OnClick;
  * Created by hari on 01/10/16.
  */
 
-public class ProfileActivity extends ButterAppCompatActivity implements ProfileContract.View {
+public class AlertActivity extends ButterAppCompatActivity implements ProfileContract.View, ProfileContract.AdapterCallBack {
 
 
     @Inject
@@ -58,10 +68,24 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
     ImageView imgComment;
     FragmentDrawer drawerFragment;
 
+
+    @Bind(R.id.orderlist)
+    RecyclerView mRecyclerView;
+
+    @Bind(R.id.txtHotStories)
+    TextView mTxtHotStories;
+
+    @Bind(R.id.txtAlertCount)
+    TextView txtAlertCount;
+
+    AlertAdapter mAlertAdapter;
+
+    RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_alerts);
         initComponent();
         mPresenter.setView(this);
 
@@ -74,33 +98,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Personal"));
-        tabLayout.addTab(tabLayout.newTab().setText("Professional"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
+        mPresenter.getUserAlerts();
     }
 
     public void initComponent() {
@@ -158,7 +156,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
     @OnClick(R.id.imgHome)
     public void onHomeClick() {
         Intent intent =
-                new Intent(ProfileActivity.this, HomeActivity.class);
+                new Intent(AlertActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
@@ -179,7 +177,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
 
     public void moveNext(int i) {
         Intent intent =
-                new Intent(ProfileActivity.this, GridHomeActivity.class);
+                new Intent(AlertActivity.this, GridHomeActivity.class);
         intent.putExtra("index", i);
         startActivity(intent);
     }
@@ -208,7 +206,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
                     if (sKeyword != null && sKeyword.length() != 0) {
                         mDialog.dismiss();
                         Intent intent =
-                                new Intent(ProfileActivity.this, SearchActivity.class);
+                                new Intent(AlertActivity.this, SearchActivity.class);
                         intent.putExtra("keyword", sKeyword);
                         startActivity(intent);
                         return;
@@ -232,7 +230,32 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
 
     public void gotoHome(View v) {
         Intent intent =
-                new Intent(ProfileActivity.this, HomeActivity.class);
+                new Intent(AlertActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void setImage(String url) {
+
+    }
+
+    @Override
+    public void setUserDetails(ProfileResponse responseBody) {
+
+    }
+
+    @Override
+    public void setAdapter(List<AlertList> alertList) {
+        try {
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new GridLayoutManager(this, 1);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAlertAdapter = new AlertAdapter(this, this, alertList);
+            mRecyclerView.setAdapter(mAlertAdapter);
+            mAlertAdapter.notifyDataSetChanged();
+            txtAlertCount.setText("" + alertList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

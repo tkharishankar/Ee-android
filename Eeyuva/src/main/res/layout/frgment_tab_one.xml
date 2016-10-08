@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:text="Anirudh"
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 
@@ -104,7 +103,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:text="+91 9090909090"
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 
@@ -138,7 +136,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:text="Male"
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 
@@ -172,7 +169,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:text="15/06/1991"
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 
@@ -206,7 +202,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:text="about me"
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 

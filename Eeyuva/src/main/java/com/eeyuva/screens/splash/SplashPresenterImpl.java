@@ -24,10 +24,12 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         this.mApiInteractor = mApiInteractor;
         this.mPrefsManager = prefsManager;
     }
+
     @Override
     public void getHomeModule() {
-        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener,false);
+        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener, false);
     }
+
     @Override
     public void moveForward() {
         getHomeModule();
@@ -46,11 +48,11 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     }
 
-    LoadListener<ModuleOrderResponse> mModuleListener= new LoadListener<ModuleOrderResponse>() {
+    LoadListener<ModuleOrderResponse> mModuleListener = new LoadListener<ModuleOrderResponse>() {
         @Override
         public void onSuccess(ModuleOrderResponse responseBody) {
             mPrefsManager.setModules(responseBody);
-            mApiInteractor.getHotModuleResponse(mView, "http://mobile.eeyuva.com/getheaderservice.php", mHotModuleListener,false);
+            mApiInteractor.getHotModuleResponse(mView, "http://mobile.eeyuva.com/getheaderservice.php", mHotModuleListener, false);
 
 
         }
@@ -66,11 +68,11 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         }
     };
 
-    LoadListener<HotModuleResponse> mHotModuleListener=new LoadListener<HotModuleResponse>() {
+    LoadListener<HotModuleResponse> mHotModuleListener = new LoadListener<HotModuleResponse>() {
         @Override
         public void onSuccess(HotModuleResponse responseBody) {
             mPrefsManager.setHotModules(responseBody);
-            if (mPrefsManager.getUserDetails()!= null)
+            if (mPrefsManager.getUserDetails() != null)
                 mView.moveToDashboard();
             else
                 mView.moveToDashboard();

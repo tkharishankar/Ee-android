@@ -1,4 +1,4 @@
-package com.eeyuva.screens.profile;
+package com.eeyuva.screens.profile.userdetails;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

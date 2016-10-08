@@ -68,13 +68,27 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="-50dp"
-                                android:overScrollMode="never" />
+                                android:overScrollMode="never"
+                                android:visibility="gone"/>
+
+                            <me.crosswall.lib.coverflow.core.LinkagePagerContainer
+                                android:id="@+id/pager_container"
+                                android:layout_width="match_parent"
+                                android:layout_below="@+id/imgTopLogo"
+                                android:layout_height="150dp">
+
+                                <android.support.v4.view.LinkagePager
+                                    android:layout_width="110dp"
+                                    android:layout_height="110dp"
+                                    android:layout_gravity="center"/>
+
+                            </me.crosswall.lib.coverflow.core.LinkagePagerContainer>
 
                             <ImageView
                                 android:id="@+id/trilabel"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:layout_below="@+id/infiniteviewpager"
+                                android:layout_below="@+id/pager_container"
                                 android:layout_centerHorizontal="true"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="10dp"

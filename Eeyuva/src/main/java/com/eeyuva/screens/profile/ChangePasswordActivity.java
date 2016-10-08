@@ -24,7 +24,11 @@ import com.eeyuva.R;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
+import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -207,5 +211,20 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
         Intent intent =
                 new Intent(ChangePasswordActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void setImage(String url) {
+
+    }
+
+    @Override
+    public void setUserDetails(ProfileResponse responseBody) {
+
+    }
+
+    @Override
+    public void setAdapter(List<AlertList> alertList) {
+
     }
 }

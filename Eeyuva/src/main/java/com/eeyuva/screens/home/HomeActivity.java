@@ -3,6 +3,7 @@ package com.eeyuva.screens.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.LinkagePager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -54,6 +55,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
+import me.crosswall.lib.coverflow.core.LinkageCoverTransformer;
 import me.crosswall.lib.coverflow.core.LinkagePagerContainer;
 
 /**
@@ -95,6 +97,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     private HotNewsCoverFlowAdapter mHotNewsAdapter;
     private TextSwitcher mTitle;
     public static List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    public static List<ResponseList> mFinalModuleList = new ArrayList<ResponseList>();
     public static List<ModuleList> mHotModuleList = new ArrayList<ModuleList>();
 
     @Bind(R.id.orderlist)
@@ -151,6 +154,10 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
         mModuleList = mPresenter.getModules();
         mHotModuleList = mPresenter.getHotModules();
+
+        for (int i = 0; i <= 1000; i++) {
+            mFinalModuleList.addAll(mModuleList);
+        }
 
         PAGES = mModuleList.size();
         FIRST_PAGE = PAGES * LOOPS / 2;
@@ -370,16 +377,61 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         // previous pages will be showed
         hotpager.setPageMargin(0);
 
+
+        LinkagePagerContainer mContainer = (LinkagePagerContainer) findViewById(R.id.pager_container);
+
+        final LinkagePager pager = mContainer.getViewPager();
+
+        final PagerAdapter adapter = new MyPagerAdapter();
+
+        pager.setAdapter(adapter);
+
+        pager.setOffscreenPageLimit(3);
+
+        pager.setClipChildren(false);
+
+        pager.setPageMargin(20);
+
+        pager.setPageTransformer(false, new LinkageCoverTransformer(0.3f, 0f, 0f, 0f));
+
+        pager.setCurrentItem(mFinalModuleList.size() / 2);
+        pager.addOnPageChangeListener(new LinkagePager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.i("position", "onPageScrolled" + position);
+                if (!initialflag) {
+                    label.setText(mFinalModuleList.get((position % mFinalModuleList.size())).getTitle());
+                    mPresenter.getArticles(mFinalModuleList.get((position % mFinalModuleList.size())).getModuleid());
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("position", "onPageSelected" + position);
+                mScrolledToPosition = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.i("position", "onPageScrollStateChanged" + state);
+                Log.i("position", "mScrolledToPosition" + mScrolledToPosition);
+
+                if (state == 0) {
+                    label.setText(mFinalModuleList.get((mScrolledToPosition % mFinalModuleList.size())).getTitle());
+                    mPresenter.getArticles(mFinalModuleList.get((mScrolledToPosition % mFinalModuleList.size())).getModuleid());
+                }
+            }
+        });
     }
 
     @OnClick(R.id.imgLoadMore)
     public void onLoadMoreClick() {
         Intent intent =
                 new Intent(HomeActivity.this, ArticlesActivity.class);
-        intent.putExtra("index", mModuleList.size());
-        intent.putExtra("module_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getModuleid());
-        intent.putExtra("order_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getOrderid());
-        intent.putExtra("module_name", mModuleList.get(mScrolledToPosition % mModuleList.size()).getTitle());
+        intent.putExtra("index", mFinalModuleList.size());
+        intent.putExtra("module_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getModuleid());
+        intent.putExtra("order_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getOrderid());
+        intent.putExtra("module_name", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getTitle());
         startActivity(intent);
     }
 
@@ -505,26 +557,26 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         Intent intent =
                 new Intent(HomeActivity.this, DetailActivity.class);
         intent.putExtra("article_id", articleid);
-        intent.putExtra("module_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getModuleid());
-        intent.putExtra("order_id", mModuleList.get(mScrolledToPosition % mModuleList.size()).getOrderid());
-        intent.putExtra("module_name", mModuleList.get(mScrolledToPosition % mModuleList.size()).getTitle());
+        intent.putExtra("module_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getModuleid());
+        intent.putExtra("order_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getOrderid());
+        intent.putExtra("module_name", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getTitle());
         startActivity(intent);
     }
 
     @Override
     public void showUpdatedDetails(String module_id) {
-        for (ModuleList ml : mHotModuleList) {
-            if (ml.getModid().equals(module_id)) {
-                Intent intent =
-                        new Intent(HomeActivity.this, DetailActivity.class);
-//                intent.putExtra("article_id", ml.getModid());
-//                intent.putExtra("module_id", module_id);
-////                intent.putExtra("order_id", mHotModuleList.get(0).);
-//                intent.putExtra("module_name", ml.getModulename());
-                startActivity(intent);
-                finish();
-            }
-        }
+//        for (ModuleList ml : mHotModuleList) {
+//            if (ml.getModid().equals(module_id)) {
+//                Intent intent =
+//                        new Intent(HomeActivity.this, DetailActivity.class);
+////                intent.putExtra("article_id", ml.getModid());
+////                intent.putExtra("module_id", module_id);
+//////                intent.putExtra("order_id", mHotModuleList.get(0).);
+////                intent.putExtra("module_name", ml.getModulename());
+//                startActivity(intent);
+//                finish();
+//            }
+//        }
 
     }
 
@@ -584,7 +636,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView view = new ImageView(HomeActivity.this);
             Log.i("position", "position" + position);
-            view.setImageResource(getItem(Integer.parseInt(mModuleList.get(position).getOrderid())));
+            view.setImageResource(getItem(Integer.parseInt(mFinalModuleList.get(position).getOrderid())));
             container.addView(view);
             return view;
         }
@@ -596,7 +648,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
         @Override
         public int getCount() {
-            return mModuleList.size();
+            return mFinalModuleList.size();
         }
 
         @Override
