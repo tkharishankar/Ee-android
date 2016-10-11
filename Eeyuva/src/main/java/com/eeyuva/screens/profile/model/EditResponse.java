@@ -19,7 +19,6 @@ public class EditResponse {
     @Expose
     private String sTATUSINFO;
     @SerializedName("RESPONSE")
-    @Expose
     private List<List<String>> rESPONSE = new ArrayList<List<String>>();
 
     /**

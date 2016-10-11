@@ -25,6 +25,7 @@ import com.eeyuva.R;
 import com.eeyuva.di.component.DaggerGridComponent;
 import com.eeyuva.di.component.GridComponent;
 import com.eeyuva.di.module.GridModule;
+import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
@@ -104,7 +105,7 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
         mTitle = getIntent().getExtras().getString("title");
         mModuleId = getIntent().getExtras().getString("module_id");
         mTxtHotStories.setText(mTitle);
-        mPresenter.getUserList("http://mobile.eeyuva.com/getmodusernews.php?mid="+mModuleId,"");
+        mPresenter.getUserList("http://mobile.eeyuva.com/getmodusernews.php?mid=" + mModuleId, "");
 
     }
 
@@ -116,9 +117,9 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
     @Override
     public void moveToGalleryView() {
 //        if (mIndexx == 1) {
-            Intent intent =
-                    new Intent(UserNewsActivity.this, VideoGalleryActivity.class);
-            startActivity(intent);
+        Intent intent =
+                new Intent(UserNewsActivity.this, VideoGalleryActivity.class);
+        startActivity(intent);
 //        }
     }
 
@@ -282,7 +283,8 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
                 new Intent(UserNewsActivity.this, VideoGalleryActivity.class);
         intent.putExtra("trid", rl.getTrid());
         intent.putExtra("title", mTitle);
-        startActivity(intent);     }
+        startActivity(intent);
+    }
 
     @Override
     public void setSelectItem(PhotoGalleryList rl) {
@@ -291,12 +293,17 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
 
     @Override
     public void setSelectItem(UserNewsList rl) {
-
+        Intent intent =
+                new Intent(UserNewsActivity.this, DetailActivity.class);
+        intent.putExtra("module_id", rl.getModuleid());
+        intent.putExtra("article_id", rl.getArticleid());
+        intent.putExtra("entity_id", rl.getEntityId());
+        intent.putExtra("type", "usernews");
+        startActivity(intent);
     }
 
 
-    public void gotoHome(View v)
-    {
+    public void gotoHome(View v) {
         Intent intent =
                 new Intent(UserNewsActivity.this, HomeActivity.class);
         startActivity(intent);

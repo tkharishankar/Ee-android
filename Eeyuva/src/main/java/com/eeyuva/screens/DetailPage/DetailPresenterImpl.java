@@ -46,9 +46,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void getOtherArticlesDetails(String mModuleId, String mArticleId) {
-
         mApiInteractor.getOtherArticlesDetails(mView, "http://mobile.eeyuva.com/getrelatedarticles.php?articleid=" + mArticleId + "&modid=" + mModuleId, mOtherArticleListener);
-
     }
 
     @Override
@@ -64,9 +62,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void getViewComments(String mModuleId, String articleid) {
-        Log.i("api", "apilll" + "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&uid=" + mPrefsManager.getUserDetails().getUserid());
         mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
-
     }
 
     @Override
@@ -76,11 +72,29 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     }
 
+    @Override
+    public void getArticlesDetails(String mArticleId) {
+        mApiInteractor.getArticlesDetails(mView, "http://mobile.eeyuva.com/getmodulewiseusernewsdetails.php?arid=" + mArticleId, mArticleListener);
+
+    }
+
+    @Override
+    public void getOtherArticlesDetails(String mModuleId, String mArticleId, String mEntityId) {
+        mApiInteractor.getOtherArticlesDetails(mView, "http://mobile.eeyuva.com/getrelatedarticles.php?articleid=" + mArticleId + "&modid=" + mModuleId + "&ufl=" + mEntityId, mOtherArticleListener);
+    }
+
+    @Override
+    public void getArticlesNewsDetails(String mArticleId) {
+        mApiInteractor.getArticlesDetails(mView, "http://mobile.eeyuva.com/getusernewsdetails.php?uid=" + mPrefsManager.getUserDetails().getUserid() + "&arid=" + mArticleId, mArticleListener);
+
+    }
+
 
     LoadListener<ArticleDetailResponse> mArticleListener = new LoadListener<ArticleDetailResponse>() {
         @Override
         public void onSuccess(ArticleDetailResponse responseBody) {
-            mView.setArticleDetails(responseBody.getResponse().get(0));
+            if (responseBody.getResponse().size() != 0)
+                mView.setArticleDetails(responseBody.getResponse().get(0));
         }
 
         @Override

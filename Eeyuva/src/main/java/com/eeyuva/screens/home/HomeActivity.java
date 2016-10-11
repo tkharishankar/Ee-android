@@ -299,7 +299,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 ////        tab = findViewById(R.id.tab);
 //        final LinkagePager cover = customPagerContainer.getViewPager();
 //
-//        PagerAdapter coverAdapter = new MyPagerAdapter();
+//        StuffPagerAdapter coverAdapter = new MyPagerAdapter();
 //        cover.setAdapter(coverAdapter);
 //        cover.setOffscreenPageLimit(mModuleList.size());
 //
@@ -393,15 +393,18 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         pager.setPageMargin(20);
 
         pager.setPageTransformer(false, new LinkageCoverTransformer(0.3f, 0f, 0f, 0f));
-
-        pager.setCurrentItem(mFinalModuleList.size() / 2);
+        mScrolledToPosition = mFinalModuleList.size() / 2;
+        pager.setCurrentItem(mScrolledToPosition++);
+//        label.setText(mFinalModuleList.get((mScrolledToPosition % mFinalModuleList.size())).getTitle());
+//        mPresenter.getArticles(mFinalModuleList.get((mScrolledToPosition % mFinalModuleList.size())).getModuleid());
         pager.addOnPageChangeListener(new LinkagePager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.i("position", "onPageScrolled" + position);
                 if (!initialflag) {
-                    label.setText(mFinalModuleList.get((position % mFinalModuleList.size())).getTitle());
-                    mPresenter.getArticles(mFinalModuleList.get((position % mFinalModuleList.size())).getModuleid());
+                    label.setText(mFinalModuleList.get((position+1 % mFinalModuleList.size())).getTitle());
+                    mPresenter.getArticles(mFinalModuleList.get((position+1 % mFinalModuleList.size())).getModuleid());
+                    mScrolledToPosition=position+1;
                 }
             }
 
@@ -553,28 +556,27 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     }
 
     @Override
-    public void onItemClick(String articleid) {
+    public void onItemClick(String articleid, String modid) {
         Intent intent =
                 new Intent(HomeActivity.this, DetailActivity.class);
         intent.putExtra("article_id", articleid);
         intent.putExtra("module_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getModuleid());
-        intent.putExtra("order_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getOrderid());
-        intent.putExtra("module_name", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getTitle());
+//        intent.putExtra("order_id", mFinalModuleList.get(mScrolledToPosition % mFinalModuleList.size()).getOrderid());
+        intent.putExtra("type", "home");
         startActivity(intent);
     }
 
     @Override
-    public void showUpdatedDetails(String module_id) {
+    public void showUpdatedDetails(String module_id, String entityid) {
 //        for (ModuleList ml : mHotModuleList) {
 //            if (ml.getModid().equals(module_id)) {
-//                Intent intent =
-//                        new Intent(HomeActivity.this, DetailActivity.class);
-////                intent.putExtra("article_id", ml.getModid());
-////                intent.putExtra("module_id", module_id);
-//////                intent.putExtra("order_id", mHotModuleList.get(0).);
-////                intent.putExtra("module_name", ml.getModulename());
-//                startActivity(intent);
-//                finish();
+                Intent intent =
+                        new Intent(HomeActivity.this, DetailActivity.class);
+                intent.putExtra("article_id", entityid);
+                intent.putExtra("module_id", module_id);
+        intent.putExtra("type", "home");
+                startActivity(intent);
+                finish();
 //            }
 //        }
 
@@ -629,7 +631,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         };
 
         public Integer getItem(int i) {
-            return images[i - 1];
+            return images[i-1];
         }
 
         @Override

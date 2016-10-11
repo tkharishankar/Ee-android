@@ -50,7 +50,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             holder.txtSubDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mAdapterCallBack.onItemClick(articles.getArticleid());
+                    mAdapterCallBack.onItemClick(articles.getArticleid(), "");
                 }
             });
         } catch (Exception e) {

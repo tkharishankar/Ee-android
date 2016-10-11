@@ -81,6 +81,9 @@
         <activity
             android:name=".screens.profile.alerts.AlertActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.profile.stuffs.StuffsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
         <!-- [START firebase_service] -->

@@ -13,7 +13,10 @@ import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.EditResponse;
+import com.eeyuva.screens.profile.model.NewsResponse;
+import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 
@@ -38,7 +41,7 @@ import retrofit2.http.Url;
  */
 public interface Api {
     @GET("user_mlogin/")
-    Call<LoginResponse> getAuthentication(@Query("username") String name, @Query("password") String pass);
+    Call<LoginResponse> getAuthentication(@Query("username") String name, @Query("password") String pass, @Query("appid") String appid);
 
     @GET("usermobileregister/")
     Call<LoginResponse> getRegistration(@Query("firstname") String firstName, @Query("lastname") String lastName, @Query("gender") String gender, @Query("email") String email,
@@ -85,6 +88,21 @@ public interface Api {
 
     @GET
     Call<AlertResponse> getUserAlert(@Url String url);
+
+    @GET
+    Call<CommentResponse> getStuffComments(@Url String url);
+
+    @GET
+    Call<NewsResponse> getStuffNews(@Url String url);
+
+    @POST
+    Call<EditResponse> uploadProfileImage(@Url String url, @Query("uid") String uid, @Query("picdata") String bitmapImg);
+
+    @POST
+    Call<EditResponse> uploadImageVideo(@Url String url, @Query("postpicdata") String encodedString);
+
+    @GET
+    Call<NotificationResponse> getNotificationComments(@Url String url);
 
 
 //    @POST("driver/deviceid/")

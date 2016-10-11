@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
@@ -30,10 +31,13 @@ import com.eeyuva.screens.profile.ProfileComponent;
 import com.eeyuva.screens.profile.ProfileContract;
 import com.eeyuva.screens.profile.ProfileModule;
 import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.screens.profile.model.CommentResponse;
+import com.eeyuva.screens.profile.model.NewsResponse;
+import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
-import com.eeyuva.screens.searchpage.SearchLoadAdapter;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,7 +50,6 @@ import butterknife.OnClick;
  */
 
 public class AlertActivity extends ButterAppCompatActivity implements ProfileContract.View, ProfileContract.AdapterCallBack {
-
 
     @Inject
     ProfileContract.Presenter mPresenter;
@@ -257,5 +260,35 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setCommentAdapter(CommentResponse responseBody) {
+
+    }
+
+    @Override
+    public void setNewsAdapter(NewsResponse responseBody) {
+
+    }
+
+    @Override
+    public void setNotificationAdapter(NotificationResponse responseBody) {
+
+    }
+
+    @Override
+    public void setPhoto(File photoFile) {
+
+    }
+
+    @Override
+    public void setCommentsListToAdapter(List<CommentsList> response) {
+
+    }
+
+    @Override
+    public void getComments(String moduleid, String artid) {
+
     }
 }

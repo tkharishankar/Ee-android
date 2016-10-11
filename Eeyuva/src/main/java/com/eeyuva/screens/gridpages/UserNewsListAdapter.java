@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eeyuva.R;
@@ -52,10 +53,10 @@ public class UserNewsListAdapter extends RecyclerView.Adapter<UserNewsListAdapte
         holder.mImgLabel.setText(rl.getTitle());
         holder.txtSubDesc.setText("Posted By : "+rl.getUsername());
         holder.txtDate.setText(getISOTime(rl.getDate()));
-        holder.mImgItem.setOnClickListener(new View.OnClickListener() {
+        holder.Layuserdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mAdapterCallBack.setSelectItem(rl);
+                mAdapterCallBack.setSelectItem(rl);
             }
         });
     }
@@ -71,6 +72,7 @@ public class UserNewsListAdapter extends RecyclerView.Adapter<UserNewsListAdapte
         public TextView mImgLabel;
         public TextView txtSubDesc;
         public TextView txtDate;
+        public LinearLayout Layuserdetails;
 
         public ViewHolder(View v) {
             super(v);
@@ -78,6 +80,7 @@ public class UserNewsListAdapter extends RecyclerView.Adapter<UserNewsListAdapte
             mImgLabel = (TextView) v.findViewById(R.id.txtTitle);
             txtSubDesc = (TextView) v.findViewById(R.id.txtSubDesc);
             txtDate = (TextView) v.findViewById(R.id.txtDate);
+            Layuserdetails = (LinearLayout) v.findViewById(R.id.Layuserdetails);
         }
     }
     private String getISOTime(String time)  {

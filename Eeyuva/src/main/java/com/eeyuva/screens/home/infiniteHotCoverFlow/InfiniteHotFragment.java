@@ -61,7 +61,7 @@ public class InfiniteHotFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                commmunicateListener.showUpdatedDetails(HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModid());
+                commmunicateListener.showUpdatedDetails(HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getModid(),HomeActivity.mHotModuleList.get(pos % HomeActivity.mHotModuleList.size()).getEntityid());
             }
         });
         return l;
@@ -100,7 +100,7 @@ public class InfiniteHotFragment extends Fragment {
 
     public interface CommmunicateListener {
 
-        void showUpdatedDetails(String articleid);
+        void showUpdatedDetails(String articleid, String entityid);
 
 
     }

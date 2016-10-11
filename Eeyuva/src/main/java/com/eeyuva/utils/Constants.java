@@ -22,8 +22,12 @@ public class Constants {
 
     public static final int REQUEST_CAPTURE_PHOTO = 5;
     public static final int REQUEST_GALLERY_PHOTO = 6;
+    public static final int REQUEST_CROP_PHOTO = 7;
 
     public static final int REQUEST_CODE_CLOSE = 100;
+
+
+
 
 
     public static enum UPDATE_FLAGS {

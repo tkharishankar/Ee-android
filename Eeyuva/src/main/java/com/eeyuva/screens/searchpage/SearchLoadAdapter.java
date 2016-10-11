@@ -148,7 +148,7 @@ public class SearchLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             txtSubDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    mAdapterCallBack.onItemClick(articles.getArticleid());
+                    mAdapterCallBack.onItemClick(articles.getEntityid(),""+articles.getModid());
                 }
             });
         }

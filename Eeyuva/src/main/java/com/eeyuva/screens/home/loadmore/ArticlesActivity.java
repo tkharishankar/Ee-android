@@ -231,13 +231,14 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
 
 
     @Override
-    public void onItemClick(String articleid) {
+    public void onItemClick(String articleid, String modid) {
         Intent intent =
                 new Intent(ArticlesActivity.this, DetailActivity.class);
         intent.putExtra("module_id", mModuleId);
         intent.putExtra("article_id", articleid);
-        intent.putExtra("order_id", mOrderId);
-        intent.putExtra("module_name", mModuleName);
+//        intent.putExtra("order_id", mOrderId);
+//        intent.putExtra("module_name", mModuleName);
+        intent.putExtra("type", "home");
         startActivity(intent);
     }
 

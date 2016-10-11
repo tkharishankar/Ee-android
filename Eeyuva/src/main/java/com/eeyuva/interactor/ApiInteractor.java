@@ -20,7 +20,10 @@ import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.ProfileContract;
 import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.EditResponse;
+import com.eeyuva.screens.profile.model.NewsResponse;
+import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.registration.RegistrationContract;
 import com.eeyuva.screens.registration.RegistrationResponse;
@@ -30,7 +33,7 @@ import com.eeyuva.screens.searchpage.model.SearchResponse;
  * Created by hari on 22/6/16.
  */
 public interface ApiInteractor {
-    void getLoginResponse(BaseView mView, String name, String pass, LoadListener<LoginResponse> mLoginListener);
+    void getLoginResponse(BaseView mView, String name, String pass, String appid, LoadListener<LoginResponse> mLoginListener);
 
     void getRegistrationResponse(BaseView mView, String firstName, String lastName, String email, String password, String confirmPassword, LoadListener<RegistrationResponse> mRegisterListener);
 
@@ -63,5 +66,17 @@ public interface ApiInteractor {
     void getEditProfile(BaseView mView, String s, LoadListener<EditResponse> mEditProfileListener);
 
     void getUserAlerts(BaseView mView, String s, LoadListener<AlertResponse> mAlertListner);
+
+    void getStuffComments(BaseView mView, String s, LoadListener<CommentResponse> mCommentListener);
+
+    void getStuffNews(BaseView mView, String s, LoadListener<NewsResponse> mNewsListener);
+
+    void getNotificationComments(BaseView mView, String s, LoadListener<NotificationResponse> mNotificationListener);
+
+    void uploadImage(BaseView mView, String url, String uid, String bitmapImg, LoadListener<EditResponse> mEditProfileListener);
+
+    void changePassword(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener);
+
+    void uploadImageVideo(BaseView mView, String url, String encodedString, LoadListener<EditResponse> mEditProfileListener);
 }
 

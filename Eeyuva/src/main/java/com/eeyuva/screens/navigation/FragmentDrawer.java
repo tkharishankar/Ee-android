@@ -26,6 +26,7 @@ import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.profile.ChangePasswordActivity;
 import com.eeyuva.screens.profile.alerts.AlertActivity;
+import com.eeyuva.screens.profile.stuffs.StuffsActivity;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.squareup.picasso.Picasso;
 
@@ -85,7 +86,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent intent =
-                        new Intent(getActivity(), ProfileActivity.class);
+                        new Intent(getActivity(), StuffsActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }

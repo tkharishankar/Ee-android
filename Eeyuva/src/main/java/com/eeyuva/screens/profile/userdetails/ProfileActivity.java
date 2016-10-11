@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
@@ -34,11 +35,15 @@ import com.eeyuva.screens.profile.ProfileComponent;
 import com.eeyuva.screens.profile.ProfileContract;
 import com.eeyuva.screens.profile.ProfileModule;
 import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.screens.profile.model.CommentResponse;
+import com.eeyuva.screens.profile.model.NewsResponse;
+import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileList;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +94,9 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
     PagerAdapter adapter;
     ProfileList mProfileInfo;
 
+    boolean mProfile = false;
+    boolean mPhotoVideo = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +117,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ArrayList<String> tabs = new ArrayList<>();
         tabs.add("Personal");
-        tabs.add("Professional");
+        tabs.add("Settings");
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -183,6 +191,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
                 showDialog();
                 break;
             case R.id.action_add:
+                showModuleVideoPhoto(null);
                 break;
 
         }
@@ -298,6 +307,37 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
     }
 
     @Override
+    public void setCommentAdapter(CommentResponse responseBody) {
+
+    }
+
+    @Override
+    public void setNewsAdapter(NewsResponse responseBody) {
+
+    }
+
+    @Override
+    public void setNotificationAdapter(NotificationResponse responseBody) {
+
+    }
+
+    @Override
+    public void setPhoto(File photoFile) {
+        if (mProfile) {
+            showUpdatePhoto(photoFile);
+            mPresenter.uploadImage(photoFile);
+        } else if (mPhotoVideo)
+        {
+            showModuleVideoPhoto(photoFile);
+        }
+    }
+
+    @Override
+    public void setCommentsListToAdapter(List<CommentsList> response) {
+
+    }
+
+    @Override
     public void showToast(String msg) {
 
     }
@@ -307,9 +347,19 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
 
     }
 
+    @Override
+    public void communicateToStuffsActivity(String moduleid, String artid) {
+
+    }
+
     @OnClick(R.id.mTxtEditProfile)
     public void editProfileClick() {
         showCommentDialog();
+    }
+
+    @OnClick(R.id.imgProfile)
+    public void updateProfileClick() {
+        showUpdatePhoto(null);
     }
 
     public void showCommentDialog() {
@@ -371,4 +421,129 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
             e.printStackTrace();
         }
     }
+
+    public void showUpdatePhoto(File photoFile) {
+        try {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+
+            mProfile = true;
+            mPhotoVideo = false;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_update_photo, null);
+            builder.setView(dialogView);
+
+            TextView mBtnTakePhoto = (TextView) dialogView.findViewById(R.id.mBtnTakePhoto);
+            ImageView mImgProfile = (ImageView) dialogView.findViewById(R.id.mImgProfile);
+            TextView mBtnGallery = (TextView) dialogView.findViewById(R.id.mBtnGallery);
+
+
+            mBtnTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    mPresenter.snapPhotoClick();
+                }
+            });
+
+            mBtnGallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    mPresenter.pickFromGalleryClick();
+                }
+            });
+
+            mDialog = builder.create();
+            mDialog.setCancelable(true);
+            mDialog.show();
+            mDialog.getWindow().setGravity(Gravity.TOP);
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Window window = mDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.verticalMargin = .1f;
+            window.setAttributes(wlp);
+            if (photoFile != null) {
+                Picasso.with(this).load(photoFile).transform(new RoundedTransformation(10, 0)).into(mImgProfile);
+            }
+            mImgProfile.setDrawingCacheEnabled(false); // clear drawing cache
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showModuleVideoPhoto(final File photoFile) {
+        try {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+            mProfile = false;
+            mPhotoVideo = true;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_module_photo, null);
+            builder.setView(dialogView);
+
+            final TextView mBtnTakePhoto = (TextView) dialogView.findViewById(R.id.mBtnTakePhoto);
+            ImageView mImgProfile = (ImageView) dialogView.findViewById(R.id.mImgProfile);
+            TextView mBtnGallery = (TextView) dialogView.findViewById(R.id.mBtnGallery);
+            TextView mBtnor = (TextView) dialogView.findViewById(R.id.mBtnor);
+            final EditText mEdtModule = (EditText) dialogView.findViewById(R.id.mEdtModule);
+            final EditText mEdtTitle = (EditText) dialogView.findViewById(R.id.mEdtTitle);
+            final EditText mEdtDesc = (EditText) dialogView.findViewById(R.id.mEdtDesc);
+            if (photoFile != null) {
+                mBtnTakePhoto.setText("Post");
+                mEdtModule.setVisibility(View.VISIBLE);
+                mEdtTitle.setVisibility(View.VISIBLE);
+                mEdtDesc.setVisibility(View.VISIBLE);
+                mBtnGallery.setVisibility(View.GONE);
+                mBtnor.setVisibility(View.GONE);
+            }
+
+            mBtnTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    if(mBtnTakePhoto.getText().toString().trim().equalsIgnoreCase("Post"))
+                        mPresenter.uploadImageOrVideo(photoFile,mEdtModule.getText().toString().trim(),
+                                mEdtTitle.getText().toString().trim(),
+                                mEdtDesc.getText().toString().trim());
+                    else
+                    mPresenter.snapPhotoClick();
+
+                }
+            });
+
+            mBtnGallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    mPresenter.pickFromGalleryClick();
+                }
+            });
+
+            mDialog = builder.create();
+            mDialog.setCancelable(true);
+            mDialog.show();
+            mDialog.getWindow().setGravity(Gravity.TOP);
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Window window = mDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.verticalMargin = .1f;
+            window.setAttributes(wlp);
+            if (photoFile != null) {
+                Picasso.with(this).load(photoFile).transform(new RoundedTransformation(10, 0)).into(mImgProfile);
+            }
+            mImgProfile.setDrawingCacheEnabled(false); // clear drawing cache
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -137,7 +137,7 @@ public class ArticlesLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtSubDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mAdapterCallBack.onItemClick(articles.getArticleid());
+                    mAdapterCallBack.onItemClick(articles.getArticleid(), "");
                 }
             });
         }

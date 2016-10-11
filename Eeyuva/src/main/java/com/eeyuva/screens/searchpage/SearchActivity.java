@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
@@ -34,7 +33,6 @@ import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.ResponseList;
-import com.eeyuva.screens.home.loadmore.ArticlesLoadAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.model.Doc;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
@@ -112,7 +110,7 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         mkeyword = getIntent().getExtras().getString("keyword");
-        mPresenter.getSearchResponse(mkeyword);
+        mPresenter.getSearchResponse(mkeyword.trim());
     }
 
     private void initAdapter(final List<Doc> responseItem) {
@@ -226,13 +224,12 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
 
 
     @Override
-    public void onItemClick(String articleid) {
+    public void onItemClick(String articleid, String modid) {
         Intent intent =
                 new Intent(SearchActivity.this, DetailActivity.class);
-        intent.putExtra("module_id", mModuleId);
+        intent.putExtra("module_id", modid);
         intent.putExtra("article_id", articleid);
-        intent.putExtra("order_id", mOrderId);
-        intent.putExtra("module_name", mModuleName);
+        intent.putExtra("type", "search");
         startActivity(intent);
     }
 

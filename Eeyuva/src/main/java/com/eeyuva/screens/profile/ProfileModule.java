@@ -7,6 +7,7 @@ import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.gridpages.GridContract;
 import com.eeyuva.screens.gridpages.GridPresenterImpl;
+import com.eeyuva.screens.profile.userdetails.interactor.PackageInfoInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import dagger.Module;
@@ -24,8 +25,8 @@ public class ProfileModule extends ActivityModule {
 
     @Provides
     @PerActivity
-    public ProfileContract.Presenter profilePresenter(ApiInteractor apiInteractor, PrefsManager prefsManager) {
-        return new ProfilePresenterImpl(apiInteractor, prefsManager);
+    public ProfileContract.Presenter profilePresenter(ApiInteractor apiInteractor, PrefsManager prefsManager,PackageInfoInteractor mPackageInfoInteractor) {
+        return new ProfilePresenterImpl(apiInteractor, prefsManager,mPackageInfoInteractor);
     }
 
 }

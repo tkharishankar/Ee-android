@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
@@ -41,6 +42,7 @@ import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.gridpages.PhotoListAdapter;
 import com.eeyuva.screens.home.HomeActivity;
+import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.home.loadmore.ArticlesLoadAdapter;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
@@ -54,10 +56,12 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.eeyuva.screens.home.HomeActivity.mModuleList;
+
 /**
  * Created by hari on 14/09/16.
  */
-public class DetailActivity extends ButterAppCompatActivity implements DetailContract.View,InfiniteOtherFragment.CommmunicateListener{
+public class DetailActivity extends ButterAppCompatActivity implements DetailContract.View, InfiniteOtherFragment.CommmunicateListener {
     @Inject
     DetailContract.Presenter mPresenter;
 
@@ -125,6 +129,13 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     ArticleDetail mArticleDetail;
     private int type;
     private int mScrolledToPosition;
+    public List<ResponseList> mModuleList = new ArrayList<ResponseList>();
+    private String mEntityId;
+
+    @Bind(R.id.scrollView)
+    ScrollView mScrollView;
+    public String mType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,18 +152,47 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        try {
+            mType = getIntent().getExtras().getString("type");
 
-        mModuleId = getIntent().getExtras().getString("module_id");
-        mOrderId = getIntent().getExtras().getString("order_id");
-        mArticleId = getIntent().getExtras().getString("article_id");
-        mModuleName = getIntent().getExtras().getString("module_name");
+            if (mType.equals("home") || mType.equals("search")) {
+                mModuleId = getIntent().getExtras().getString("module_id");
+                mArticleId = getIntent().getExtras().getString("article_id");
+                mPresenter.getArticlesDetails(mModuleId, mArticleId);
+                mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
+            } else if (mType.equals("usernews")) {
+                mModuleId = getIntent().getExtras().getString("module_id");
+                mArticleId = getIntent().getExtras().getString("article_id");
+                mEntityId = getIntent().getExtras().getString("entity_id");
+                mPresenter.getArticlesDetails(mArticleId);
+                mPresenter.getOtherArticlesDetails(mModuleId, mArticleId, mEntityId);
+            } else if (mType.equals("news")) {
+                mModuleId = getIntent().getExtras().getString("module_id");
+                mArticleId = getIntent().getExtras().getString("article_id");
+                mEntityId = getIntent().getExtras().getString("entity_id");
+                mPresenter.getArticlesNewsDetails(mArticleId);
+                mPresenter.getOtherArticlesDetails(mModuleId, mArticleId, mEntityId);
+            } else if (mType.equals("notification")) {
+                mModuleId = getIntent().getExtras().getString("module_id");
+                mArticleId = getIntent().getExtras().getString("article_id");
+                mPresenter.getArticlesDetails(mModuleId, mArticleId);
+                mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        mModuleList = mPresenter.getModules();
+        if (mModuleList.size() != 0) {
+            for (ResponseList rl : mModuleList) {
+                if (rl.getModuleid().equals(mModuleId)) {
+                    mOrderId = rl.getOrderid();
+                    mModuleName = rl.getTitle();
+                }
+            }
+        }
         mTxtModuleName.setText(mModuleName);
         mImgModuleImg.setImageResource(getItem(Integer.parseInt(mOrderId)));
-        mPresenter.getArticlesDetails(mModuleId, mArticleId);
-        mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
-
-
     }
 
     private void initComponent() {
@@ -222,48 +262,52 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
 
     @Override
     public void setOtherArticleDetails(List<ArticleDetail> response) {
-        mHotModuleList = response;
-        HotPAGES = mHotModuleList.size();
-        HotFIRST_PAGE = HotPAGES * HotLOOPS / 2;
-        hotpager = (ViewPager) findViewById(R.id.infinitehotviewpager);
-        infinitehotPagerAdapter = new InfiniteOtherPagerAdapter(this, this.getSupportFragmentManager());
-        hotpager.setAdapter(infinitehotPagerAdapter);
-        hotpager.setPageTransformer(false, infinitehotPagerAdapter);
+        try {
+            mHotModuleList = response;
+            HotPAGES = mHotModuleList.size();
+            HotFIRST_PAGE = HotPAGES * HotLOOPS / 2;
+            hotpager = (ViewPager) findViewById(R.id.infinitehotviewpager);
+            infinitehotPagerAdapter = new InfiniteOtherPagerAdapter(this, this.getSupportFragmentManager());
+            hotpager.setAdapter(infinitehotPagerAdapter);
+            hotpager.setPageTransformer(false, infinitehotPagerAdapter);
 
-        // Set current item to the middle page so we can fling to both
-        // directions left and right
-        hotpager.setCurrentItem(HotFIRST_PAGE);
+            // Set current item to the middle page so we can fling to both
+            // directions left and right
+            hotpager.setCurrentItem(HotFIRST_PAGE);
 
-        // Necessary or the pager will only have one extra page to show
-        // make this at least however many pages you can see
-        hotpager.setOffscreenPageLimit(3);
+            // Necessary or the pager will only have one extra page to show
+            // make this at least however many pages you can see
+            hotpager.setOffscreenPageLimit(3);
 
-        // Set margin for pages as a negative number, so a part of next and
-        // previous pages will be showed
-        hotpager.setPageMargin(0);
-        hotpager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+            // Set margin for pages as a negative number, so a part of next and
+            // previous pages will be showed
+            hotpager.setPageMargin(0);
+            hotpager.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
 
-        hotpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            hotpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+                }
 
-            @Override
-            public void onPageSelected(int position) {
-                Log.i("position", "onPageSelected" + position);
-                mScrolledToPosition = position;
-            }
+                @Override
+                public void onPageSelected(int position) {
+                    Log.i("position", "onPageSelected" + position);
+                    mScrolledToPosition = position;
+                }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.layScroll)
@@ -649,7 +693,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             final EditText comments = (EditText) dialogView.findViewById(R.id.mEdtMailid);
 
             mlistview = (RecyclerView) dialogView.findViewById(R.id.orderlist);
-            mPresenter.getViewComments(mModuleId,mArticleDetail.getArticleid());
+            mPresenter.getViewComments(mModuleId, mArticleDetail.getArticleid());
 
             mBtnok.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -703,8 +747,13 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
 
     @Override
     public void showUpdatedDetails(String mArticleId) {
-        this.mArticleId=mArticleId;
+        this.mArticleId = mArticleId;
         mPresenter.getArticlesDetails(mModuleId, mArticleId);
         mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
+        mScrollView.post(new Runnable() {
+            public void run() {
+                mScrollView.fullScroll(mScrollView.FOCUS_UP);
+            }
+        });
     }
 }

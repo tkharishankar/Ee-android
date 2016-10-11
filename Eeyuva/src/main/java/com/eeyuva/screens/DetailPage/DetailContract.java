@@ -33,6 +33,12 @@ public interface DetailContract {
         void getViewComments(String mModuleId, String articleid);
 
         void setPostComments(String trim, String mModuleId, String articleid);
+
+        void getArticlesDetails(String mArticleId);
+
+        void getOtherArticlesDetails(String mModuleId, String mArticleId, String mEntityId);
+
+        void getArticlesNewsDetails(String mArticleId);
     }
 
     public interface AdapterCallBack {

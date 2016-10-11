@@ -8,6 +8,7 @@ import com.eeyuva.di.module.AppModules;
 import com.eeyuva.di.module.NetworkModule;
 import com.eeyuva.di.scope.GsonRestAdapter;
 import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.profile.userdetails.interactor.PackageInfoInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 import com.eeyuva.di.module.PresentationModule;
 
@@ -32,6 +33,8 @@ public interface AppComponent {
     Retrofit retrofit();
 
     ApiInteractor driverInteractor();
+
+    PackageInfoInteractor packageInteractor();
 
     PrefsManager prefsManager();
 

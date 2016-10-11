@@ -12,6 +12,7 @@
     <color name="dialog_red">#FF0118</color>
     <color name="home_red">#E13E40</color>
     <color name="home_dark_pink">#C33369</color>
+    <color name="unpublish">#982D8B</color>
 
     <color name="dark_gray">#302e2e</color>
     <color name="light_gray">#868686</color>

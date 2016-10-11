@@ -49,7 +49,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         String name = mView.getUsername();
         String pass = mView.getPassword();
         if (validateAuthentication(name, pass)) {
-            mDriverInteractor.getLoginResponse(mView, name, pass, mLoginListener);
+            mDriverInteractor.getLoginResponse(mView, name, pass,"", mLoginListener);
         }
     }
 

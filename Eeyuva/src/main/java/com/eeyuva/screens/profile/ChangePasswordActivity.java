@@ -2,8 +2,6 @@ package com.eeyuva.screens.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -18,16 +16,22 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.screens.profile.model.CommentResponse;
+import com.eeyuva.screens.profile.model.NewsResponse;
+import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,6 +64,20 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
     ImageView imgViedo;
     @Bind(R.id.imgComment)
     ImageView imgComment;
+
+    @Bind(R.id.mBtnSave)
+    TextView mBtnSave;
+
+    @Bind(R.id.mEdtOldPassword)
+    EditText mEdtOldPassword;
+
+    @Bind(R.id.mEdtPassword)
+    EditText mEdtPassword;
+
+    @Bind(R.id.mEdtConfirmPassword)
+    EditText mEdtConfirmPassword;
+
+
     FragmentDrawer drawerFragment;
 
     @Override
@@ -154,6 +172,13 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
         moveNext(3);
     }
 
+    @OnClick(R.id.mBtnSave)
+    public void onChangePasswordClick() {
+        mPresenter.setChangePassword(mEdtOldPassword.getText().toString().trim(),
+                mEdtPassword.getText().toString().trim(),
+                mEdtConfirmPassword.getText().toString().trim());
+    }
+
     public void moveNext(int i) {
         Intent intent =
                 new Intent(ChangePasswordActivity.this, GridHomeActivity.class);
@@ -225,6 +250,31 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
 
     @Override
     public void setAdapter(List<AlertList> alertList) {
+
+    }
+
+    @Override
+    public void setCommentAdapter(CommentResponse responseBody) {
+
+    }
+
+    @Override
+    public void setNewsAdapter(NewsResponse responseBody) {
+
+    }
+
+    @Override
+    public void setNotificationAdapter(NotificationResponse responseBody) {
+
+    }
+
+    @Override
+    public void setPhoto(File photoFile) {
+
+    }
+
+    @Override
+    public void setCommentsListToAdapter(List<CommentsList> response) {
 
     }
 }
