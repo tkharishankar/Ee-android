@@ -41,7 +41,6 @@ public interface HomeContract {
 
     interface AdapterCallBack
     {
-
         void onItemClick(String articleid, String modid);
     }
 }
