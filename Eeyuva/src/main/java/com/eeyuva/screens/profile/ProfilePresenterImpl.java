@@ -10,6 +10,8 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
+import com.eeyuva.screens.home.ImageFile;
+import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.profile.model.AlertResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
@@ -316,9 +318,25 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         bytes = output.toByteArray();
         String encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
 
-        mApiInteractor.uploadImageVideo(mView, "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=3939", encodedString, mEditProfileListener);
+        ImageFile imagefile=new ImageFile(encodedString);
+        mApiInteractor.uploadImageVideo(mView, "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=3939", imagefile, mPhotoUploadListener);
     }
+    LoadListener<ImageResponse> mPhotoUploadListener = new LoadListener<ImageResponse>() {
+        @Override
+        public void onSuccess(ImageResponse responseBody) {
+            mView.showErrorDialog(responseBody.getStatusResponse());
+        }
 
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
     @Override
     public void getViewComments(String mModuleId, String articleid) {
         mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);

@@ -11,6 +11,8 @@ import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
+import com.eeyuva.screens.home.ImageFile;
+import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.model.AlertResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
@@ -99,7 +101,7 @@ public interface Api {
     Call<EditResponse> uploadProfileImage(@Url String url, @Query("uid") String uid, @Query("picdata") String bitmapImg);
 
     @POST
-    Call<EditResponse> uploadImageVideo(@Url String url, @Query("postpicdata") String encodedString);
+    Call<ImageResponse> uploadImageVideo(@Url String url, @Body ImageFile encodedString);
 
     @GET
     Call<NotificationResponse> getNotificationComments(@Url String url);

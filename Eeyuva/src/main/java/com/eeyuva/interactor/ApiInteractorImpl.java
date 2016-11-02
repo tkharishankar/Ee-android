@@ -15,6 +15,8 @@ import com.eeyuva.screens.gridpages.model.PhotoListResponse;
 import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HotModuleResponse;
+import com.eeyuva.screens.home.ImageFile;
+import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.model.AlertResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
@@ -197,9 +199,9 @@ public class ApiInteractorImpl implements ApiInteractor {
     }
 
     @Override
-    public void uploadImageVideo(BaseView mView, String url, String encodedString, LoadListener<EditResponse> mEditProfileListener) {
-        UiCallback<EditResponse> callback = new UiCallback(mView, mEditProfileListener, true);
-        Call<EditResponse> call = mApi.uploadImageVideo(url,encodedString);
+    public void uploadImageVideo(BaseView mView, String url, ImageFile encodedString, LoadListener<ImageResponse> mEditProfileListener) {
+        UiCallback<ImageResponse> callback = new UiCallback(mView, mEditProfileListener, true);
+        Call<ImageResponse> call = mApi.uploadImageVideo(url,encodedString);
         callback.start(call);
     }
 

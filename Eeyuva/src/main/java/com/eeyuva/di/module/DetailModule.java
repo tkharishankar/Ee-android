@@ -7,6 +7,7 @@ import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.DetailPage.DetailContract;
 import com.eeyuva.screens.DetailPage.DetailPresenterImpl;
+import com.eeyuva.screens.profile.userdetails.interactor.PackageInfoInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import dagger.Module;
@@ -26,7 +27,7 @@ public class DetailModule extends ActivityModule {
 
     @Provides
     @PerActivity
-    public DetailContract.Presenter detailspresenter(ApiInteractor driverInteractor, PrefsManager prefsManager) {
-        return new DetailPresenterImpl(driverInteractor,prefsManager);
+    public DetailContract.Presenter detailspresenter(ApiInteractor driverInteractor, PrefsManager prefsManager, PackageInfoInteractor packageInfoInteractor) {
+        return new DetailPresenterImpl(driverInteractor,prefsManager,packageInfoInteractor);
     }
 }

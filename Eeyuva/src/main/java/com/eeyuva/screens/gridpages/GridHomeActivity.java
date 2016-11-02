@@ -1,6 +1,7 @@
 package com.eeyuva.screens.gridpages;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -33,9 +34,12 @@ import com.eeyuva.screens.gridpages.model.UserNewsList;
 import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.ResponseList;
+import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,6 +173,7 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
                 showDialog();
                 break;
             case R.id.action_add:
+                showModuleVideoPhoto(null);
                 break;
 
         }
@@ -313,5 +318,83 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
         Intent intent =
                 new Intent(GridHomeActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+
+
+    public void showModuleVideoPhoto(final File photoFile) {
+        try {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_module_photo, null);
+            builder.setView(dialogView);
+
+            final TextView mBtnTakePhoto = (TextView) dialogView.findViewById(R.id.mBtnTakePhoto);
+            ImageView mImgProfile = (ImageView) dialogView.findViewById(R.id.mImgProfile);
+            TextView mBtnGallery = (TextView) dialogView.findViewById(R.id.mBtnGallery);
+            TextView mBtnor = (TextView) dialogView.findViewById(R.id.mBtnor);
+            final EditText mEdtModule = (EditText) dialogView.findViewById(R.id.mEdtModule);
+            final EditText mEdtTitle = (EditText) dialogView.findViewById(R.id.mEdtTitle);
+            final EditText mEdtDesc = (EditText) dialogView.findViewById(R.id.mEdtDesc);
+            if (photoFile != null) {
+                mBtnTakePhoto.setText("Post");
+                mEdtModule.setVisibility(View.VISIBLE);
+                mEdtTitle.setVisibility(View.VISIBLE);
+                mEdtDesc.setVisibility(View.VISIBLE);
+                mBtnGallery.setVisibility(View.GONE);
+                mBtnor.setVisibility(View.GONE);
+            }
+
+            mBtnTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    if(mBtnTakePhoto.getText().toString().trim().equalsIgnoreCase("Post"))
+                        mPresenter.uploadImageOrVideo(photoFile,mEdtModule.getText().toString().trim(),
+                                mEdtTitle.getText().toString().trim(),
+                                mEdtDesc.getText().toString().trim());
+                    else
+                        mPresenter.snapPhotoClick();
+
+                }
+            });
+
+            mBtnGallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    mPresenter.pickFromGalleryClick();
+                }
+            });
+
+            mDialog = builder.create();
+            mDialog.setCancelable(true);
+            mDialog.show();
+            mDialog.getWindow().setGravity(Gravity.TOP);
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Window window = mDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.verticalMargin = .1f;
+            window.setAttributes(wlp);
+            if (photoFile != null) {
+                Picasso.with(this).load(photoFile).transform(new RoundedTransformation(10, 0)).into(mImgProfile);
+            }
+            mImgProfile.setDrawingCacheEnabled(false); // clear drawing cache
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void setPhoto(File photoFile) {
+        showModuleVideoPhoto(photoFile);
     }
 }

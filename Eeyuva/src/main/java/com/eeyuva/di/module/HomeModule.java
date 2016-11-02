@@ -7,6 +7,7 @@ import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.HomePresenterImpl;
+import com.eeyuva.screens.profile.userdetails.interactor.PackageInfoInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import dagger.Module;
@@ -25,7 +26,7 @@ public class HomeModule extends ActivityModule {
 
     @Provides
     @PerActivity
-    public HomeContract.Presenter homepresenter(ApiInteractor driverInteractor, PrefsManager prefsManager) {
-        return new HomePresenterImpl(driverInteractor,prefsManager);
+    public HomeContract.Presenter homepresenter(ApiInteractor driverInteractor, PrefsManager prefsManager, PackageInfoInteractor packageInfoInteractor) {
+        return new HomePresenterImpl(driverInteractor,prefsManager,packageInfoInteractor);
     }
 }

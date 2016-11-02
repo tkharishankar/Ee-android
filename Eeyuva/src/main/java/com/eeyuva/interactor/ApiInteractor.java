@@ -17,6 +17,8 @@ import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.HotModuleResponse;
+import com.eeyuva.screens.home.ImageFile;
+import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.ProfileContract;
 import com.eeyuva.screens.profile.model.AlertResponse;
@@ -77,6 +79,6 @@ public interface ApiInteractor {
 
     void changePassword(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener);
 
-    void uploadImageVideo(BaseView mView, String url, String encodedString, LoadListener<EditResponse> mEditProfileListener);
+    void uploadImageVideo(BaseView mView, String url, ImageFile encodedString, LoadListener<ImageResponse> mEditProfileListener);
 }
 

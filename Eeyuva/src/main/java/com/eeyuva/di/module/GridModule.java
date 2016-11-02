@@ -9,6 +9,7 @@ import com.eeyuva.screens.gridpages.GridContract;
 import com.eeyuva.screens.gridpages.GridPresenterImpl;
 import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.HomePresenterImpl;
+import com.eeyuva.screens.profile.userdetails.interactor.PackageInfoInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import dagger.Module;
@@ -27,8 +28,8 @@ public class GridModule extends ActivityModule {
 
     @Provides
     @PerActivity
-    public GridContract.Presenter gridpresenter(ApiInteractor driverInteractor, PrefsManager prefsManager) {
-        return new GridPresenterImpl(driverInteractor, prefsManager);
+    public GridContract.Presenter gridpresenter(ApiInteractor driverInteractor, PrefsManager prefsManager, PackageInfoInteractor packageInfoInteractor) {
+        return new GridPresenterImpl(driverInteractor, prefsManager, packageInfoInteractor);
     }
 
 }

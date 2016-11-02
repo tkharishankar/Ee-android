@@ -1,7 +1,13 @@
 package com.eeyuva.screens.home;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.LinkagePager;
 import android.support.v4.view.PagerAdapter;
@@ -34,6 +40,7 @@ import com.eeyuva.di.component.DaggerHomeComponent;
 import com.eeyuva.di.component.HomeComponent;
 import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.DetailPage.DetailActivity;
+import com.eeyuva.screens.Upload;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
@@ -42,11 +49,13 @@ import com.eeyuva.screens.home.infiniteCoverFlow.InfinitePagerAdapter;
 import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotFragment;
 import com.eeyuva.screens.home.infiniteHotCoverFlow.InfiniteHotPagerAdapter;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
+import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,6 +146,8 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     public static int HotLOOPS = 10;
     public static int HotFIRST_PAGE;
 
+    boolean mPhoto = true;
+    boolean mVideo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -402,9 +413,9 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.i("position", "onPageScrolled" + position);
                 if (!initialflag) {
-                    label.setText(mFinalModuleList.get((position+1 % mFinalModuleList.size())).getTitle());
-                    mPresenter.getArticles(mFinalModuleList.get((position+1 % mFinalModuleList.size())).getModuleid());
-                    mScrolledToPosition=position+1;
+                    label.setText(mFinalModuleList.get((position + 1 % mFinalModuleList.size())).getTitle());
+                    mPresenter.getArticles(mFinalModuleList.get((position + 1 % mFinalModuleList.size())).getModuleid());
+                    mScrolledToPosition = position + 1;
                 }
             }
 
@@ -523,6 +534,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 showDialog();
                 break;
             case R.id.action_add:
+                showModuleVideoPhoto(null, 0);
                 break;
 
         }
@@ -570,13 +582,13 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     public void showUpdatedDetails(String module_id, String entityid) {
 //        for (ModuleList ml : mHotModuleList) {
 //            if (ml.getModid().equals(module_id)) {
-                Intent intent =
-                        new Intent(HomeActivity.this, DetailActivity.class);
-                intent.putExtra("article_id", entityid);
-                intent.putExtra("module_id", module_id);
+        Intent intent =
+                new Intent(HomeActivity.this, DetailActivity.class);
+        intent.putExtra("article_id", entityid);
+        intent.putExtra("module_id", module_id);
         intent.putExtra("type", "home");
-                startActivity(intent);
-                finish();
+        startActivity(intent);
+        finish();
 //            }
 //        }
 
@@ -631,7 +643,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         };
 
         public Integer getItem(int i) {
-            return images[i-1];
+            return images[i - 1];
         }
 
         @Override
@@ -740,6 +752,183 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
     public void gotoHome(View v) {
 
+    }
+
+
+    public void showModuleVideoPhoto(final File photoFile, int i) {
+        try {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_module_photo, null);
+            builder.setView(dialogView);
+
+            final TextView mBtnTakePhoto = (TextView) dialogView.findViewById(R.id.mBtnTakePhoto);
+            final TextView mTxtPhoto = (TextView) dialogView.findViewById(R.id.mTxtPhoto);
+            final TextView mTxtVideo = (TextView) dialogView.findViewById(R.id.mTxtVideo);
+            ImageView mImgProfile = (ImageView) dialogView.findViewById(R.id.mImgProfile);
+            TextView mBtnGallery = (TextView) dialogView.findViewById(R.id.mBtnGallery);
+            TextView mBtnor = (TextView) dialogView.findViewById(R.id.mBtnor);
+            final EditText mEdtModule = (EditText) dialogView.findViewById(R.id.mEdtModule);
+            final EditText mEdtTitle = (EditText) dialogView.findViewById(R.id.mEdtTitle);
+            final EditText mEdtDesc = (EditText) dialogView.findViewById(R.id.mEdtDesc);
+            if (photoFile != null && i == 1) {
+                mBtnTakePhoto.setText("Post");
+                mEdtModule.setVisibility(View.VISIBLE);
+                mEdtTitle.setVisibility(View.VISIBLE);
+                mEdtDesc.setVisibility(View.VISIBLE);
+                mBtnGallery.setVisibility(View.GONE);
+                mBtnor.setVisibility(View.GONE);
+            }
+
+            mBtnTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    mDialog.dismiss();
+                    if (mBtnTakePhoto.getText().toString().trim().equalsIgnoreCase("Post")) {
+                        if (mPhoto)
+                            mPresenter.uploadImageOrVideo(photoFile, mEdtModule.getText().toString().trim(),
+                                    mEdtTitle.getText().toString().trim(),
+                                    mEdtDesc.getText().toString().trim());
+                        else
+                            uploadVideo();
+                    } else {
+                        if (mPhoto)
+                            mPresenter.snapPhotoClick();
+                        else
+                            chooseVideo();
+                    }
+
+                }
+            });
+
+            mBtnGallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    mDialog.dismiss();
+                    if (mPhoto)
+                        mPresenter.pickFromGalleryClick();
+                    else
+                        chooseVideo();
+                }
+            });
+
+            mTxtPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPhoto = true;
+                    mVideo = false;
+                }
+            });
+
+            mTxtVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPhoto = false;
+                    mVideo = true;
+                }
+            });
+
+            mDialog = builder.create();
+            mDialog.setCancelable(true);
+            mDialog.show();
+            mDialog.getWindow().setGravity(Gravity.TOP);
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Window window = mDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.verticalMargin = .1f;
+            window.setAttributes(wlp);
+            if (photoFile != null) {
+                Picasso.with(this).load(photoFile).transform(new RoundedTransformation(10, 0)).into(mImgProfile);
+            }
+            mImgProfile.setDrawingCacheEnabled(false); // clear drawing cache
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_VIDEO) {
+                System.out.println("SELECT_VIDEO");
+                Uri selectedImageUri = data.getData();
+                selectedPath = getPath(selectedImageUri);
+                showModuleVideoPhoto(null, 1);
+            } else
+                mPresenter.onActivityResult(requestCode, resultCode, data);
+
+        }
+
+    }
+
+    @Override
+    public void setPhoto(File photoFile) {
+        showModuleVideoPhoto(photoFile, 1);
+    }
+
+    private static final int SELECT_VIDEO = 3;
+
+    private String selectedPath;
+
+    private void chooseVideo() {
+        Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
+    }
+
+
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
+
+    private void uploadVideo() {
+        class UploadVideo extends AsyncTask<Void, Void, String> {
+
+            ProgressDialog uploading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                uploading = ProgressDialog.show(HomeActivity.this, "Uploading File", "Please wait...", false, false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                uploading.dismiss();
+//                textViewResponse.setText(Html.fromHtml("<b>Uploaded at <a href='" + s + "'>" + s + "</a></b>"));
+//                textViewResponse.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                Upload u = new Upload();
+                String url = "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=&desc=&uid=3939";
+                String msg = u.upLoad2Server(selectedPath, url);
+                return msg;
+            }
+        }
+        UploadVideo uv = new UploadVideo();
+        uv.execute();
     }
 
 }

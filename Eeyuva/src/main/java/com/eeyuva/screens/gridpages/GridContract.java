@@ -1,5 +1,7 @@
 package com.eeyuva.screens.gridpages;
 
+import android.content.Intent;
+
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
@@ -10,6 +12,7 @@ import com.eeyuva.screens.gridpages.model.UserNewsList;
 import com.eeyuva.screens.gridpages.model.UserNewsListResponse;
 import com.eeyuva.screens.home.ResponseList;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -26,6 +29,9 @@ public interface GridContract {
         void setAdapter(PhotoGalleryResponse responseBody);
 
         void setAdapter(UserNewsListResponse responseBody);
+
+        void setPhoto(File photoFile);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -40,6 +46,14 @@ public interface GridContract {
         List<PhotoGalleryList> getPhotoGallery();
 
         void getUserList(String s, String mModuleId);
+
+        void uploadImageOrVideo(File photoFile, String trim, String s, String trim1);
+
+        void pickFromGalleryClick();
+
+        void snapPhotoClick();
+
+        void onActivityResult(int requestCode, int resultCode, Intent data);
     }
 
     interface AdapterCallBack {
