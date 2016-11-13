@@ -6,6 +6,7 @@ import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.home.HotModuleResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
+import com.eeyuva.utils.Constants;
 import com.eeyuva.utils.preferences.PrefsManager;
 import com.eeyuva.base.BaseView;
 
@@ -27,7 +28,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     @Override
     public void getHomeModule() {
-        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener, false);
+        mApiInteractor.getModuleResponse(mView, Constants.SplashHomeModule, mModuleListener, false);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         @Override
         public void onSuccess(ModuleOrderResponse responseBody) {
             mPrefsManager.setModules(responseBody);
-            mApiInteractor.getHotModuleResponse(mView, "http://mobile.eeyuva.com/getheaderservice.php", mHotModuleListener, false);
+            mApiInteractor.getHotModuleResponse(mView, Constants.SplashHotModule, mHotModuleListener, false);
 
 
         }
@@ -75,7 +76,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
             if (mPrefsManager.getUserDetails() != null)
                 mView.moveToDashboard();
             else
-                mView.moveToDashboard();
+                mView.moveToLogin();
         }
 
         @Override

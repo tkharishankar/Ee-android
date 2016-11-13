@@ -42,6 +42,7 @@ import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.Upload;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
+import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
 import com.eeyuva.screens.home.hotNewsCoverFlow.HotNewsCoverFlowAdapter;
@@ -53,6 +54,8 @@ import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
+import com.eeyuva.utils.Constants;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -775,7 +778,11 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             final EditText mEdtModule = (EditText) dialogView.findViewById(R.id.mEdtModule);
             final EditText mEdtTitle = (EditText) dialogView.findViewById(R.id.mEdtTitle);
             final EditText mEdtDesc = (EditText) dialogView.findViewById(R.id.mEdtDesc);
-            if (photoFile != null && i == 1) {
+            if (photoFile != null || i == 1) {
+                if (i == 1)
+                    mTxtPhoto.setClickable(false);
+                else if (i == 2)
+                    mTxtVideo.setClickable(false);
                 mBtnTakePhoto.setText("Post");
                 mEdtModule.setVisibility(View.VISIBLE);
                 mEdtTitle.setVisibility(View.VISIBLE);
@@ -787,14 +794,15 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             mBtnTakePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    mDialog.dismiss();
                     if (mBtnTakePhoto.getText().toString().trim().equalsIgnoreCase("Post")) {
-                        if (mPhoto)
+                        mDialog.dismiss();
+                        if (mPhoto) {
                             mPresenter.uploadImageOrVideo(photoFile, mEdtModule.getText().toString().trim(),
                                     mEdtTitle.getText().toString().trim(),
                                     mEdtDesc.getText().toString().trim());
-                        else
+                        } else {
                             uploadVideo();
+                        }
                     } else {
                         if (mPhoto)
                             mPresenter.snapPhotoClick();
@@ -808,7 +816,6 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             mBtnGallery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    mDialog.dismiss();
                     if (mPhoto)
                         mPresenter.pickFromGalleryClick();
                     else
@@ -821,6 +828,10 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 public void onClick(View v) {
                     mPhoto = true;
                     mVideo = false;
+                    mBtnTakePhoto.setText("Take a Photo");
+                    mTxtPhoto.setTextColor(getResources().getColor(R.color.white));
+                    mTxtVideo.setTextColor(getResources().getColor(R.color.light_gray_line));
+
                 }
             });
 
@@ -829,6 +840,11 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 public void onClick(View v) {
                     mPhoto = false;
                     mVideo = true;
+                    mBtnTakePhoto.setText("Take a Video");
+                    mTxtVideo.setTextColor(getResources().getColor(R.color.white));
+                    mTxtPhoto.setTextColor(getResources().getColor(R.color.light_gray_line));
+
+
                 }
             });
 
@@ -867,7 +883,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
     @Override
     public void setPhoto(File photoFile) {
-        showModuleVideoPhoto(photoFile, 1);
+        showModuleVideoPhoto(photoFile, 2);
     }
 
     private static final int SELECT_VIDEO = 3;
@@ -915,15 +931,18 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 uploading.dismiss();
-//                textViewResponse.setText(Html.fromHtml("<b>Uploaded at <a href='" + s + "'>" + s + "</a></b>"));
-//                textViewResponse.setMovementMethod(LinkMovementMethod.getInstance());
             }
 
             @Override
             protected String doInBackground(Void... params) {
                 Upload u = new Upload();
-                String url = "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=&desc=&uid=3939";
+                String url = Constants.DetailPostUserNews + "mid=4&catid=Cat_6395ebd0f&title=&desc=&uid=3939";
                 String msg = u.upLoad2Server(selectedPath, url);
+                Log.i("msg", "msg" + msg);
+                Gson gson;
+                gson = new Gson();
+                ImageResponse response = gson.fromJson(msg, ImageResponse.class);
+                showErrorDialog(response.getStatusInfo());
                 return msg;
             }
         }

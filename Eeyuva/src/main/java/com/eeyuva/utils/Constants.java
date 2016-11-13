@@ -7,27 +7,41 @@ import com.eeyuva.BuildConfig;
  */
 public class Constants {
     public static final String BASE_URL = BuildConfig.BASE_URL;
-    public static final String AUTHORIZATION = "Authorization";
 
-    public static String RTD_ORDERS = "RTD";// forward logistic -pick from warehouse to customer delivery.-Ready to dispatch
-    public static String DSP_ORDERS = "DSP";// forward logistic -pick from warehouse to customer delivery.-dispatched.
-    public static String RTC_ORDERS = "RTC";// reverse logistic -pick from warehouse to client return.
-    public static String RQST_ORDERS = "RQST";// reverse logistic -pick from customer to warehouse.
-
-    public static String BPU = "BPU";// forward logistic -pick from client.
-    public static String BCD = "BCD";// forward logistic -pick from warehouse to customer delivery.
-    public static String BCR = "BCR";// reverse logistic -pick from warehouse to client return.
-    public static String BCP = "BCP";// reverse logistic -pick from customer to warehouse.
-    public static String LIV = "LIV";
 
     public static final int REQUEST_CAPTURE_PHOTO = 5;
     public static final int REQUEST_GALLERY_PHOTO = 6;
-    public static final int REQUEST_CROP_PHOTO = 7;
 
     public static final int REQUEST_CODE_CLOSE = 100;
 
-
-
+    public static final String SplashHomeModule = "http://mobile.eeyuva.com/moduleorder.json";
+    public static final String SplashHotModule = "http://mobile.eeyuva.com/getheaderservice.php";
+    public static final String DetailGetArticleInfo = "http://mobile.eeyuva.com/getarticleinfo.php?";
+    public static final String DetailGetRelatedArticles = "http://mobile.eeyuva.com/getrelatedarticles.php?";
+    public static final String DetailLikeDislike = "http://eeyuva.com/mlike_dislike/?";
+    public static final String DetailfetchUserCommments = "http://mobile.eeyuva.com/fetchusercomments.php?";
+    public static final String DetailPostComments = "http://mobile.eeyuva.com/postcomments.php?";
+    public static final String DetailModuleWiseUserDetails = "http://mobile.eeyuva.com/getmodulewiseusernewsdetails.php?";
+    public static final String DetailGetUserDetail = "http://mobile.eeyuva.com/getusernewsdetails.php?";
+    public static final String DetailPostUserNews = "http://mobile.eeyuva.com/postusernews.php?";
+    public static final String GridGetPhotoGallery = "http://mobile.eeyuva.com/getphotogallery.php?";
+    public static final String GridGetPhotoAlbum = "http://mobile.eeyuva.com/getphotoalbums.php?";
+    public static final String GridGetUserNews = "http://mobile.eeyuva.com/getmodusernews.php?";
+    public static final String GridGetVideoGallery = "http://mobile.eeyuva.com/getvideogallery.php?";
+    public static final String GridGetVideoAlbum = "http://mobile.eeyuva.com/getvideoalbums.php?";
+    public static final String HomeGetModule = "http://mobile.eeyuva.com/moduleorder.json";
+    public static final String HomeGetArticle = "http://mobile.eeyuva.com/getarticles.php?";
+    public static final String HomeSearchInfo = "http://mobile.eeyuva.com/getsearchinfo.php?";
+    public static final String ProfileGetUserInfo = "http://mobile.eeyuva.com/getuserinfo.php?";
+    public static final String ProfileEditUserInfo = "http://mobile.eeyuva.com/edituserinfo.php?";
+    public static final String ProfileUserAlerts = "http://mobile.eeyuva.com/fetchalerts.php?";
+    public static final String ProfileGetUserCommments="http://mobile.eeyuva.com/getusercommentsinfo.php?";
+    public static final String ProfileGetUserNews="http://mobile.eeyuva.com/getusernews.php/?";
+    public static final String ProfileGetUserNotification="http://mobile.eeyuva.com/fetchuserpush.php/?";
+    public static final String ProfileUpdatePhoto="http://mobile.eeyuva.com/editprofilepic.php";
+    public static final String ProfileChangePassword="http://eeyuva.com/user_mchangepassword/?";
+    public static final String ProfilePostUserNews="http://mobile.eeyuva.com/postusernews.php?";
+    public static final String ProfileFetchUserComments="http://mobile.eeyuva.com/fetchusercomments.php?";
 
 
     public static enum UPDATE_FLAGS {

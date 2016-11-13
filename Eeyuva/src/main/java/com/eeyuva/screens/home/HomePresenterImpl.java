@@ -50,26 +50,24 @@ public class HomePresenterImpl implements HomeContract.Presenter {
 
     @Override
     public void getHomeModule() {
-        mApiInteractor.getModuleResponse(mView, "http://mobile.eeyuva.com/moduleorder.json", mModuleListener, false);
+        mApiInteractor.getModuleResponse(mView, Constants.HomeGetModule, mModuleListener, false);
     }
 
     @Override
     public void getArticles(String moduleid) {
-        mApiInteractor.getArticlesResponse(mView, "http://mobile.eeyuva.com/getarticles.php?moduleid=" + moduleid + "&startindex=0&endindex=10", mArticlesListener, true);
+        mApiInteractor.getArticlesResponse(mView, Constants.HomeGetArticle + "moduleid=" + moduleid + "&startindex=0&endindex=10", mArticlesListener, true);
 
     }
 
     @Override
     public void getSearchResponse(String key) {
-        mApiInteractor.getSearchResponse(mView, "http://mobile.eeyuva.com/getsearchinfo.php?search_key=" + key, mLoadSearchListener, false);
+        mApiInteractor.getSearchResponse(mView, Constants.HomeSearchInfo + "search_key=" + key, mLoadSearchListener, false);
 
     }
 
     @Override
     public void getArticles(String moduleid, int index, int i) {
-        Log.i("index", "getArticles" + index);
-        Log.i("index", "getArticles last" + i);
-        mApiInteractor.getArticlesResponse(mView, "http://mobile.eeyuva.com/getarticles.php?moduleid=" + moduleid + "&startindex=" + index + "&endindex=10", mLoadArticlesListener, false);
+        mApiInteractor.getArticlesResponse(mView, Constants.HomeGetArticle+"moduleid=" + moduleid + "&startindex=" + index + "&endindex=10", mLoadArticlesListener, false);
     }
 
     @Override
@@ -267,7 +265,7 @@ public class HomePresenterImpl implements HomeContract.Presenter {
         bytes = output.toByteArray();
         String encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
 
-        byte[] fbytes = Base64.decode(encodedString,Base64.DEFAULT);
+        byte[] fbytes = Base64.decode(encodedString, Base64.DEFAULT);
         BigInteger bigInt = new BigInteger(fbytes);
         String hexString = bigInt.toString(16);
 
@@ -275,7 +273,7 @@ public class HomePresenterImpl implements HomeContract.Presenter {
 
         ImageFile imagefile = new ImageFile(hexString);
 
-        mApiInteractor.uploadImageVideo(mView, "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=3939", imagefile, mEditProfileListener);
+        mApiInteractor.uploadImageVideo(mView, Constants.DetailPostUserNews + "mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=3939", imagefile, mEditProfileListener);
     }
 
 

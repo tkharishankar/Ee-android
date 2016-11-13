@@ -53,13 +53,13 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void getArticlesDetails(String mModuleId, String mArticleId) {
-        mApiInteractor.getArticlesDetails(mView, "http://mobile.eeyuva.com/getarticleinfo.php?moduleid=" + mModuleId + "&arid=" + mArticleId, mArticleListener);
+        mApiInteractor.getArticlesDetails(mView, Constants.DetailGetArticleInfo + "moduleid=" + mModuleId + "&arid=" + mArticleId, mArticleListener);
 
     }
 
     @Override
     public void getOtherArticlesDetails(String mModuleId, String mArticleId) {
-        mApiInteractor.getOtherArticlesDetails(mView, "http://mobile.eeyuva.com/getrelatedarticles.php?articleid=" + mArticleId + "&modid=" + mModuleId, mOtherArticleListener);
+        mApiInteractor.getOtherArticlesDetails(mView, Constants.DetailGetRelatedArticles + "articleid=" + mArticleId + "&modid=" + mModuleId, mOtherArticleListener);
     }
 
     @Override
@@ -69,36 +69,35 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void setLikeOrDislike(String article_id, String type, String module_id, String uid) {
-        Log.i("api", "apilll" + "http://eeyuva.com/mlike_dislike/?article_id=" + article_id + "&type=" + type + "&module_id=" + module_id + "&uid=" + mPrefsManager.getUserDetails().getUserid());
-        mApiInteractor.setLikeorDislike(mView, "http://eeyuva.com/mlike_dislike/?article_id=" + article_id + "&type=" + type + "&module_id=" + module_id + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mDislikeListener);
+        mApiInteractor.setLikeorDislike(mView, Constants.DetailLikeDislike + "article_id=" + article_id + "&type=" + type + "&module_id=" + module_id + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mDislikeListener);
     }
 
     @Override
     public void getViewComments(String mModuleId, String articleid) {
-        mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
+        mApiInteractor.getViewComments(mView, Constants.DetailfetchUserCommments + "modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
     }
 
     @Override
     public void setPostComments(String trim, String mModuleId, String articleid) {
-        mApiInteractor.getPostComments(mView, "http://mobile.eeyuva.com/postcomments.php?uid=" + mPrefsManager.getUserDetails().getUserid() + "&modid="
+        mApiInteractor.getPostComments(mView, Constants.DetailPostComments + "uid=" + mPrefsManager.getUserDetails().getUserid() + "&modid="
                 + mModuleId + "&eid=" + articleid + "&msg=" + trim, mCommentPostListener);
 
     }
 
     @Override
     public void getArticlesDetails(String mArticleId) {
-        mApiInteractor.getArticlesDetails(mView, "http://mobile.eeyuva.com/getmodulewiseusernewsdetails.php?arid=" + mArticleId, mArticleListener);
+        mApiInteractor.getArticlesDetails(mView, Constants.DetailModuleWiseUserDetails + "arid=" + mArticleId, mArticleListener);
 
     }
 
     @Override
     public void getOtherArticlesDetails(String mModuleId, String mArticleId, String mEntityId) {
-        mApiInteractor.getOtherArticlesDetails(mView, "http://mobile.eeyuva.com/getrelatedarticles.php?articleid=" + mArticleId + "&modid=" + mModuleId + "&ufl=" + mEntityId, mOtherArticleListener);
+        mApiInteractor.getOtherArticlesDetails(mView, Constants.DetailGetRelatedArticles + "articleid=" + mArticleId + "&modid=" + mModuleId + "&ufl=" + mEntityId, mOtherArticleListener);
     }
 
     @Override
     public void getArticlesNewsDetails(String mArticleId) {
-        mApiInteractor.getArticlesDetails(mView, "http://mobile.eeyuva.com/getusernewsdetails.php?uid=" + mPrefsManager.getUserDetails().getUserid() + "&arid=" + mArticleId, mArticleListener);
+        mApiInteractor.getArticlesDetails(mView, Constants.DetailGetUserDetail + "uid=" + mPrefsManager.getUserDetails().getUserid() + "&arid=" + mArticleId, mArticleListener);
 
     }
 
@@ -299,7 +298,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         bytes = output.toByteArray();
         String encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
 
-        byte[] fbytes = Base64.decode(encodedString,Base64.DEFAULT);
+        byte[] fbytes = Base64.decode(encodedString, Base64.DEFAULT);
         BigInteger bigInt = new BigInteger(fbytes);
         String hexString = bigInt.toString(16);
 
@@ -307,7 +306,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
         ImageFile imagefile = new ImageFile(hexString);
 
-        mApiInteractor.uploadImageVideo(mView, "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=3939", imagefile, mEditProfileListener);
+        mApiInteractor.uploadImageVideo(mView, Constants.DetailPostUserNews+"mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=" + mPrefsManager.getUserDetails().getUserid(), imagefile, mEditProfileListener);
     }
 
 

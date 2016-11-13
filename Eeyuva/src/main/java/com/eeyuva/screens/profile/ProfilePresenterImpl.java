@@ -65,14 +65,14 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
     @Override
     public void getProfile() {
 //        mApiInteractor.getProfile(mView, "http://mobile.eeyuva.com/getuserinfo.php?uid=" + mPrefsManager.getUserDetails().getUserid(), mProfileListener);
-        mApiInteractor.getProfile(mView, "http://mobile.eeyuva.com/getuserinfo.php?uid=3939", mProfileListener);
+        mApiInteractor.getProfile(mView, Constants.ProfileGetUserInfo + "uid=" + mPrefsManager.getUserDetails().getUserid(), mProfileListener);
     }
 
     @Override
     public void setUpdateProfile(String fname, String lastname, String mobile, String gender, String dob, String about) {
 
 //        mApiInteractor.getEditProfile(mView, "http://mobile.eeyuva.com/edituserinfo.php?uid=" + mPrefsManager.getUserDetails().getUserid() +
-        mApiInteractor.getEditProfile(mView, "http://mobile.eeyuva.com/edituserinfo.php?uid=3939"+
+        mApiInteractor.getEditProfile(mView, Constants.ProfileEditUserInfo + "uid=" + mPrefsManager.getUserDetails().getUserid() +
                 "&fname=" + fname +
                 "&lname=" + lastname +
                 "&mob=" + mobile + "" +
@@ -85,25 +85,25 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
     @Override
     public void getUserAlerts() {
 //        mApiInteractor.getUserAlerts(mView, "http://mobile.eeyuva.com/fetchalerts.php?uid=" + mPrefsManager.getUserDetails().getUserid(), mAlertListner);
-        mApiInteractor.getUserAlerts(mView, "http://mobile.eeyuva.com/fetchalerts.php?uid=3939", mAlertListner);
+        mApiInteractor.getUserAlerts(mView, Constants.ProfileUserAlerts + "uid=" + mPrefsManager.getUserDetails().getUserid(), mAlertListner);
     }
 
     @Override
     public void getComments() {
-        mApiInteractor.getStuffComments(mView, "http://mobile.eeyuva.com/getusercommentsinfo.php?uid=3939", mCommentListener);
+        mApiInteractor.getStuffComments(mView, Constants.ProfileGetUserCommments + "uid=" + mPrefsManager.getUserDetails().getUserid(), mCommentListener);
 
     }
 
     @Override
     public void getNews() {
 //        mApiInteractor.getStuffNews(mView, "http://mobile.eeyuva.com/getusernews.php/?uid=" + mPrefsManager.getUserDetails().getUserid(), mNewsListener);
-        mApiInteractor.getStuffNews(mView, "http://mobile.eeyuva.com/getusernews.php/?uid=3939", mNewsListener);
+        mApiInteractor.getStuffNews(mView, Constants.ProfileGetUserNews + "uid=" + mPrefsManager.getUserDetails().getUserid(), mNewsListener);
 
     }
 
     @Override
     public void getNotification() {
-        mApiInteractor.getNotificationComments(mView, "http://mobile.eeyuva.com/fetchuserpush.php/?uid=3939", mNotificationListener);
+        mApiInteractor.getNotificationComments(mView, Constants.ProfileGetUserNotification + "uid=" + mPrefsManager.getUserDetails().getUserid(), mNotificationListener);
 
     }
 
@@ -285,12 +285,12 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         bytes = output.toByteArray();
         String encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
 
-        mApiInteractor.uploadImage(mView, "http://mobile.eeyuva.com/editprofilepic.php", "3939", encodedString, mEditProfileListener);
+        mApiInteractor.uploadImage(mView, Constants.ProfileUpdatePhoto, "" + mPrefsManager.getUserDetails().getUserid(), encodedString, mEditProfileListener);
     }
 
     @Override
     public void setChangePassword(String oldpass, String newpass, String conpass) {
-        mApiInteractor.changePassword(mView, "http://eeyuva.com/user_mchangepassword/?oldpwd=" + oldpass + "&newpwd=" + newpass + "&cpwd=" + conpass + "&uid=3939", mEditProfileListener);
+        mApiInteractor.changePassword(mView, Constants.ProfileChangePassword + "oldpwd=" + oldpass + "&newpwd=" + newpass + "&cpwd=" + conpass + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mEditProfileListener);
 
     }
 
@@ -318,9 +318,10 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         bytes = output.toByteArray();
         String encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
 
-        ImageFile imagefile=new ImageFile(encodedString);
-        mApiInteractor.uploadImageVideo(mView, "http://mobile.eeyuva.com/postusernews.php?mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=3939", imagefile, mPhotoUploadListener);
+        ImageFile imagefile = new ImageFile(encodedString);
+        mApiInteractor.uploadImageVideo(mView, Constants.ProfilePostUserNews + "mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=" + mPrefsManager.getUserDetails().getUserid(), imagefile, mPhotoUploadListener);
     }
+
     LoadListener<ImageResponse> mPhotoUploadListener = new LoadListener<ImageResponse>() {
         @Override
         public void onSuccess(ImageResponse responseBody) {
@@ -337,9 +338,10 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
         }
     };
+
     @Override
     public void getViewComments(String mModuleId, String articleid) {
-        mApiInteractor.getViewComments(mView, "http://mobile.eeyuva.com/fetchusercomments.php?modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
+        mApiInteractor.getViewComments(mView, Constants.ProfileFetchUserComments+"modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
     }
 
     private void closeActivityOnResult(Intent data) {
