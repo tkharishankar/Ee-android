@@ -35,6 +35,7 @@ import com.eeyuva.di.component.HomeComponent;
 import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeActivity;
@@ -43,6 +44,7 @@ import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.navigation.FragmentDrawer;
+import com.eeyuva.screens.profile.alerts.AlertActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 import com.eeyuva.utils.Constants;
@@ -180,7 +182,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         Log.i("index", "mArticlesList after load" + mArticlesList.size());
 
         try {
-            mLayoutManager.scrollToPosition(mArticlesList.size() - 5);
+            mLayoutManager.scrollToPosition(mArticlesList.size() - 7);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,12 +306,21 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
                 showDialog();
                 break;
             case R.id.action_add:
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
                 showModuleVideoPhoto(null,2);
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void goToLogin() {
+        Intent intent =
+                new Intent(ArticlesActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.ARTICLES);
+        startActivity(intent);
     }
     AlertDialog mDialog;
 

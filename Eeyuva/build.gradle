@@ -15,7 +15,7 @@ android {
         versionName "1.0.0"
 
         multiDexEnabled true
-        buildConfigField "String", "BASE_URL", "\"http://eeyuva.com/\""
+        buildConfigField "String", "BASE_URL", "\"http://dev.eeyuva.com/\""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

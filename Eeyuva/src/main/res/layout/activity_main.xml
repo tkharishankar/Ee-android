@@ -40,7 +40,6 @@
             android:nextFocusForward="@+id/EdtPassword"
             android:padding="10dp"
             android:singleLine="true"
-            android:text="ramesh4student@gmail.com"
             android:textSize="@dimen/medium" />
 
     </LinearLayout>
@@ -66,7 +65,6 @@
             android:inputType="textPassword"
             android:padding="10dp"
             android:singleLine="true"
-            android:text="aqppd3158f"
             android:textSize="@dimen/medium" />
 
     </LinearLayout>

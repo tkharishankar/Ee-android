@@ -45,6 +45,7 @@ import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherFragmen
 import com.eeyuva.screens.DetailPage.infiniteOtherCoverFlow.InfiniteOtherPagerAdapter;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.gridpages.PhotoListAdapter;
 import com.eeyuva.screens.home.HomeActivity;
@@ -53,7 +54,9 @@ import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.home.loadmore.ArticlesLoadAdapter;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.navigation.FragmentDrawer;
+import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.utils.Constants;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -397,12 +400,22 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
                 showDialog();
                 break;
             case R.id.action_add:
-                showModuleVideoPhoto(null,2);
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
+                    showModuleVideoPhoto(null, 2);
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToLogin() {
+        Intent intent =
+                new Intent(DetailActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.DETAIL);
+        startActivity(intent);
     }
 
     AlertDialog mDialog;
@@ -453,27 +466,43 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
 
     @OnClick(R.id.mBtnShare)
     public void onShareClick() {
-        showShareDialog();
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, mArticleDetail.getTitle());
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+//        showShareDialog();
     }
 
     @OnClick(R.id.mBtnLike)
     public void onLikeClick() {
-        showLikeAndDislikeDialog(1);
+        if (mPresenter.getUserDetails() == null)
+            goToLogin();
+        else
+            showLikeAndDislikeDialog(1);
     }
 
     @OnClick(R.id.mBtnDislike)
     public void onDislikeClick() {
-        showLikeAndDislikeDialog(2);
+        if (mPresenter.getUserDetails() == null)
+            goToLogin();
+        else
+            showLikeAndDislikeDialog(2);
     }
 
     @OnClick(R.id.mBtnComment)
     public void onDialogCommentClick() {
-        showCommentDialog();
+        if (mPresenter.getUserDetails() == null)
+            goToLogin();
+        else
+            showCommentDialog();
     }
 
     @OnClick(R.id.mBtnViewComment)
     public void onDialogViewCommentClick() {
-        showViewCommentDialog();
+        if (mPresenter.getUserDetails() == null)
+            goToLogin();
+        else
+            showViewCommentDialog();
     }
 
 
@@ -898,6 +927,16 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     @Override
     public void setPhoto(File photoFile) {
         showModuleVideoPhoto(photoFile, 2);
+    }
+
+    @Override
+    public void setLikeCount(Integer countLike) {
+        mBtnLike.setText("Like(" + countLike + ")");
+    }
+
+    @Override
+    public void setDisLikeCount(Integer countLike) {
+        mBtnDislike.setText("Dislike(" + countLike + ")");
     }
 
     private static final int SELECT_VIDEO = 3;

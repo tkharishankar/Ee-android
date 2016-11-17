@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
@@ -29,7 +30,9 @@ import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
 import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
+import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.utils.Constants;
 
 import java.io.File;
 import java.util.List;
@@ -276,5 +279,13 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
     @Override
     public void setCommentsListToAdapter(List<CommentsList> response) {
 
+    }
+
+    @Override
+    public void goToLogin() {
+        Intent intent =
+                new Intent(ChangePasswordActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.CHANGEPASSWORD);
+        startActivity(intent);
     }
 }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
@@ -37,7 +38,9 @@ import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
 import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
+import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -104,7 +107,6 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
-        mPresenter.getUserAlerts();
     }
 
     public void initComponent() {
@@ -118,6 +120,7 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.getUserAlerts();
         drawerFragment.setActivity(this);
         drawerFragment.setList(mPresenter.getModules());
 
@@ -284,6 +287,14 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
     @Override
     public void setCommentsListToAdapter(List<CommentsList> response) {
 
+    }
+
+    @Override
+    public void goToLogin() {
+        Intent intent =
+                new Intent(AlertActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.ALERT);
+        startActivity(intent);
     }
 
     @Override

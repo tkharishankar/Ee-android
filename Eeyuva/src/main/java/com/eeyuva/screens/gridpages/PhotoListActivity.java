@@ -33,6 +33,7 @@ import com.eeyuva.di.component.DaggerGridComponent;
 import com.eeyuva.di.component.GridComponent;
 import com.eeyuva.di.module.GridModule;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
@@ -208,7 +209,10 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
                 showDialog();
                 break;
             case R.id.action_add:
-                showModuleVideoPhoto(null,2);
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
+                    showModuleVideoPhoto(null, 2);
                 break;
 
         }
@@ -216,6 +220,12 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
         return super.onOptionsItemSelected(item);
     }
 
+    private void goToLogin() {
+        Intent intent =
+                new Intent(PhotoListActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.PHOTOLIST);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.imgHome)
     public void onHomeClick() {
@@ -319,8 +329,7 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
     }
 
 
-    public void gotoHome(View v)
-    {
+    public void gotoHome(View v) {
         Intent intent =
                 new Intent(PhotoListActivity.this, HomeActivity.class);
         startActivity(intent);
@@ -508,7 +517,7 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
             @Override
             protected String doInBackground(Void... params) {
                 Upload u = new Upload();
-                String url = Constants.DetailPostUserNews+"mid=4&catid=Cat_6395ebd0f&title=&desc=&uid=3939";
+                String url = Constants.DetailPostUserNews + "mid=4&catid=Cat_6395ebd0f&title=&desc=&uid=3939";
                 String msg = u.upLoad2Server(selectedPath, url);
                 Log.i("msg", "msg" + msg);
                 Gson gson;

@@ -52,11 +52,10 @@
                     app:ignore="MissingPrefix" />
 
                 <TextView
-                    android:id="@+id/txtSubDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:visibility="gone"/>
+                    android:visibility="invisible" />
 
                 <LinearLayout
                     android:id="@+id/layHot"
@@ -81,8 +80,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_gravity="left|center"
-                        android:layout_weight="1"
                         android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
                         android:gravity="left|center"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -100,6 +99,14 @@
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtSubDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
 

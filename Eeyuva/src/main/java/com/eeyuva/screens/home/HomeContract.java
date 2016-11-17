@@ -51,6 +51,9 @@ public interface HomeContract {
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
 
+        LoginResponse getUserDetails();
+
+        void setClearPrefs();
     }
 
     interface AdapterCallBack {

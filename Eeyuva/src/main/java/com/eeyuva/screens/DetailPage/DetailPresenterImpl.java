@@ -11,6 +11,7 @@ import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
 import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
 import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.ImageFile;
 import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ResponseList;
@@ -38,6 +39,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
     private ApiInteractor mApiInteractor;
     private DetailContract.View mView;
     private PackageInfoInteractor mPackageInfoInteractor;
+    private String mLikeType;
 
 
     public DetailPresenterImpl(ApiInteractor apiInteractor, PrefsManager prefsManager, PackageInfoInteractor packageInfoInteractor) {
@@ -69,6 +71,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void setLikeOrDislike(String article_id, String type, String module_id, String uid) {
+        mLikeType = type;
         mApiInteractor.setLikeorDislike(mView, Constants.DetailLikeDislike + "article_id=" + article_id + "&type=" + type + "&module_id=" + module_id + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mDislikeListener);
     }
 
@@ -172,7 +175,19 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
     LoadListener<LikeDislikeResponse> mDislikeListener = new LoadListener<LikeDislikeResponse>() {
         @Override
         public void onSuccess(LikeDislikeResponse responseBody) {
-            mView.showErrorDialog(responseBody.getStatusInfo());
+            if (mLikeType.equalsIgnoreCase("1")) {
+                if (responseBody.getStatusInfo().equalsIgnoreCase("success"))
+                    mView.setLikeCount(responseBody.getCountLike());
+                else
+                    mView.showErrorDialog("You have already performed this activity");
+            } else {
+                if (responseBody.getStatusInfo().equalsIgnoreCase("success"))
+                    mView.setDisLikeCount(responseBody.getCountLike());
+                else
+                    mView.showErrorDialog("You have already performed this activity");
+            }
+
+
         }
 
         @Override
@@ -226,6 +241,11 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
                 closeActivityOnResult(data);
             }
         }
+    }
+
+    @Override
+    public LoginResponse getUserDetails() {
+        return mPrefsManager.getUserDetails();
     }
 
     private void closeActivityOnResult(Intent data) {
@@ -306,7 +326,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
         ImageFile imagefile = new ImageFile(hexString);
 
-        mApiInteractor.uploadImageVideo(mView, Constants.DetailPostUserNews+"mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=" + mPrefsManager.getUserDetails().getUserid(), imagefile, mEditProfileListener);
+        mApiInteractor.uploadImageVideo(mView, Constants.DetailPostUserNews + "mid=4&catid=Cat_6395ebd0f&title=" + title + "&desc=" + desc + "&uid=" + mPrefsManager.getUserDetails().getUserid(), imagefile, mEditProfileListener);
     }
 
 

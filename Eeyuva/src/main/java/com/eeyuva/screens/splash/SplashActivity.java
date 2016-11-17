@@ -1,5 +1,6 @@
 package com.eeyuva.screens.splash;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +31,7 @@ import butterknife.Bind;
 /**
  * Created by kavi on 18/07/16.
  */
-public class SplashActivity extends ButterAppCompatActivity implements SplashContract.View,Animation.AnimationListener {
+public class SplashActivity extends ButterAppCompatActivity implements SplashContract.View, Animation.AnimationListener {
 
     @Inject
     SplashContract.Presenter mPresenter;
@@ -62,7 +63,20 @@ public class SplashActivity extends ButterAppCompatActivity implements SplashCon
         FirebaseInstanceId.getInstance().getToken();
         mPresenter.setView(this);
 
+        try {
+            if (getIntent().getExtras().getString("status").equalsIgnoreCase("clear")) {
+                Intent intent =
+                        new Intent(this, SplashActivity.class);
+                intent.putExtra("status", "clear");
+                startActivity(intent);
+                finish();
+            }
+        } catch (Exception E) {
+            E.printStackTrace();
+        }
+
     }
+
     @Override
     public void setLoadAnim() {
         mImgLoaderAnim = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
@@ -117,9 +131,11 @@ public class SplashActivity extends ButterAppCompatActivity implements SplashCon
 
     @Override
     public void moveToDashboard() {
-        NavigationUtils.startAndFinishActivity(SplashActivity.this, HomeActivity.class);
-    }
-
+        Intent intent =
+                new Intent(this, SplashActivity.class);
+        intent.putExtra("status", "");
+        startActivity(intent);
+        finish();    }
 
 
     @Override

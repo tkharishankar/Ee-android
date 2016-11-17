@@ -41,7 +41,9 @@ import com.eeyuva.di.component.HomeComponent;
 import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
+import com.eeyuva.screens.gridpages.VideoGalleryActivity;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.coverflow.CoverFlowAdapter;
@@ -214,6 +216,13 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             pager.setPageMargin(-650);
 
         Log.i("screen size", "screen" + getResources().getString(R.string.dimens));
+        try {
+            if (getIntent().getExtras().getString("status").equalsIgnoreCase("clear"))
+                mPresenter.setClearPrefs();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -507,7 +516,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 }
             }
         });
-//        drawerFragment.setImage(mPresenter.getUserdetails());
+        drawerFragment.setImage(mPresenter.getUserdetails());
     }
 
     private void initComponent() {
@@ -537,12 +546,22 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 showDialog();
                 break;
             case R.id.action_add:
-                showModuleVideoPhoto(null, 0);
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
+                    showModuleVideoPhoto(null, 0);
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToLogin() {
+        Intent intent =
+                new Intent(HomeActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.HOME);
+        startActivity(intent);
     }
 
     @Override

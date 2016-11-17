@@ -12,14 +12,12 @@ import java.util.List;
 
 public class EditResponse {
 
-    @SerializedName("STATUS_CODE")
+    @SerializedName("status_code")
     @Expose
     private Integer sTATUSCODE;
-    @SerializedName("STATUS_INFO")
+    @SerializedName("status_info")
     @Expose
     private String sTATUSINFO;
-    @SerializedName("RESPONSE")
-    private List<List<String>> rESPONSE = new ArrayList<List<String>>();
 
     /**
      * @return The sTATUSCODE
@@ -48,19 +46,19 @@ public class EditResponse {
     public void setSTATUSINFO(String sTATUSINFO) {
         this.sTATUSINFO = sTATUSINFO;
     }
-
-    /**
-     * @return The rESPONSE
-     */
-    public List<List<String>> getRESPONSE() {
-        return rESPONSE;
-    }
-
-    /**
-     * @param rESPONSE The RESPONSE
-     */
-    public void setRESPONSE(List<List<String>> rESPONSE) {
-        this.rESPONSE = rESPONSE;
-    }
+//
+//    /**
+//     * @return The rESPONSE
+//     */
+//    public List<List<String>> getRESPONSE() {
+//        return rESPONSE;
+//    }
+//
+//    /**
+//     * @param rESPONSE The RESPONSE
+//     */
+//    public void setRESPONSE(List<List<String>> rESPONSE) {
+//        this.rESPONSE = rESPONSE;
+//    }
 
 }

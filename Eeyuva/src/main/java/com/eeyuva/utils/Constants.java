@@ -6,6 +6,7 @@ package com.eeyuva.utils;
 public class Constants {
 
     public static final String DOMAINNAME = "http://mobile.eeyuva.com/";
+    public static final String DEVDOMAINNAME = "http://dev.eeyuva.com/";
 
     public static final int REQUEST_CAPTURE_PHOTO = 5;
     public static final int REQUEST_GALLERY_PHOTO = 6;
@@ -15,7 +16,7 @@ public class Constants {
     public static final String SplashHotModule = getDomainName() + "getheaderservice.php";
     public static final String DetailGetArticleInfo = getDomainName() + "getarticleinfo.php?";
     public static final String DetailGetRelatedArticles = getDomainName() + "getrelatedarticles.php?";
-    public static final String DetailLikeDislike = getDomainName() + "mlike_dislike/?";
+    public static final String DetailLikeDislike = getDevDomainName() + "mlike_dislike/?";
     public static final String DetailfetchUserCommments = getDomainName() + "fetchusercomments.php?";
     public static final String DetailPostComments = getDomainName() + "postcomments.php?";
     public static final String DetailModuleWiseUserDetails = getDomainName() + "getmodulewiseusernewsdetails.php?";
@@ -36,12 +37,31 @@ public class Constants {
     public static final String ProfileGetUserNews = getDomainName() + "getusernews.php/?";
     public static final String ProfileGetUserNotification = getDomainName() + "fetchuserpush.php/?";
     public static final String ProfileUpdatePhoto = getDomainName() + "editprofilepic.php";
-    public static final String ProfileChangePassword = getDomainName() + "user_mchangepassword/?";
+    public static final String ProfileChangePassword = getDevDomainName() + "user_mchangepassword/?";
     public static final String ProfilePostUserNews = getDomainName() + "postusernews.php?";
     public static final String ProfileFetchUserComments = getDomainName() + "fetchusercomments.php?";
 
+    public static final int PROFILE = 2000;
+    public static final int ALERT = 2001;
+    public static final int CHANGEPASSWORD = 2002;
+    public static final int STUFFS = 2003;
+    public static final int DETAIL = 2004;
+    public static final int GRID = 2005;
+    public static final int PHOTOGALLERY = 2006;
+    public static final int PHOTOLIST = 2007;
+    public static final int USERNEWS=2008;
+    public static final int VIDEOGALLERY=2009;
+    public static final int VIDEOLIST=2010;
+    public static final int HOME=2011;
+    public static final int ARTICLES=2011;
+    public static final int SEARCH=2012;
+
     public static String getDomainName() {
         return DOMAINNAME;
+    }
+
+    public static String getDevDomainName() {
+        return DEVDOMAINNAME;
     }
 
     public static String BUNDLE = "bunlde";

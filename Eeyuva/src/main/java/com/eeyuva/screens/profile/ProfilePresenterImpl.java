@@ -64,8 +64,10 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
     @Override
     public void getProfile() {
-//        mApiInteractor.getProfile(mView, "http://mobile.eeyuva.com/getuserinfo.php?uid=" + mPrefsManager.getUserDetails().getUserid(), mProfileListener);
-        mApiInteractor.getProfile(mView, Constants.ProfileGetUserInfo + "uid=" + mPrefsManager.getUserDetails().getUserid(), mProfileListener);
+        if (mPrefsManager.getUserDetails() == null)
+            mView.goToLogin();
+        else
+            mApiInteractor.getProfile(mView, Constants.ProfileGetUserInfo + "uid=" + mPrefsManager.getUserDetails().getUserid(), mProfileListener);
     }
 
     @Override
@@ -84,13 +86,18 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
     @Override
     public void getUserAlerts() {
-//        mApiInteractor.getUserAlerts(mView, "http://mobile.eeyuva.com/fetchalerts.php?uid=" + mPrefsManager.getUserDetails().getUserid(), mAlertListner);
-        mApiInteractor.getUserAlerts(mView, Constants.ProfileUserAlerts + "uid=" + mPrefsManager.getUserDetails().getUserid(), mAlertListner);
+        if (mPrefsManager.getUserDetails() == null)
+            mView.goToLogin();
+        else
+            mApiInteractor.getUserAlerts(mView, Constants.ProfileUserAlerts + "uid=" + mPrefsManager.getUserDetails().getUserid(), mAlertListner);
     }
 
     @Override
     public void getComments() {
-        mApiInteractor.getStuffComments(mView, Constants.ProfileGetUserCommments + "uid=" + mPrefsManager.getUserDetails().getUserid(), mCommentListener);
+        if (mPrefsManager.getUserDetails() == null)
+            mView.goToLogin();
+        else
+            mApiInteractor.getStuffComments(mView, Constants.ProfileGetUserCommments + "uid=" + mPrefsManager.getUserDetails().getUserid(), mCommentListener);
 
     }
 
@@ -341,7 +348,7 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
     @Override
     public void getViewComments(String mModuleId, String articleid) {
-        mApiInteractor.getViewComments(mView, Constants.ProfileFetchUserComments+"modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
+        mApiInteractor.getViewComments(mView, Constants.ProfileFetchUserComments + "modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
     }
 
     private void closeActivityOnResult(Intent data) {

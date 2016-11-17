@@ -34,6 +34,7 @@ import com.eeyuva.di.component.HomeComponent;
 import com.eeyuva.di.module.HomeModule;
 import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.GetArticleResponse;
 import com.eeyuva.screens.home.HomeActivity;
@@ -297,12 +298,22 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
                 showDialog();
                 break;
             case R.id.action_add:
-                showModuleVideoPhoto(null, 2);
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
+                    showModuleVideoPhoto(null, 2);
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToLogin() {
+        Intent intent =
+                new Intent(SearchActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.SEARCH);
+        startActivity(intent);
     }
 
     AlertDialog mDialog;

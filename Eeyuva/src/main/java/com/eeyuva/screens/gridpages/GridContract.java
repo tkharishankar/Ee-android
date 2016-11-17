@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
@@ -54,6 +55,8 @@ public interface GridContract {
         void snapPhotoClick();
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
+
+        LoginResponse getUserDetails();
     }
 
     interface AdapterCallBack {

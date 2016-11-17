@@ -33,6 +33,7 @@ import com.eeyuva.di.component.DaggerGridComponent;
 import com.eeyuva.di.component.GridComponent;
 import com.eeyuva.di.module.GridModule;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
@@ -205,6 +206,9 @@ public class VideoListActivity extends ButterAppCompatActivity implements GridCo
                 showDialog();
                 break;
             case R.id.action_add:
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
                 showModuleVideoPhoto(null,2);
                 break;
 
@@ -212,7 +216,12 @@ public class VideoListActivity extends ButterAppCompatActivity implements GridCo
 
         return super.onOptionsItemSelected(item);
     }
-
+    private void goToLogin() {
+        Intent intent =
+                new Intent(VideoListActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.VIDEOLIST);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.imgHome)
     public void onHomeClick() {

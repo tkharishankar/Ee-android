@@ -78,7 +78,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 holder.imgDelete.setVisibility(View.GONE);
             }
             holder.txtSubDesc.setVisibility(View.INVISIBLE);
-            Picasso.with(mContext).load(articles.getPicpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
+            Picasso.with(mContext).load(articles.getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
             holder.card_row_list_order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

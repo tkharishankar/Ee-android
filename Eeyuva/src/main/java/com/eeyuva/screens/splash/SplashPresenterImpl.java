@@ -73,10 +73,7 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         @Override
         public void onSuccess(HotModuleResponse responseBody) {
             mPrefsManager.setHotModules(responseBody);
-            if (mPrefsManager.getUserDetails() != null)
-                mView.moveToDashboard();
-            else
-                mView.moveToLogin();
+            mView.moveToDashboard();
         }
 
         @Override

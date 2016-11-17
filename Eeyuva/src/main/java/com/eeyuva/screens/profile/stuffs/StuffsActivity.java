@@ -30,6 +30,7 @@ import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
 import com.eeyuva.screens.DetailPage.CommentsLoadAdapter;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
@@ -45,7 +46,9 @@ import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileList;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.profile.userdetails.IFragmentToActivity;
+import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -140,7 +143,6 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
                 Log.i("onTabReselected", "onTabReselected" + tab.getPosition());
             }
         });
-        mPresenter.getComments();
     }
 
     public void initComponent() {
@@ -154,6 +156,7 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.getComments();
         drawerFragment.setActivity(this);
         drawerFragment.setList(mPresenter.getModules());
 
@@ -324,6 +327,14 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
     @Override
     public void setCommentsListToAdapter(List<CommentsList> response) {
         showViewCommentDialog(response);
+    }
+
+    @Override
+    public void goToLogin() {
+        Intent intent =
+                new Intent(StuffsActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.STUFFS);
+        startActivity(intent);
     }
 
     @Override

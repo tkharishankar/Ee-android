@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
@@ -41,6 +42,7 @@ import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileList;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
+import com.eeyuva.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -143,7 +145,6 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
             }
         });
 
-        mPresenter.getProfile();
 
     }
 
@@ -158,6 +159,8 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.getProfile();
+
         drawerFragment.setActivity(this);
         drawerFragment.setList(mPresenter.getModules());
 
@@ -335,6 +338,14 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
     @Override
     public void setCommentsListToAdapter(List<CommentsList> response) {
 
+    }
+
+    @Override
+    public void goToLogin() {
+        Intent intent =
+                new Intent(ProfileActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.PROFILE);
+        startActivity(intent);
     }
 
     @Override

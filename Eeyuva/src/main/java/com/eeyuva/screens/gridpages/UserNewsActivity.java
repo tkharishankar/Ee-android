@@ -34,6 +34,7 @@ import com.eeyuva.di.component.GridComponent;
 import com.eeyuva.di.module.GridModule;
 import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.Upload;
+import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoList;
@@ -120,7 +121,7 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
         mTitle = getIntent().getExtras().getString("title");
         mModuleId = getIntent().getExtras().getString("module_id");
         mTxtHotStories.setText(mTitle);
-        mPresenter.getUserList(Constants.GridGetUserNews+"mid=" + mModuleId, "");
+        mPresenter.getUserList(Constants.GridGetUserNews + "mid=" + mModuleId, "");
 
     }
 
@@ -198,7 +199,10 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
                 showDialog();
                 break;
             case R.id.action_add:
-                showModuleVideoPhoto(null, 2);
+                if (mPresenter.getUserDetails() == null)
+                    goToLogin();
+                else
+                    showModuleVideoPhoto(null, 2);
                 break;
 
         }
@@ -206,6 +210,12 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
         return super.onOptionsItemSelected(item);
     }
 
+    private void goToLogin() {
+        Intent intent =
+                new Intent(UserNewsActivity.this, LoginActivity.class);
+        intent.putExtra("from", Constants.USERNEWS);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.imgHome)
     public void onHomeClick() {

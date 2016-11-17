@@ -36,6 +36,8 @@ public interface ProfileContract {
         void setPhoto(File photoFile);
 
         void setCommentsListToAdapter(List<CommentsList> response);
+
+        void goToLogin();
     }
 
     interface Presenter extends BasePresenter {

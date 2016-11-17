@@ -58,7 +58,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.ViewHolder> 
 
             holder.txtType.setText(articles.getModuleName());
             holder.txtDate.setText(getISOTime(articles.getDate()));
-            Picasso.with(mContext).load(articles.getThumbimg()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
+            Picasso.with(mContext).load(articles.getThumbimg()).placeholder(mContext.getResources().getDrawable(R.drawable.y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
 
 
         } catch (Exception e) {

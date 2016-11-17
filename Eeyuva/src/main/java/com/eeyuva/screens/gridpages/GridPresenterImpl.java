@@ -7,6 +7,7 @@ import android.util.Base64;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryList;
 import com.eeyuva.screens.gridpages.model.PhotoGalleryResponse;
 import com.eeyuva.screens.gridpages.model.PhotoListResponse;
@@ -190,6 +191,11 @@ public class GridPresenterImpl implements GridContract.Presenter {
                 closeActivityOnResult(data);
             }
         }
+    }
+
+    @Override
+    public LoginResponse getUserDetails() {
+        return mPrefsManager.getUserDetails();
     }
 
     private void closeActivityOnResult(Intent data) {

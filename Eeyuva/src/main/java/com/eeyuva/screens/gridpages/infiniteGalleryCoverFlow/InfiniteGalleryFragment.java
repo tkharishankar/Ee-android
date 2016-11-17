@@ -1,5 +1,7 @@
 package com.eeyuva.screens.gridpages.infiniteGalleryCoverFlow;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +13,14 @@ import android.widget.TextView;
 
 import com.eeyuva.R;
 import com.eeyuva.screens.gridpages.PhotoGalleryActivity;
+import com.eeyuva.screens.gridpages.ScaleImageView;
 import com.eeyuva.screens.home.HomeActivity;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class InfiniteGalleryFragment extends Fragment {
 
@@ -34,11 +42,14 @@ public class InfiniteGalleryFragment extends Fragment {
                 inflater.inflate(R.layout.gallery_mf, container, false);
 
         int pos = this.getArguments().getInt("pos");
-        ImageView imageView = (ImageView) l.findViewById(R.id.hotimage);
+
+
+        ScaleImageView imageView = (ScaleImageView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
         TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
+//        imageView.setImageBitmap(getBitmapFromURL(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()));
         Picasso.with(getActivity()).load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).placeholder(getActivity().getResources().getDrawable(R.drawable.y_logo)).into(imageView);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setScaleType(ScaleImageView.ScaleType.FIT_XY);
         label.setText(getSubString(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getTitle()));
 
         InfiniteGalleryLinearLayout root = (InfiniteGalleryLinearLayout) l.findViewById(R.id.hotroot);
@@ -52,5 +63,20 @@ public class InfiniteGalleryFragment extends Fragment {
         if (summary.length() > 100)
             return summary.substring(0, 100) + "...";
         return summary;
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
     }
 }

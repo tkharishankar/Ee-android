@@ -3,6 +3,7 @@ package com.eeyuva.screens.navigation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.eeyuva.R;
 import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.authentication.LoginResponse;
+import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
@@ -28,6 +30,7 @@ import com.eeyuva.screens.profile.ChangePasswordActivity;
 import com.eeyuva.screens.profile.alerts.AlertActivity;
 import com.eeyuva.screens.profile.stuffs.StuffsActivity;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
+import com.eeyuva.screens.splash.SplashActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,6 +59,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     ImageView imgProfile;
     TextView txtName;
     public List<ResponseList> mMenuModuleList = new ArrayList<ResponseList>();
+    private String mLoginOut="";
 
     public FragmentDrawer() {
         // Required empty public constructor
@@ -126,12 +130,15 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                                 .resize(80, 80)
                                 .centerCrop()
                                 .into(imgProfile);
+                        mLoginOut="Logout";
                     } else {
+                        mLoginOut="Login";
                         imgProfile.setImageResource(R.drawable.ic_profile_default);
                     }
                 }
             });
         } catch (Exception e) {
+            mLoginOut="Login";
             e.printStackTrace();
         }
     }
@@ -162,7 +169,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         mDrawerItems.add(new AppSetting("News room", R.drawable.newroom, false));
         mDrawerItems.add(new AppSetting("Account Settings", R.drawable.account_settings, true));
         mDrawerItems.add(new AppSetting("Change Password", 0, false));
-        mDrawerItems.add(new AppSetting("Logout", 0, false));
+        mDrawerItems.add(new AppSetting(mLoginOut, 0, false));
         mDrawerItems.add(new AppSetting("Notification", 0, false));
         mDrawerItems.add(new AppSetting("About App", 0, false));
         mDrawerItems.add(new AppSetting("Privacy", R.drawable.m_privacy, true));
@@ -184,11 +191,16 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                     if (!mDrawerItems.get(position).isHeader()) {
                         if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("logout")) {
                             Intent intent =
-                                    new Intent(getActivity(), LoginActivity.class);
+                                    new Intent(getActivity(), SplashActivity.class);
+                            intent.putExtra("status","clear");
                             startActivity(intent);
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("Change Password")) {
                             Intent intent =
                                     new Intent(getActivity(), ChangePasswordActivity.class);
+                            startActivity(intent);
+                        } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("login")) {
+                            Intent intent =
+                                    new Intent(getActivity(), LoginActivity.class);
                             startActivity(intent);
                         }
                         ResponseList rl = getPosition(position);

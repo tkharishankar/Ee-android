@@ -67,7 +67,7 @@ public class HomePresenterImpl implements HomeContract.Presenter {
 
     @Override
     public void getArticles(String moduleid, int index, int i) {
-        mApiInteractor.getArticlesResponse(mView, Constants.HomeGetArticle+"moduleid=" + moduleid + "&startindex=" + index + "&endindex=10", mLoadArticlesListener, false);
+        mApiInteractor.getArticlesResponse(mView, Constants.HomeGetArticle + "moduleid=" + moduleid + "&startindex=" + index + "&endindex=10", mLoadArticlesListener, false);
     }
 
     @Override
@@ -193,6 +193,17 @@ public class HomePresenterImpl implements HomeContract.Presenter {
                 closeActivityOnResult(data);
             }
         }
+    }
+
+    @Override
+    public LoginResponse getUserDetails() {
+        return mPrefsManager.getUserDetails();
+    }
+
+    @Override
+    public void setClearPrefs() {
+        LoginResponse mLogin=new LoginResponse();
+        mPrefsManager.setUserDetail(mLogin);
     }
 
     private void closeActivityOnResult(Intent data) {

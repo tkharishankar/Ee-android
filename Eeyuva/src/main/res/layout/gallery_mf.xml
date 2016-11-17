@@ -18,10 +18,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <com.eeyuva.screens.gridpages.ScaleImageView
                 android:id="@+id/hotimage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:scaleType="fitXY" />

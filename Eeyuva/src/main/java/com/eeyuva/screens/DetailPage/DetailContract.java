@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.ResponseList;
 
 import java.io.File;
@@ -23,6 +24,9 @@ public interface DetailContract {
         void setCommentsListToAdapter(List<CommentsList> response);
         void setPhoto(File photoFile);
 
+        void setLikeCount(Integer countLike);
+
+        void setDisLikeCount(Integer countLike);
     }
 
     interface Presenter extends BasePresenter {
@@ -52,6 +56,8 @@ public interface DetailContract {
         void snapPhotoClick();
 
         void onActivityResult(int requestCode, int resultCode, Intent data);
+
+        LoginResponse getUserDetails();
     }
 
     public interface AdapterCallBack {
