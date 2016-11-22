@@ -181,6 +181,7 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserDetails());
 
     }
 

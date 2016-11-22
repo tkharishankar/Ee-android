@@ -220,7 +220,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
             }
         });
         drawerFragment.setList(mPresenter.getModules());
-
+        drawerFragment.setImage(mPresenter.getUserdetails());
     }
 
     private void initComponent() {

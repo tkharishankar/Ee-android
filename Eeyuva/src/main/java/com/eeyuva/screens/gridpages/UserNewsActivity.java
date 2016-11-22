@@ -177,6 +177,7 @@ public class UserNewsActivity extends ButterAppCompatActivity implements GridCon
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserDetails());
 
     }
 

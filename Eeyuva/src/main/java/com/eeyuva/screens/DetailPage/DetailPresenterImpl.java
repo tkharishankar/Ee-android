@@ -248,6 +248,11 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         return mPrefsManager.getUserDetails();
     }
 
+    @Override
+    public LoginResponse getUserdetails() {
+        return mPrefsManager.getUserDetails();
+    }
+
     private void closeActivityOnResult(Intent data) {
         mView.setResultAndCloseActivity(data);
     }

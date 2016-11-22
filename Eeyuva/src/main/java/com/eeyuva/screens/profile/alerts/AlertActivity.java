@@ -134,6 +134,7 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserdetails());
 
     }
 

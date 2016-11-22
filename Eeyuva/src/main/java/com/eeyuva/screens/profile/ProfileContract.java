@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.eeyuva.base.BasePresenter;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.profile.model.AlertList;
 import com.eeyuva.screens.profile.model.CommentResponse;
@@ -68,6 +69,8 @@ public interface ProfileContract {
         void uploadImageOrVideo(File photoFile, String trim, String s, String trim1);
 
         void getViewComments(String moduleid, String artid);
+
+        LoginResponse getUserdetails();
     }
 
     interface AdapterCallBack {

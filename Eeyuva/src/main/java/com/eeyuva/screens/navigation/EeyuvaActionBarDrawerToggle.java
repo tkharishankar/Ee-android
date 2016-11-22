@@ -17,7 +17,7 @@ public class EeyuvaActionBarDrawerToggle extends ActionBarDrawerToggle {
     public EeyuvaActionBarDrawerToggle(Activity activity, final DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
         super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
 
-        setHomeAsUpIndicator(R.drawable.three_line_image);
+        setHomeAsUpIndicator(R.drawable.ic_three_line_image);
         setDrawerIndicatorEnabled(false);
 
         setToolbarNavigationClickListener(new View.OnClickListener() {

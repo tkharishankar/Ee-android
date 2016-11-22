@@ -174,6 +174,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserdetails());
 
     }
 

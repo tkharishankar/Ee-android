@@ -185,6 +185,7 @@ public class VideoGalleryActivity extends ButterAppCompatActivity implements Gri
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserDetails());
 
     }
 

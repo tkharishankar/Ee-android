@@ -184,6 +184,7 @@ public class VideoListActivity extends ButterAppCompatActivity implements GridCo
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserDetails());
 
     }
 

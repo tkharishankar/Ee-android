@@ -164,6 +164,8 @@ public class GridHomeActivity extends ButterAppCompatActivity implements GridCon
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserDetails());
+
 
     }
 

@@ -89,6 +89,7 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
     TabLayout tabLayout;
     StuffPagerAdapter adapter;
     ProfileList mProfileInfo;
+    private int mPrevState = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +121,27 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
         tabLayout.setupWithViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        try {
+            if (getIntent().getExtras().getString("mode").equalsIgnoreCase("noti")) {
+                mPrevState = 1;
+                viewPager.setCurrentItem(2);
+                mPresenter.getNotification();
+            } else {
+                mPresenter.getComments();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.i("onTabSelected", "onTabSelected" + tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
-                if (tab.getPosition() == 0)
+                if (tab.getPosition() == 0) {
                     mPresenter.getComments();
-                else if (tab.getPosition() == 1)
+                } else if (tab.getPosition() == 1)
                     mPresenter.getNews();
                 else if (tab.getPosition() == 2)
                     mPresenter.getNotification();
@@ -143,6 +157,8 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
                 Log.i("onTabReselected", "onTabReselected" + tab.getPosition());
             }
         });
+
+
     }
 
     public void initComponent() {
@@ -156,7 +172,7 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getComments();
+//        mPresenter.getComments();
         drawerFragment.setActivity(this);
         drawerFragment.setList(mPresenter.getModules());
 
@@ -170,6 +186,7 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserdetails());
 
     }
 

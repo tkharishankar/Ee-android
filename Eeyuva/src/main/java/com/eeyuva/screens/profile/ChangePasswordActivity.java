@@ -125,6 +125,7 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserdetails());
 
     }
 

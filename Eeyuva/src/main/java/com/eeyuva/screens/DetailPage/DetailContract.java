@@ -58,6 +58,8 @@ public interface DetailContract {
         void onActivityResult(int requestCode, int resultCode, Intent data);
 
         LoginResponse getUserDetails();
+
+        LoginResponse getUserdetails();
     }
 
     public interface AdapterCallBack {

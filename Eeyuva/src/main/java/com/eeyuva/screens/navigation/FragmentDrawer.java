@@ -2,6 +2,7 @@ package com.eeyuva.screens.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import com.eeyuva.screens.profile.alerts.AlertActivity;
 import com.eeyuva.screens.profile.stuffs.StuffsActivity;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.splash.SplashActivity;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,17 +61,26 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     ImageView imgProfile;
     TextView txtName;
     public List<ResponseList> mMenuModuleList = new ArrayList<ResponseList>();
-    private String mLoginOut="";
+    private String mLoginOut = "";
+    private Gson gson;
 
     public FragmentDrawer() {
         // Required empty public constructor
     }
+
+    private SharedPreferences remotePrefs;
+    private SharedPreferences.Editor remoteEditor;
+    String SHARED_PREFERENCES_REMOTE_KEY = "fetchr";
+
+    String PREFS_USER_DETAILS = "UserName_Detail";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_drawer, container, false);
+        gson = new Gson();
+
         mDrawerList = (ListView) view.findViewById(R.id.list);
         imgProfile = (ImageView) view.findViewById(R.id.imgProfile);
         txtName = (TextView) view.findViewById(R.id.txtName);
@@ -77,36 +88,70 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         mBtnAlert = (Button) view.findViewById(R.id.mBtnAlerts);
 
         LayProfile = (RelativeLayout) view.findViewById(R.id.LayProfile);
+
+
+        remotePrefs = getActivity().getSharedPreferences(SHARED_PREFERENCES_REMOTE_KEY, Context.MODE_PRIVATE);
+        remoteEditor = remotePrefs.edit();
+
         LayProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =
-                        new Intent(getActivity(), ProfileActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                if (getUserDetails() != null) {
+                    Intent intent =
+                            new Intent(getActivity(), ProfileActivity.class);
+                    intent.putExtra("mode", "normal");
+                    startActivity(intent);
+                } else {
+                    Intent intent =
+                            new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         mBtnStuff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =
-                        new Intent(getActivity(), StuffsActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                if (getUserDetails() != null) {
+                    Intent intent =
+                            new Intent(getActivity(), StuffsActivity.class);
+                    intent.putExtra("mode", "normal");
+                    startActivity(intent);
+                } else {
+                    Intent intent =
+                            new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+
+//                getActivity().finish();
             }
         });
         mBtnAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =
-                        new Intent(getActivity(), AlertActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                if (getUserDetails() != null) {
+                    Intent intent =
+                            new Intent(getActivity(), AlertActivity.class);
+                    intent.putExtra("mode", "normal");
+                    startActivity(intent);
+                } else {
+                    Intent intent =
+                            new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         return view;
     }
 
+    public void setUserDetail() {
+        remoteEditor.remove(PREFS_USER_DETAILS);
+        remoteEditor.putString(PREFS_USER_DETAILS, null);
+        remoteEditor.commit();
+    }
+
+    public LoginResponse getUserDetails() {
+        return gson.fromJson(remotePrefs.getString(PREFS_USER_DETAILS, null), LoginResponse.class);
+    }
 
     public void setActivity(Context context) {
         mContext = context;
@@ -130,15 +175,15 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                                 .resize(80, 80)
                                 .centerCrop()
                                 .into(imgProfile);
-                        mLoginOut="Logout";
+                        mLoginOut = "Logout";
                     } else {
-                        mLoginOut="Login";
+                        mLoginOut = "Login";
                         imgProfile.setImageResource(R.drawable.ic_profile_default);
                     }
                 }
             });
         } catch (Exception e) {
-            mLoginOut="Login";
+            mLoginOut = "Login";
             e.printStackTrace();
         }
     }
@@ -192,7 +237,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                         if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("logout")) {
                             Intent intent =
                                     new Intent(getActivity(), SplashActivity.class);
-                            intent.putExtra("status","clear");
+                            setUserDetail();
                             startActivity(intent);
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("Change Password")) {
                             Intent intent =
@@ -201,6 +246,11 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("login")) {
                             Intent intent =
                                     new Intent(getActivity(), LoginActivity.class);
+                            startActivity(intent);
+                        } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("notification")) {
+                            Intent intent =
+                                    new Intent(getActivity(), StuffsActivity.class);
+                            intent.putExtra("mode", "noti");
                             startActivity(intent);
                         }
                         ResponseList rl = getPosition(position);

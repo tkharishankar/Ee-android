@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="40dp"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom"
     android:background="@color/black"
@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="10dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:src="@drawable/bottom_home" />
 
     <View
         android:layout_width="2dp"
-        android:layout_height="45dp"
+        android:layout_height="35dp"
         android:layout_margin="5dp"
         android:background="@color/white" />
 
@@ -33,7 +33,7 @@
 
     <View
         android:layout_width="2dp"
-        android:layout_height="45dp"
+        android:layout_height="35dp"
         android:layout_margin="5dp"
         android:background="@color/white" />
 
@@ -48,7 +48,7 @@
 
     <View
         android:layout_width="2dp"
-        android:layout_height="45dp"
+        android:layout_height="35dp"
         android:layout_margin="5dp"
         android:background="@color/white" />
 
@@ -63,7 +63,7 @@
 
     <View
         android:layout_width="2dp"
-        android:layout_height="45dp"
+        android:layout_height="35dp"
         android:layout_margin="5dp"
         android:background="@color/white" />
 

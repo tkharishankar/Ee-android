@@ -187,6 +187,7 @@ public class PhotoListActivity extends ButterAppCompatActivity implements GridCo
                 }
             }
         });
+        drawerFragment.setImage(mPresenter.getUserDetails());
 
     }
 

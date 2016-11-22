@@ -215,6 +215,7 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
             }
         });
         drawerFragment.setList(mPresenter.getModules());
+        drawerFragment.setImage(mPresenter.getUserdetails());
 
     }
 

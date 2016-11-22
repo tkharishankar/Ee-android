@@ -61,8 +61,6 @@ public class SplashActivity extends ButterAppCompatActivity implements SplashCon
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         FirebaseInstanceId.getInstance().getToken();
-        mPresenter.setView(this);
-
         try {
             if (getIntent().getExtras().getString("status").equalsIgnoreCase("clear")) {
                 Intent intent =
@@ -74,6 +72,9 @@ public class SplashActivity extends ButterAppCompatActivity implements SplashCon
         } catch (Exception E) {
             E.printStackTrace();
         }
+        mPresenter.setView(this);
+
+
 
     }
 
@@ -131,11 +132,8 @@ public class SplashActivity extends ButterAppCompatActivity implements SplashCon
 
     @Override
     public void moveToDashboard() {
-        Intent intent =
-                new Intent(this, SplashActivity.class);
-        intent.putExtra("status", "");
-        startActivity(intent);
-        finish();    }
+        NavigationUtils.startAndFinishActivity(SplashActivity.this, HomeActivity.class);
+    }
 
 
     @Override

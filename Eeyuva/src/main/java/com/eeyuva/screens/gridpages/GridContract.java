@@ -57,6 +57,8 @@ public interface GridContract {
         void onActivityResult(int requestCode, int resultCode, Intent data);
 
         LoginResponse getUserDetails();
+
+
     }
 
     interface AdapterCallBack {

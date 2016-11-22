@@ -10,6 +10,7 @@ import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
+import com.eeyuva.screens.authentication.LoginResponse;
 import com.eeyuva.screens.home.ImageFile;
 import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ResponseList;
@@ -349,6 +350,11 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
     @Override
     public void getViewComments(String mModuleId, String articleid) {
         mApiInteractor.getViewComments(mView, Constants.ProfileFetchUserComments + "modid=" + mModuleId + "&eid=" + articleid, mCommentListArticleListener);
+    }
+
+    @Override
+    public LoginResponse getUserdetails() {
+        return mPrefsManager.getUserDetails();
     }
 
     private void closeActivityOnResult(Intent data) {
