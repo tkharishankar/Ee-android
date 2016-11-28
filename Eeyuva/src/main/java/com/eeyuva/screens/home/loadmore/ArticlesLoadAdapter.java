@@ -133,7 +133,7 @@ public class ArticlesLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void bindData(final ResponseItem articles) {
             txtTitle.setText(articles.getTitle());
             txtSubDesc.setText(Html.fromHtml(getSubString(articles.getSummary())));
-            Picasso.with(mContext).load(articles.getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(imgArticle);
+            Picasso.with(mContext).load(articles.getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.ic_big_y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(imgArticle);
             txtSubDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

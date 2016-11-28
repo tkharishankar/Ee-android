@@ -49,7 +49,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         String name = mView.getUsername();
         String pass = mView.getPassword();
         if (validateAuthentication(name, pass)) {
-            mDriverInteractor.getLoginResponse(mView, name, pass,"", mLoginListener);
+            mDriverInteractor.getLoginResponse(mView, name, pass,mPrefsManager.getAccessToken(), mLoginListener);
         }
     }
 
@@ -116,13 +116,13 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
 
     }
 
-    public void updateTokenToServer(String token) {
-        if (mPrefsManager.getAccessToken() != null) {
+//    public void updateTokenToServer(String token) {
+//        if (mPrefsManager.getAccessToken() != null) {
 //            mPrefsManager.setFcmToken(token);
 //            FCMRegisterRequest request = new FCMRegisterRequest();
 //            request.setDeviceId(token);
 //            mDriverInteractor.updateFCmToken(mUpdateListener, request);
-        }
-
-    }
+//        }
+//
+//    }
 }

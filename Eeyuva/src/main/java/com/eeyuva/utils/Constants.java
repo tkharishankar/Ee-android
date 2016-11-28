@@ -6,7 +6,7 @@ package com.eeyuva.utils;
 public class Constants {
 
     public static final String DOMAINNAME = "http://mobile.eeyuva.com/";
-    public static final String DEVDOMAINNAME = "http://dev.eeyuva.com/";
+    public static final String DEVDOMAINNAME = "http://www.eeyuva.com/";
 
     public static final int REQUEST_CAPTURE_PHOTO = 5;
     public static final int REQUEST_GALLERY_PHOTO = 6;

@@ -45,7 +45,7 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final PhotoGalleryList rl = mModuleList.get(position);
-        Picasso.with(mContext).load(rl.getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.y_logo)).into(holder.mImgItem);
+        Picasso.with(mContext).load(rl.getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.ic_big_y_logo)).into(holder.mImgItem);
         holder.mImgLabel.setText(rl.getTitle());
         holder.mImgItem.setOnClickListener(new View.OnClickListener() {
             @Override
