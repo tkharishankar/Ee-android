@@ -40,6 +40,7 @@ public class Constants {
     public static final String ProfileChangePassword = getDevDomainName() + "user_mchangepassword/?";
     public static final String ProfilePostUserNews = getDomainName() + "postusernews.php?";
     public static final String ProfileFetchUserComments = getDomainName() + "fetchusercomments.php?";
+    public static final String ProfileUpdateNotification = getDomainName() + "pushsettings.php?";
 
     public static final int PROFILE = 2000;
     public static final int ALERT = 2001;

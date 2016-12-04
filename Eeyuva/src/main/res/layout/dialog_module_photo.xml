@@ -72,8 +72,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_profile_default" />
+            android:scaleType="centerCrop" />
 
         <EditText
             android:id="@+id/mEdtModule"

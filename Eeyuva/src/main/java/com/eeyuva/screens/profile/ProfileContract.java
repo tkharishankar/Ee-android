@@ -71,6 +71,8 @@ public interface ProfileContract {
         void getViewComments(String moduleid, String artid);
 
         LoginResponse getUserdetails();
+
+        void updateNotification(String moduleId);
     }
 
     interface AdapterCallBack {

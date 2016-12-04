@@ -16,6 +16,7 @@ import com.eeyuva.di.component.RegistrationComponent;
 import com.eeyuva.di.module.LoginPresenterModule;
 import com.eeyuva.di.module.RegistrationPresenterModule;
 import com.eeyuva.screens.authentication.LoginActivity;
+import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.utils.navigation.NavigationUtils;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -102,6 +103,7 @@ public class RegistrationActivity extends ButterAppCompatActivity implements Reg
 
     }
 
+
     @Override
     public String getFirstName() {
         return mEdtFirstName.getText().toString().trim();
@@ -132,13 +134,13 @@ public class RegistrationActivity extends ButterAppCompatActivity implements Reg
         try {
             Log.i("sex","sex"+radioSexButton.getText());
             if (radioSexButton.getText().toString().equalsIgnoreCase("male"))
-                return "m";
+                return "0";
             else if (radioSexButton.getText().toString().equalsIgnoreCase("female"))
-                return "f";
+                return "1";
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "m";
+        return "0";
     }
 
 }

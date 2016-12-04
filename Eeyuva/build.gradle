@@ -52,7 +52,9 @@ def getDate() {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':models')
-
+    compile project(path: ':coverflow')
+    compile project(path: ':lib')
+    compile project(path: ':pinchzoomlib')
     // Test dependencies
     testCompile "junit:junit:$rootProject.junitVersion"
     testCompile 'org.mockito:mockito-core:2.0.79-beta'
@@ -144,7 +146,6 @@ dependencies {
     compile 'com.mikepenz:iconics-core:2.8.0@aar'
 
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
-    compile project(path: ':coverflow')
-    compile project(path: ':lib')
+
 }
 apply plugin: 'com.google.gms.google-services'

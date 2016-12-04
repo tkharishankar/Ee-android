@@ -357,6 +357,12 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         return mPrefsManager.getUserDetails();
     }
 
+    @Override
+    public void updateNotification(String moduleId) {
+        mApiInteractor.getUpdateNotification(mView, Constants.ProfileUpdateNotification + "uid=" + moduleId, mEditProfileListener);
+
+    }
+
     private void closeActivityOnResult(Intent data) {
         mView.setResultAndCloseActivity(data);
     }

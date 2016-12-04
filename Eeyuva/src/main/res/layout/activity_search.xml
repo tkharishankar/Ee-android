@@ -81,7 +81,7 @@
         <fragment
             android:id="@+id/fragment_navigation_drawer"
             android:name="com.eeyuva.screens.navigation.FragmentDrawer"
-            android:layout_width="320dp"
+            android:layout_width="220dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:layout="@layout/fragment_drawer"

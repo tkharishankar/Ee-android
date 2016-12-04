@@ -18,6 +18,17 @@ public class ResponseList {
     @Expose
     private String title;
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    private boolean selected;
+
+
     /**
      *
      * @return

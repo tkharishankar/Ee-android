@@ -144,7 +144,7 @@ public class SearchLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             SpannableString styledString = new SpannableString(complete);
             styledString.setSpan(new ForegroundColorSpan(Color.RED), 0, complete.length(), 0);
             txtSubDesc.setText(styledString);
-            Picasso.with(mContext).load("http://pics.eeyuva.com/" + articles.getImgpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(imgArticle);
+            Picasso.with(mContext).load("http://pics.eeyuva.com/" + articles.getImgpath()).placeholder(mContext.getResources().getDrawable(R.drawable.ic_big_y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(imgArticle);
             txtSubDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

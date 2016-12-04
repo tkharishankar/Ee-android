@@ -20,6 +20,7 @@ import com.eeyuva.screens.profile.model.EditResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
 import com.eeyuva.screens.profile.model.NotificationResponse;
 import com.eeyuva.screens.profile.model.ProfileResponse;
+import com.eeyuva.screens.registration.RegistrationResponse;
 import com.eeyuva.screens.searchpage.model.SearchResponse;
 
 import okhttp3.MultipartBody;
@@ -46,8 +47,8 @@ public interface Api {
     Call<LoginResponse> getAuthentication(@Query("username") String name, @Query("password") String pass, @Query("appid") String appid);
 
     @GET("usermobileregister/")
-    Call<LoginResponse> getRegistration(@Query("firstname") String firstName, @Query("lastname") String lastName, @Query("gender") String gender, @Query("email") String email,
-                                        @Query("password") String password);
+    Call<RegistrationResponse> getRegistration(@Query("firstname") String firstName, @Query("lastname") String lastName, @Query("gender") String gender, @Query("email") String email,
+                                               @Query("password") String password);
 
     @GET
     Call<ModuleOrderResponse> getModule(@Url String url);
@@ -105,6 +106,9 @@ public interface Api {
 
     @GET
     Call<NotificationResponse> getNotificationComments(@Url String url);
+
+    @GET
+    Call<LoginResponse> getAuthentication(@Url String s);
 
 
 //    @POST("driver/deviceid/")

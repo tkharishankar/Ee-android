@@ -49,7 +49,7 @@ public class InfiniteHotFragment extends Fragment {
         ImageView imageView = (ImageView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
         TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
-        Picasso.with(getActivity()).load(HomeActivity.mHotModuleList.get((pos % HomeActivity.mHotModuleList.size())).getPicpath()).into(imageView);
+        Picasso.with(getActivity()).load(HomeActivity.mHotModuleList.get((pos % HomeActivity.mHotModuleList.size())).getPicpath()).placeholder(l.getResources().getDrawable(R.drawable.ic_big_y_logo)).into(imageView);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         label.setText(getSubString(HomeActivity.mHotModuleList.get((pos % HomeActivity.mHotModuleList.size())).getTitle()));
         labeltitle.setText(getSubString(HomeActivity.mHotModuleList.get((pos % HomeActivity.mHotModuleList.size())).getModulename()));

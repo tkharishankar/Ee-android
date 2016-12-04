@@ -2,6 +2,7 @@ package com.eeyuva.screens.authentication;
 
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.eeyuva.R;
 import com.eeyuva.base.BaseView;
@@ -29,8 +30,16 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     public LoadListener<LoginResponse> mLoginListener = new LoadListener<LoginResponse>() {
         @Override
         public void onSuccess(LoginResponse responseBody) {
-            mPrefsManager.setUserDetail(responseBody);
-            mView.movetoHome();
+            try {
+                if (responseBody.getStatusCode() != null) {
+                    mPrefsManager.setUserDetail(responseBody);
+                    mView.movetoHome();
+                } else
+                    mView.showErrorDialog(responseBody.getStatusInfo());
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.showErrorDialog(responseBody.getStatusInfo());
+            }
         }
 
         @Override
@@ -49,7 +58,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         String name = mView.getUsername();
         String pass = mView.getPassword();
         if (validateAuthentication(name, pass)) {
-            mDriverInteractor.getLoginResponse(mView, name, pass,mPrefsManager.getAccessToken(), mLoginListener);
+            mDriverInteractor.getLoginResponse(mView, name, pass, mPrefsManager.getAccessToken(), mLoginListener);
         }
     }
 

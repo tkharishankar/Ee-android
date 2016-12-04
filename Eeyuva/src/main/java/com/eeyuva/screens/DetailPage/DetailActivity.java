@@ -263,7 +263,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), posted.length(), posted.length() + articleDetail.getCreatedby().length(), 0);
             styledString.setSpan(new ForegroundColorSpan(Color.RED), posted.length() + articleDetail.getCreatedby().length(), complete.length(), 0);
             mTxtTimeInfo.setText(styledString);
-            Picasso.with(this).load(articleDetail.getGalleryimg()).placeholder(getResources().getDrawable(R.drawable.y_logo)).into(mImgArticleImg);
+            Picasso.with(this).load(articleDetail.getGalleryimg()).placeholder(getResources().getDrawable(R.drawable.ic_big_y_logo)).into(mImgArticleImg);
             mTxtDetailInfo.getSettings().setJavaScriptEnabled(true);
             mTxtDetailInfo.loadDataWithBaseURL("", articleDetail.getSummary(), "text/html", "UTF-8", "");
             mBtnLike.setText("Like(" + articleDetail.getLikecount() + ")");

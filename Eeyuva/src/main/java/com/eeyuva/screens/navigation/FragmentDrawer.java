@@ -29,6 +29,7 @@ import com.eeyuva.screens.home.loadmore.ArticlesActivity;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.profile.ChangePasswordActivity;
 import com.eeyuva.screens.profile.alerts.AlertActivity;
+import com.eeyuva.screens.profile.notification.NotificationActivity;
 import com.eeyuva.screens.profile.stuffs.StuffsActivity;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.splash.SplashActivity;
@@ -249,8 +250,8 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                             startActivity(intent);
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("notification")) {
                             Intent intent =
-                                    new Intent(getActivity(), StuffsActivity.class);
-                            intent.putExtra("mode", "noti");
+                                    new Intent(getActivity(), NotificationActivity.class);
+//                            intent.putExtra("mode", "noti");
                             startActivity(intent);
                         }
                         ResponseList rl = getPosition(position);

@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
@@ -70,6 +71,9 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
     @Bind(R.id.tool_bar)
     Toolbar mToolbar;
 
+    @Bind(R.id.LayBottom)
+    LinearLayout mLayBottom;
+
     @Bind(R.id.txtHotStories)
     TextView mTxtHotStories;
 
@@ -107,7 +111,7 @@ public class PhotoGalleryActivity extends ButterAppCompatActivity implements Gri
 
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
+        mToolbar.setVisibility(View.GONE);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

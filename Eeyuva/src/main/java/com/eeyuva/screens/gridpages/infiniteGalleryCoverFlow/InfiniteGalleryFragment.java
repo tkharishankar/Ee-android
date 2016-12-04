@@ -2,11 +2,16 @@ package com.eeyuva.screens.gridpages.infiniteGalleryCoverFlow;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,12 +20,21 @@ import com.eeyuva.R;
 import com.eeyuva.screens.gridpages.PhotoGalleryActivity;
 import com.eeyuva.screens.gridpages.ScaleImageView;
 import com.eeyuva.screens.home.HomeActivity;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
+import uk.co.senab.photoview.log.LogManager;
+
+import static android.view.MotionEvent.ACTION_CANCEL;
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_UP;
 
 public class InfiniteGalleryFragment extends Fragment {
 
@@ -44,12 +58,35 @@ public class InfiniteGalleryFragment extends Fragment {
         int pos = this.getArguments().getInt("pos");
 
 
-        ScaleImageView imageView = (ScaleImageView) l.findViewById(R.id.hotimage);
+        PhotoView imageView = (PhotoView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
         TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
 //        imageView.setImageBitmap(getBitmapFromURL(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()));
-        Picasso.with(getActivity()).load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).placeholder(getActivity().getResources().getDrawable(R.drawable.y_logo)).into(imageView);
-        imageView.setScaleType(ScaleImageView.ScaleType.FIT_XY);
+//        Picasso.with(getActivity()).load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).placeholder(getActivity().getResources().getDrawable(R.drawable.logo_big)).into(imageView);
+//        imageView.setScaleType(ScaleImageView.ScaleType.FIT_XY);
+        try {
+            final PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
+
+            Picasso.with(getActivity())
+                    .load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).placeholder(getActivity().getResources().getDrawable(R.drawable.logo_big))
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i("callback","callbacksuccess");
+                            attacher.update();
+                        }
+
+                        @Override
+                        public void onError() {
+                            Log.i("callback","callbackerror");
+
+                        }
+                    });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         label.setText(getSubString(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getTitle()));
 
         InfiniteGalleryLinearLayout root = (InfiniteGalleryLinearLayout) l.findViewById(R.id.hotroot);
@@ -78,5 +115,12 @@ public class InfiniteGalleryFragment extends Fragment {
             // Log exception
             return null;
         }
+    }
+
+    public interface CommmunicateListener {
+
+        void showUpdatedDetails(String articleid, String entityid);
+
+
     }
 }

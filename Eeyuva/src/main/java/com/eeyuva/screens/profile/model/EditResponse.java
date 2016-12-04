@@ -12,13 +12,21 @@ import java.util.List;
 
 public class EditResponse {
 
-    @SerializedName("status_code")
-    @Expose
+    @SerializedName("STATUS_CODE")
     private Integer sTATUSCODE;
-    @SerializedName("status_info")
-    @Expose
+    @SerializedName("STATUS_INFO")
     private String sTATUSINFO;
 
+    public String getmResponse() {
+        return mResponse;
+    }
+
+    public void setmResponse(String mResponse) {
+        this.mResponse = mResponse;
+    }
+
+    @SerializedName("RESPONSE")
+    private String mResponse;
     /**
      * @return The sTATUSCODE
      */

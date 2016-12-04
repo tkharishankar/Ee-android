@@ -80,5 +80,7 @@ public interface ApiInteractor {
     void changePassword(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener);
 
     void uploadImageVideo(BaseView mView, String url, ImageFile encodedString, LoadListener<ImageResponse> mEditProfileListener);
+
+    void getUpdateNotification(BaseView mView, String s, LoadListener<EditResponse> mCommentListArticleListener);
 }
 

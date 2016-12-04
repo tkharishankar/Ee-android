@@ -3,6 +3,7 @@ package com.eeyuva.screens.profile;
 import com.eeyuva.di.component.AppComponent;
 import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.screens.profile.alerts.AlertActivity;
+import com.eeyuva.screens.profile.notification.NotificationActivity;
 import com.eeyuva.screens.profile.stuffs.StuffsActivity;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 
@@ -24,6 +25,8 @@ public interface ProfileComponent {
     void inject(AlertActivity alertActivity);
 
     void inject(StuffsActivity stuffsActivity);
+
+    void inject(NotificationActivity notificationActivity);
 
     ProfileContract.Presenter profilePresenter();
 }

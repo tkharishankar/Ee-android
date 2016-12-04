@@ -47,15 +47,15 @@ public class ApiInteractorImpl implements ApiInteractor {
     @Override
     public void getLoginResponse(BaseView mView, String name, String pass, String appid, LoadListener<LoginResponse> mLoginListener) {
         UiCallback<LoginResponse> appConfigUiCallback = new UiCallback(mView, mLoginListener, true);
-        Call<LoginResponse> appConfigCall = mApi.getAuthentication(name, pass,appid);
+        Call<LoginResponse> appConfigCall = mApi.getAuthentication("http://www.eeyuva.com/user_mlogin/?username=" + name + "&password=" + pass + "&appid=" + appid);
         appConfigUiCallback.start(appConfigCall);
     }
 
     @Override
     public void getRegistrationResponse(BaseView mView, String firstName, String lastName, String gender,
                                         String email, String password, LoadListener<RegistrationResponse> mRegisterListener) {
-        UiCallback<LoginResponse> callback = new UiCallback(mView, mRegisterListener, true);
-        Call<LoginResponse> call = mApi.getRegistration(firstName, lastName, gender, email, password);
+        UiCallback<RegistrationResponse> callback = new UiCallback(mView, mRegisterListener, true);
+        Call<RegistrationResponse> call = mApi.getRegistration(firstName, lastName, gender, email, password);
         callback.start(call);
     }
 
@@ -177,6 +177,7 @@ public class ApiInteractorImpl implements ApiInteractor {
         Call<NewsResponse> call = mApi.getStuffNews(url);
         callback.start(call);
     }
+
     @Override
     public void getNotificationComments(BaseView mView, String url, LoadListener<NotificationResponse> mNotificationListener) {
         UiCallback<NotificationResponse> callback = new UiCallback(mView, mNotificationListener, true);
@@ -201,7 +202,14 @@ public class ApiInteractorImpl implements ApiInteractor {
     @Override
     public void uploadImageVideo(BaseView mView, String url, ImageFile encodedString, LoadListener<ImageResponse> mEditProfileListener) {
         UiCallback<ImageResponse> callback = new UiCallback(mView, mEditProfileListener, true);
-        Call<ImageResponse> call = mApi.uploadImageVideo(url,encodedString);
+        Call<ImageResponse> call = mApi.uploadImageVideo(url, encodedString);
+        callback.start(call);
+    }
+
+    @Override
+    public void getUpdateNotification(BaseView mView, String url, LoadListener<EditResponse> mCommentListArticleListener) {
+        UiCallback<EditResponse> callback = new UiCallback(mView, mCommentListArticleListener, true);
+        Call<EditResponse> call = mApi.getEditProfile(url);
         callback.start(call);
     }
 

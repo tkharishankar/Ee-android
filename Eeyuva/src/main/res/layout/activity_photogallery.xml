@@ -48,8 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/txtHotStories"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+
                     android:background="@color/colorAccent"
                     android:visibility="gone"/>
 
@@ -57,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtView"
-                    android:layout_margin="10dp"
+                    android:background="@color/black"
                     android:orientation="vertical">
 
                     <android.support.v4.view.ViewPager
@@ -78,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include
                     android:id="@+id/bottom_bar"
@@ -90,7 +90,7 @@
         <fragment
             android:id="@+id/fragment_navigation_drawer"
             android:name="com.eeyuva.screens.navigation.FragmentDrawer"
-            android:layout_width="320dp"
+            android:layout_width="220dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:layout="@layout/fragment_drawer"

@@ -42,7 +42,7 @@ public class InfiniteOtherFragment extends Fragment {
         ImageView imageView = (ImageView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
         TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
-        Picasso.with(getActivity()).load(DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getGalleryimg()).into(imageView);
+        Picasso.with(getActivity()).load(DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getGalleryimg()).placeholder(l.getResources().getDrawable(R.drawable.ic_big_y_logo)).into(imageView);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         label.setText(getSubString(DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getTitle()));
         labeltitle.setText(getSubString(DetailActivity.mHotModuleList.get((pos % DetailActivity.mHotModuleList.size())).getModulename()));

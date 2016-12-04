@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/coverflow" />
             <option value="$PROJECT_DIR$/lib" />
             <option value="$PROJECT_DIR$/models" />
+            <option value="$PROJECT_DIR$/pinchzoomlib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

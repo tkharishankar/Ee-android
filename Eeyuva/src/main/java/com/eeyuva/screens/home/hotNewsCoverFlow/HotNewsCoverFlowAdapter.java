@@ -62,7 +62,7 @@ public class HotNewsCoverFlowAdapter extends BaseAdapter {
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
         try {
-            Picasso.with(mContext).load(mData.get(position).getPicpath()).into(holder.image);
+            Picasso.with(mContext).load(mData.get(position).getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.ic_big_y_logo)).into(holder.image);
             holder.text.setText(mData.get(position).getModulename());
         } catch (Exception e) {
             e.printStackTrace();

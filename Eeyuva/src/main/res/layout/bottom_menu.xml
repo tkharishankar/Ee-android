@@ -65,7 +65,8 @@
         android:layout_width="2dp"
         android:layout_height="35dp"
         android:layout_margin="5dp"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/imgComment"
@@ -74,5 +75,6 @@
         android:layout_weight="1"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/bottom_chat" />
+        android:src="@drawable/bottom_chat"
+        android:visibility="gone"/>
 </LinearLayout>

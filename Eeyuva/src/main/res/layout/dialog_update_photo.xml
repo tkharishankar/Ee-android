@@ -28,7 +28,7 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="1dp"
             android:layout_below="@+id/mTxtName"
 
@@ -40,7 +40,7 @@
 
         <ImageView
             android:id="@+id/mImgProfile"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="250dp"
             android:layout_below="@+id/view"
             android:layout_centerHorizontal="true"
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/mBtnTakePhoto"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mImgProfile"
             android:layout_centerHorizontal="true"
@@ -84,7 +84,7 @@
 
         <TextView
             android:id="@+id/mBtnGallery"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mBtnor"
             android:layout_centerHorizontal="true"

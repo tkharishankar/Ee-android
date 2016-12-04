@@ -43,7 +43,7 @@ public class RegistrationPresenterImpl implements RegistrationContract.Presenter
     @Override
     public void onSignupClicked() {
         if (validateUserInput()) {
-            mDriverInteractor.getRegistrationResponse(mView, mView.getFirstName(), mView.getLastName(),mView.getGender(),mView.getEmail(),
+            mDriverInteractor.getRegistrationResponse(mView, mView.getFirstName(), mView.getLastName(), mView.getGender(), mView.getEmail(),
                     mView.getPassword(), mRegisterListener);
         }
     }
@@ -80,9 +80,16 @@ public class RegistrationPresenterImpl implements RegistrationContract.Presenter
         return true;
     }
 
-    private LoadListener<RegistrationResponse> mRegisterListener= new LoadListener<RegistrationResponse>() {
+    private LoadListener<RegistrationResponse> mRegisterListener = new LoadListener<RegistrationResponse>() {
         @Override
         public void onSuccess(RegistrationResponse responseBody) {
+            if (responseBody.getStatusInfo().equalsIgnoreCase("Registered successfully")) {
+                mView.showErrorDialog(responseBody.getStatusInfo());
+                mView.movetoLogin();
+            }
+            else
+                mView.showErrorDialog(responseBody.getStatusInfo());
+
 
         }
 
