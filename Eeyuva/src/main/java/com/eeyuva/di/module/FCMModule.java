@@ -3,7 +3,7 @@ package com.eeyuva.di.module;
 import com.eeyuva.di.scope.PerActivity;
 import com.eeyuva.fcm.FCMContract;
 import com.eeyuva.fcm.FCMPresenterImpl;
-import com.eeyuva.interactor.DriverInteractor;
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.utils.preferences.PrefsManager;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -24,7 +24,7 @@ public class FCMModule extends FCMServiceModule{
 
     @Provides
     @PerActivity
-    FCMContract.Presenter fcmPresenter(DriverInteractor driverInteractor, PrefsManager prefsManager) {
+    FCMContract.Presenter fcmPresenter(ApiInteractor driverInteractor, PrefsManager prefsManager) {
         return new FCMPresenterImpl(driverInteractor, prefsManager);
     }
 

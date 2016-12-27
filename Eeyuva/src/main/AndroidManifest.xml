@@ -15,7 +15,7 @@
     <application
         android:name=".Application"
         android:allowBackup="true"
-        android:icon="@drawable/launcher_icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -30,8 +30,62 @@
         <activity
             android:name="com.eeyuva.screens.authentication.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
- <activity
+        <activity
             android:name="com.eeyuva.screens.registration.RegistrationActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.eeyuva.screens.home.HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.home.loadmore.ArticlesActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.DetailPage.DetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.searchpage.SearchActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.gridpages.GridHomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.gridpages.PhotoListActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.gridpages.PhotoGalleryActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.VideoListActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.VideoGalleryActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.VideoPlayActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.gridpages.UserNewsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.profile.userdetails.ProfileActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.profile.ChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".screens.profile.alerts.AlertActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.profile.stuffs.StuffsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".screens.profile.notification.NotificationActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
@@ -78,7 +132,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>

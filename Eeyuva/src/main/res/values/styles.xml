@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
 
     </style>
 
@@ -20,9 +21,26 @@
     </style>
 
     <style name="progress_style" parent="Base.V11.Theme.AppCompat.Light.Dialog">
-        <item name="android:background">@color/transparent_orange</item>
+        <!--<item name="android:background">@color/transparent_orange</item>-->
+
     </style>
 
 
+    <style name="tab_bg" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
 
+    <style name="Theme.D1NoTitleDim" parent="android:style/Theme.Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="MyActionButtonStyle" parent="AppTheme">
+
+        <item name="android:padding">5dp</item>
+
+    </style>
 </resources>

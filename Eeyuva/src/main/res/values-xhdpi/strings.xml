@@ -2,5 +2,7 @@
 <resources>
     <string name="dimens">xhdpi</string>
     <dimen name="small">25px</dimen>
+    <dimen name="covermargin">-700dp</dimen>
+    <string name="size">xhdpi</string>
 
 </resources>

@@ -1,15 +1,14 @@
 package com.eeyuva.screens.splash;
 
 import android.content.Intent;
-import android.os.Build;
 
-import com.eeyuva.BuildConfig;
-import com.eeyuva.utils.preferences.PrefsManager;
-import com.eeyuva.interactor.DriverInteractor;
-import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
+import com.eeyuva.interactor.ApiInteractor;
+import com.eeyuva.screens.home.HotModuleResponse;
+import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.utils.Constants;
-import com.eeyuva.utils.Utils;
+import com.eeyuva.utils.preferences.PrefsManager;
+import com.eeyuva.base.BaseView;
 
 /**
  * Created by kavi on 18/07/16.
@@ -20,21 +19,21 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     SplashContract.View mView;
 
-    DriverInteractor mDriverInteractor;
+    ApiInteractor mApiInteractor;
 
-
-
-    public SplashPresenterImpl(DriverInteractor driverInteractor, PrefsManager prefsManager) {
-        this.mDriverInteractor = driverInteractor;
+    public SplashPresenterImpl(ApiInteractor mApiInteractor, PrefsManager prefsManager) {
+        this.mApiInteractor = mApiInteractor;
         this.mPrefsManager = prefsManager;
     }
 
     @Override
+    public void getHomeModule() {
+        mApiInteractor.getModuleResponse(mView, Constants.SplashHomeModule, mModuleListener, false);
+    }
+
+    @Override
     public void moveForward() {
-        if (mPrefsManager.getAccessToken() != null && mPrefsManager.getAccessToken().length() > 0)
-            mView.moveToDashboard();
-        else
-            mView.moveToLogin();
+        getHomeModule();
     }
 
     @Override
@@ -42,8 +41,6 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         mView = (SplashContract.View) view;
         mView.setVersionNo();
         mView.setLoadAnim();
-        moveForward();
-
     }
 
     @Override
@@ -51,6 +48,42 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
 
     }
 
+    LoadListener<ModuleOrderResponse> mModuleListener = new LoadListener<ModuleOrderResponse>() {
+        @Override
+        public void onSuccess(ModuleOrderResponse responseBody) {
+            mPrefsManager.setModules(responseBody);
+            mApiInteractor.getHotModuleResponse(mView, Constants.SplashHotModule, mHotModuleListener, false);
 
+
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<HotModuleResponse> mHotModuleListener = new LoadListener<HotModuleResponse>() {
+        @Override
+        public void onSuccess(HotModuleResponse responseBody) {
+            mPrefsManager.setHotModules(responseBody);
+            mView.moveToDashboard();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
 
 }

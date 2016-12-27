@@ -2,9 +2,9 @@ package com.eeyuva.di.module;
 
 import android.app.Activity;
 
+import com.eeyuva.interactor.ApiInteractor;
 import com.eeyuva.screens.splash.SplashContract;
 import com.eeyuva.di.scope.PerActivity;
-import com.eeyuva.interactor.DriverInteractor;
 import com.eeyuva.screens.splash.SplashPresenterImpl;
 import com.eeyuva.utils.preferences.PrefsManager;
 
@@ -25,7 +25,7 @@ public class SplashPresenterModule extends ActivityModule{
 
     @Provides
     @PerActivity
-    public SplashContract.Presenter splashPresenter(DriverInteractor driverInteractor, PrefsManager prefsManager) {
+    public SplashContract.Presenter splashPresenter(ApiInteractor driverInteractor, PrefsManager prefsManager) {
         return new SplashPresenterImpl(driverInteractor,prefsManager);
     }
 }

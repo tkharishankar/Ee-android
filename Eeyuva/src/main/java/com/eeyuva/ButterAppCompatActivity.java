@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.eeyuva.base.BaseView;
+import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.splash.SplashActivity;
@@ -33,6 +35,7 @@ public class ButterAppCompatActivity extends AppCompatActivity implements BaseVi
     private boolean isActive = true;
 
     ProgressDialog progressDialog;
+    private String TAG = "Message";
 
     @Override
     protected void onStart() {
@@ -148,18 +151,26 @@ public class ButterAppCompatActivity extends AppCompatActivity implements BaseVi
 
     }
 
-    public void onPushReceived(String data, String tag) {
-
+    public void onPushReceived(String data, String modiid, String artid) {
+        Log.i(TAG, "data" + data);
+        Log.i(TAG, "data" + modiid);
+        Log.i(TAG, "data" + artid);
+        Intent intent =
+                new Intent(this, DetailActivity.class);
+        intent.putExtra("article_id", artid);
+        intent.putExtra("module_id", modiid);
+        intent.putExtra("type", "home");
+        startActivity(intent);
     }
 
 
     private BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!(ButterAppCompatActivity.this instanceof SplashActivity) && !(ButterAppCompatActivity.this instanceof HomeActivity) &&
-                    !(ButterAppCompatActivity.this instanceof LoginActivity)) {
-                onPushReceived(intent.getStringExtra(Constants.MESSAGE_DATA), intent.getStringExtra(Constants.MESSAGE_TAG));
-            }
+//            if (!(ButterAppCompatActivity.this instanceof SplashActivity) && !(ButterAppCompatActivity.this instanceof HomeActivity) &&
+//                    !(ButterAppCompatActivity.this instanceof LoginActivity)) {
+//            onPushReceived(intent.getStringExtra(Constants.MESSAGE_DATA), intent.getStringExtra(Constants.TAG_Article_ID), intent.getStringExtra(Constants.TAG_Module_ID));
+//            }
         }
     };
 }

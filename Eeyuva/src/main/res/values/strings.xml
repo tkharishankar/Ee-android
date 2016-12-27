@@ -5,11 +5,20 @@
     <string name="search_hint">Search with AWB</string>
 
     <string name="enter_user_name">Please enter username.</string>
+    <string name="enter_first_name">Please enter Firstname.</string>
+    <string name="enter_last_name">Please enter Lastname.</string>
+    <string name="enter_email_id">Please enter Emailid.</string>
+    <string name="enter_valid_email_id">Please enter a valid Emailid.</string>
     <string name="enter_password">Please enter password.</string>
+    <string name="enter_confirm_password">Please enter confrim password.</string>
     <string name="txt_ok">Ok</string>
     <string name="txt_cancel">Cancel</string>
     <string name="enter_min_character_user_name">Sorry, your username must be at least 3 characters long.</string>
+    <string name="enter_min_character_first_name">Sorry, your firstname must be at least 3 characters long.</string>
+    <string name="enter_min_character_last_name">Sorry, your lastname must be at least 3 characters long.</string>
     <string name="enter_min_character_password">Sorry, your password must be at least 8 characters long.</string>
+    <string name="enter_min_character_confirm_password">Sorry, your Confirm password must be at least 8 characters long.</string>
+    <string name="enter_min_character_not_confirm_password">Sorry, your password and Confirm password mis-matched.</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
 
@@ -34,6 +43,9 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="size">common</string>
 
 
 </resources>

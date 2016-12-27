@@ -13,9 +13,9 @@ public interface LoginContract {
 
         String getPassword();
 
-        void movetoDashBoard();
-
         void movetoSignUp();
+
+        void movetoHome();
     }
 
     interface Presenter extends BasePresenter {
@@ -28,5 +28,7 @@ public interface LoginContract {
         boolean validatePassword(String pass);
 
         void onSignupClick();
+
+        void onForgetPassword(String trim);
     }
 }
