@@ -53,14 +53,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             holder.txtTitle.setText(articles.getArtitle());
             holder.txtType.setText(articles.getModulename());
             holder.txtType.setTextColor(mContext.getResources().getColor(R.color.home_dark_pink));
-            if (articles.getStatus().equalsIgnoreCase("inactive")) {
-                holder.txtSubDesc.setText("Inactive");
-                holder.txtSubDesc.setTextColor(mContext.getResources().getColor(R.color.dialog_red));
-            } else {
-                holder.txtSubDesc.setText("Active");
-                holder.txtSubDesc.setTextColor(mContext.getResources().getColor(R.color.dialog_green));
-            }
-            holder.txtSubDesc.setVisibility(View.VISIBLE);
+//            if (articles.getStatus().equalsIgnoreCase("inactive")) {
+//                holder.txtSubDesc.setText("Inactive");
+//                holder.txtSubDesc.setTextColor(mContext.getResources().getColor(R.color.dialog_red));
+//            } else {
+//                holder.txtSubDesc.setText("Active");
+//                holder.txtSubDesc.setTextColor(mContext.getResources().getColor(R.color.dialog_green));
+//            }
+            holder.txtSubDesc.setVisibility(View.GONE);
             holder.txtDate.setText("View Comment");
             Picasso.with(mContext).load(articles.getArtimg()).placeholder(mContext.getResources().getDrawable(R.drawable.y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
             holder.txtDate.setOnClickListener(new View.OnClickListener() {

@@ -21,6 +21,7 @@ public class Constants {
     public static final String DetailPostComments = getDomainName() + "postcomments.php?";
     public static final String DetailModuleWiseUserDetails = getDomainName() + "getmodulewiseusernewsdetails.php?";
     public static final String DetailGetUserDetail = getDomainName() + "getusernewsdetails.php?";
+    public static final String DetailPostShareDetail = getDevDomainName() + "mshare/?";
     public static final String DetailPostUserNews = getDomainName() + "postusernews.php?";
     public static final String GridGetPhotoGallery = getDomainName() + "getphotogallery.php?";
     public static final String GridGetPhotoAlbum = getDomainName() + "getphotoalbums.php?";
@@ -41,6 +42,7 @@ public class Constants {
     public static final String ProfilePostUserNews = getDomainName() + "postusernews.php?";
     public static final String ProfileFetchUserComments = getDomainName() + "fetchusercomments.php?";
     public static final String ProfileUpdateNotification = getDomainName() + "pushsettings.php?";
+    public static final String AppUpdate= getDomainName() + "getappid.php?";
 
     public static final int PROFILE = 2000;
     public static final int ALERT = 2001;
@@ -56,6 +58,12 @@ public class Constants {
     public static final int HOME=2011;
     public static final int ARTICLES=2011;
     public static final int SEARCH=2012;
+
+    public static String TAG_Article_ID = "articleid";
+    public static String TAG_Module_ID = "modid";
+    public static String TAG_Module_Name = "modulename";
+    public static String TAG_Notification = "noti";
+
 
     public static String getDomainName() {
         return DOMAINNAME;

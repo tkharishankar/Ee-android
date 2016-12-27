@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -68,6 +71,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import me.crosswall.lib.coverflow.core.PagerContainer;
 
 import static com.eeyuva.screens.home.HomeActivity.mModuleList;
 
@@ -148,7 +152,11 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     @Bind(R.id.scrollView)
     ScrollView mScrollView;
     public String mType;
+    private String[] mArticleImgList;
+    PagerContainer container;
+    ViewPager pager;
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +173,11 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+
+
         try {
             mType = getIntent().getExtras().getString("type");
 
@@ -191,22 +204,76 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
                 mPresenter.getArticlesDetails(mModuleId, mArticleId);
                 mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
             }
+
+
+            mModuleList = mPresenter.getModules();
+            if (mModuleList.size() != 0) {
+                for (ResponseList rl : mModuleList) {
+                    if (rl.getModuleid().equals(mModuleId)) {
+                        mOrderId = rl.getOrderid();
+                        mModuleName = rl.getTitle();
+                    }
+                }
+            }
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (mType.equals("home") || mType.equals("search")) {
+                        mPresenter.getArticlesDetails(mModuleId, mArticleId);
+                        mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
+                    } else if (mType.equals("usernews")) {
+                        mPresenter.getArticlesDetails(mArticleId);
+                        mPresenter.getOtherArticlesDetails(mModuleId, mArticleId, mEntityId);
+                    } else if (mType.equals("news")) {
+                        mPresenter.getArticlesNewsDetails(mArticleId);
+                        mPresenter.getOtherArticlesDetails(mModuleId, mArticleId, mEntityId);
+                    } else if (mType.equals("notification")) {
+                        mPresenter.getArticlesDetails(mModuleId, mArticleId);
+                        mPresenter.getOtherArticlesDetails(mModuleId, mArticleId);
+                    }
+                }
+            });
+            mTxtModuleName.setText(mModuleName);
+            mImgModuleImg.setImageResource(getItem(Integer.parseInt(mOrderId)));
+
+            container = (PagerContainer) findViewById(R.id.pager_container);
+            pager = container.getViewPager();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        mModuleList = mPresenter.getModules();
-        if (mModuleList.size() != 0) {
-            for (ResponseList rl : mModuleList) {
-                if (rl.getModuleid().equals(mModuleId)) {
-                    mOrderId = rl.getOrderid();
-                    mModuleName = rl.getTitle();
-                }
-            }
-        }
-        mTxtModuleName.setText(mModuleName);
-        mImgModuleImg.setImageResource(getItem(Integer.parseInt(mOrderId)));
     }
+
+    private class MyPagerAdapter extends PagerAdapter {
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.item_detail_cover, null);
+            ImageView imageView = (ImageView) view.findViewById(R.id.image_cover);
+//            imageView.setImageDrawable(getResources().getDrawable(mArticleImgList.covers[position]));
+            Log.i("mArticleImgList", "mArticleImgList" + mArticleImgList[position]);
+            Picasso.with(DetailActivity.this).load(mArticleImgList[position]).placeholder(getResources().getDrawable(R.drawable.ic_big_y_logo)).into(imageView);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            container.addView(view);
+            return view;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public int getCount() {
+            return mArticleImgList.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return (view == object);
+        }
+    }
+
 
     private void initComponent() {
         mComponent = DaggerDetailComponent.builder()
@@ -253,8 +320,18 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     @Override
     public void setArticleDetails(ArticleDetail articleDetail) {
         try {
+            mSwipeRefreshLayout.setRefreshing(false);
+
             mArticleDetail = articleDetail;
             mTxtArticleTitle.setText(articleDetail.getTitle());
+            mArticleImgList = articleDetail.getGalleryimg().split(",");
+            Log.i("mArticleImgList", "mArticleImgList" + mArticleImgList.length);
+
+            container = (PagerContainer) findViewById(R.id.pager_container);
+            pager = container.getViewPager();
+            pager.setAdapter(new MyPagerAdapter());
+            pager.setClipChildren(false);
+            pager.setOffscreenPageLimit(15);
             String posted = "Posted by: ";
             String mOn = " on ";
             String complete = "Posted by: " + articleDetail.getCreatedby() + " on " + articleDetail.getCreateddate();
@@ -263,7 +340,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), posted.length(), posted.length() + articleDetail.getCreatedby().length(), 0);
             styledString.setSpan(new ForegroundColorSpan(Color.RED), posted.length() + articleDetail.getCreatedby().length(), complete.length(), 0);
             mTxtTimeInfo.setText(styledString);
-            Picasso.with(this).load(articleDetail.getGalleryimg()).placeholder(getResources().getDrawable(R.drawable.ic_big_y_logo)).into(mImgArticleImg);
+//            Picasso.with(this).load(articleDetail.getGalleryimg()).placeholder(getResources().getDrawable(R.drawable.ic_big_y_logo)).into(mImgArticleImg);
             mTxtDetailInfo.getSettings().setJavaScriptEnabled(true);
             mTxtDetailInfo.loadDataWithBaseURL("", articleDetail.getSummary(), "text/html", "UTF-8", "");
             mBtnLike.setText("Like(" + articleDetail.getLikecount() + ")");
@@ -276,6 +353,8 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     @Override
     public void setOtherArticleDetails(List<ArticleDetail> response) {
         try {
+            mSwipeRefreshLayout.setRefreshing(false);
+
             mHotModuleList = response;
             HotPAGES = mHotModuleList.size();
             HotFIRST_PAGE = HotPAGES * HotLOOPS / 2;
@@ -468,11 +547,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
 
     @OnClick(R.id.mBtnShare)
     public void onShareClick() {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, mArticleDetail.getTitle());
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-//        showShareDialog();
+        showRecommendShareDialog();
     }
 
     @OnClick(R.id.mBtnLike)
@@ -499,44 +574,39 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             showCommentDialog();
     }
 
-    @OnClick(R.id.mBtnViewComment)
-    public void onDialogViewCommentClick() {
-        if (mPresenter.getUserDetails() == null)
-            goToLogin();
-        else
-            showViewCommentDialog();
-    }
-
-
-    public void showRatingDialog() {
+    public void showRecommendShareDialog() {
         try {
             if (mDialog != null && mDialog.isShowing()) {
                 mDialog.dismiss();
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_rating, null);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_recommend_share, null);
             builder.setView(dialogView);
 
-            RelativeLayout LayRating = (RelativeLayout) dialogView.findViewById(R.id.LayRating);
-            Button mBtnok = (Button) dialogView.findViewById(R.id.btnOk);
-            Button mBtnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
-            TextView txtRate = (TextView) dialogView.findViewById(R.id.mTxtRate);
-            ImageView imgRate = (ImageView) dialogView.findViewById(R.id.imgRate);
-            String mRate = "Rate";
-            String start = "Do you want to ";
-            String end = " this article";
-            String complete = start + mRate + end;
-            SpannableString styledString = new SpannableString(complete);
-            styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), start.length(), start.length() + mRate.length(), 0);
-            txtRate.setText(styledString);
-            mBtnok.setOnClickListener(new View.OnClickListener() {
+            TextView mTxtRecommend = (TextView) dialogView.findViewById(R.id.mTxtRecommend);
+            TextView mTxtShare = (TextView) dialogView.findViewById(R.id.mTxtShare);
+            TextView mTxtCancel = (TextView) dialogView.findViewById(R.id.mTxtCancel);
+
+            mTxtRecommend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mDialog.dismiss();
+                    showShareDialog();
 
                 }
             });
-            mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            mTxtShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, mArticleDetail.getTitle());
+                    startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                }
+            });
+            mTxtCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mDialog.dismiss();
@@ -572,8 +642,8 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             Button mBtnok = (Button) dialogView.findViewById(R.id.btnOk);
             Button mBtnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
             TextView txtRate = (TextView) dialogView.findViewById(R.id.mTxtRate);
-            EditText mail = (EditText) dialogView.findViewById(R.id.mEdtMailid);
-            String mRate = "Share";
+            final EditText mail = (EditText) dialogView.findViewById(R.id.mEdtMailid);
+            String mRate = "Recommend";
             String start = "Do you want to ";
             String end = " this article";
             String complete = start + mRate + end;
@@ -584,6 +654,67 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
                 @Override
                 public void onClick(View v) {
                     mDialog.dismiss();
+                    mPresenter.postShareDetail(mModuleId, mEntityId, mail.getText().toString().trim());
+
+                }
+            });
+            mBtnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+
+                }
+            });
+            mDialog = builder.create();
+            mDialog.setCancelable(true);
+            mDialog.show();
+            mDialog.getWindow().setGravity(Gravity.TOP);
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Window window = mDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.verticalMargin = .1f;
+            window.setAttributes(wlp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @OnClick(R.id.mBtnViewComment)
+    public void onDialogViewCommentClick() {
+        if (mPresenter.getUserDetails() == null)
+            goToLogin();
+        else
+            mPresenter.getViewComments(mModuleId, mArticleDetail.getArticleid());
+
+    }
+
+    public void showRatingDialog() {
+        try {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_rating, null);
+            builder.setView(dialogView);
+
+            RelativeLayout LayRating = (RelativeLayout) dialogView.findViewById(R.id.LayRating);
+            Button mBtnok = (Button) dialogView.findViewById(R.id.btnOk);
+            Button mBtnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
+            TextView txtRate = (TextView) dialogView.findViewById(R.id.mTxtRate);
+            ImageView imgRate = (ImageView) dialogView.findViewById(R.id.imgRate);
+            String mRate = "Rate";
+            String start = "Do you want to ";
+            String end = " this article";
+            String complete = start + mRate + end;
+            SpannableString styledString = new SpannableString(complete);
+            styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), start.length(), start.length() + mRate.length(), 0);
+            txtRate.setText(styledString);
+            mBtnok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                 }
             });
@@ -729,13 +860,14 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             builder.setView(dialogView);
 
             RelativeLayout LayRating = (RelativeLayout) dialogView.findViewById(R.id.LayRating);
+            topListLay = (RelativeLayout) dialogView.findViewById(R.id.topListLay);
             Button mBtnok = (Button) dialogView.findViewById(R.id.btnOk);
             Button mBtnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
-            TextView txtRate = (TextView) dialogView.findViewById(R.id.mTxtRate);
+            txtRate = (TextView) dialogView.findViewById(R.id.mTxtRate);
+            mNoComment = (TextView) dialogView.findViewById(R.id.mNoComment);
             final EditText comments = (EditText) dialogView.findViewById(R.id.mEdtMailid);
 
             mlistview = (RecyclerView) dialogView.findViewById(R.id.orderlist);
-            mPresenter.getViewComments(mModuleId, mArticleDetail.getArticleid());
 
             mBtnok.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -768,17 +900,35 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     }
 
     RecyclerView mlistview;
+    TextView mNoComment;
+    RelativeLayout topListLay;
+    TextView txtRate;
     RecyclerView.LayoutManager mLayoutManager;
     CommentsLoadAdapter mCommentsAdapter;
 
     @Override
     public void setCommentsListToAdapter(List<CommentsList> response) {
-        mlistview.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(this, 1);
-        mlistview.setLayoutManager(mLayoutManager);
-        mCommentsAdapter = new CommentsLoadAdapter(this, response);
-        mlistview.setAdapter(mCommentsAdapter);
-        mCommentsAdapter.notifyDataSetChanged();
+        if (response != null) {
+            showViewCommentDialog();
+            mlistview.setHasFixedSize(true);
+            mlistview.setVisibility(View.VISIBLE);
+            topListLay.setVisibility(View.VISIBLE);
+            txtRate.setVisibility(View.VISIBLE);
+            mLayoutManager = new GridLayoutManager(this, 1);
+            mlistview.setLayoutManager(mLayoutManager);
+            mCommentsAdapter = new CommentsLoadAdapter(this, response);
+            mlistview.setAdapter(mCommentsAdapter);
+            mCommentsAdapter.notifyDataSetChanged();
+        } else {
+            mNoComment.setVisibility(View.VISIBLE);
+            mlistview.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void setAdpaterNotComments() {
+//        topListLay.setVisibility(View.GONE);
+//        txtRate.setVisibility(View.GONE);
     }
 
     public void gotoHome(View v) {
@@ -940,6 +1090,7 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     public void setDisLikeCount(Integer countLike) {
         mBtnDislike.setText("Dislike(" + countLike + ")");
     }
+
 
     private static final int SELECT_VIDEO = 3;
 

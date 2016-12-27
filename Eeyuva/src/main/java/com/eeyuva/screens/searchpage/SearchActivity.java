@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,6 +107,7 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
     @Bind(R.id.imgComment)
     ImageView imgComment;
     private String mkeyword;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,9 +124,15 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mkeyword = getIntent().getExtras().getString("keyword");
-        mPresenter.getSearchResponse(mkeyword.trim());
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getSearchResponse(mkeyword.trim());
+            }
+        });
     }
 
     private void initAdapter(final List<Doc> responseItem) {
@@ -152,6 +160,8 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
 //        });
         mRecyclerView.setAdapter(mSearchAdapter);
         mSearchAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -201,6 +211,7 @@ public class SearchActivity extends ButterAppCompatActivity implements HomeContr
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.getSearchResponse(mkeyword.trim());
         drawerFragment.setActivity(this);
         drawerFragment.setList(mPresenter.getModules());
 

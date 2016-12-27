@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eeyuva.R;
@@ -47,7 +48,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             holder.txtTitle.setText(articles.getTitle());
             holder.txtSubDesc.setText(Html.fromHtml(getSubString(articles.getSummary())));
             Picasso.with(mContext).load(articles.getPicpath()).placeholder(mContext.getResources().getDrawable(R.drawable.ic_big_y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
-            holder.txtSubDesc.setOnClickListener(new View.OnClickListener() {
+            holder.mLayArticle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mAdapterCallBack.onItemClick(articles.getArticleid(), "");
@@ -73,12 +74,14 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         public TextView txtTitle;
         public TextView txtSubDesc;
         public ImageView imgArticle;
+        public LinearLayout mLayArticle;
 
         public ViewHolder(View v) {
             super(v);
             txtTitle = (TextView) v.findViewById(R.id.txtTitle);
             txtSubDesc = (TextView) v.findViewById(R.id.txtSubDesc);
             imgArticle = (ImageView) v.findViewById(R.id.imgArticle);
+            mLayArticle = (LinearLayout) v.findViewById(R.id.mLayArticle);
 
         }
     }

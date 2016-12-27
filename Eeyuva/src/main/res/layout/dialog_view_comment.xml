@@ -33,6 +33,20 @@
             android:background="@drawable/bg_white"
             android:padding="10dp">
 
+            <TextView
+                android:id="@+id/mNoComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:padding="10dp"
+                android:text="No comments"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/orderlist"
                 android:layout_width="match_parent"

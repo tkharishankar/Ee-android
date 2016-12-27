@@ -27,6 +27,8 @@ public interface DetailContract {
         void setLikeCount(Integer countLike);
 
         void setDisLikeCount(Integer countLike);
+
+        void setAdpaterNotComments();
     }
 
     interface Presenter extends BasePresenter {
@@ -60,6 +62,8 @@ public interface DetailContract {
         LoginResponse getUserDetails();
 
         LoginResponse getUserdetails();
+
+        void postShareDetail(String mModuleId, String mEntityId, String trim);
     }
 
     public interface AdapterCallBack {

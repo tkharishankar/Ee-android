@@ -5,6 +5,8 @@ import com.eeyuva.apiservice.Api;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
+import com.eeyuva.fcmregister.FCMRegisterRequest;
+import com.eeyuva.fcmregister.FCMRegisterResponse;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
 import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
@@ -212,5 +214,27 @@ public class ApiInteractorImpl implements ApiInteractor {
         Call<EditResponse> call = mApi.getEditProfile(url);
         callback.start(call);
     }
+
+    @Override
+    public void updateFCmToken(String url, LoadListener<EditResponse> updateListener) {
+        UiCallback<EditResponse> callback = new UiCallback(null, updateListener, true);
+        Call<EditResponse> call = mApi.getEditProfile(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void setforgetpassword(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener) {
+        UiCallback<EditResponse> callback = new UiCallback(null, mEditProfileListener, true);
+        Call<EditResponse> call = mApi.getEditProfile(url);
+        callback.start(call);
+    }
+
+    @Override
+    public void postShareDetail(BaseView mView, String url, LoadListener<ImageResponse> mEditProfileListener) {
+        UiCallback<ImageResponse> callback = new UiCallback(null, mEditProfileListener, true);
+        Call<ImageResponse> call = mApi.postShare(url);
+        callback.start(call);
+    }
+
 
 }

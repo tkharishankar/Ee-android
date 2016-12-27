@@ -45,6 +45,7 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
     private ProfileContract.View mView;
     private PackageInfoInteractor mPackageInfoInteractor;
     private Bitmap bitmapPhoto;
+    private String mModuleId;
 
 
     public ProfilePresenterImpl(ApiInteractor apiInteractor, PrefsManager prefsManager, PackageInfoInteractor packageInfoInteractor) {
@@ -137,6 +138,26 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         @Override
         public void onSuccess(EditResponse responseBody) {
             mView.showErrorDialog(responseBody.getSTATUSINFO());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<EditResponse> mEditNotiProfileListener = new LoadListener<EditResponse>() {
+        @Override
+        public void onSuccess(EditResponse responseBody) {
+            Log.i("mModuleId", "mModuleId r" + mModuleId);
+            mPrefsManager.setNotificationModules(mModuleId);
+            mView.showErrorDialog(responseBody.getSTATUSINFO());
+            mView.goToLogin();
         }
 
         @Override
@@ -359,8 +380,16 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
     @Override
     public void updateNotification(String moduleId) {
-        mApiInteractor.getUpdateNotification(mView, Constants.ProfileUpdateNotification + "uid=" + moduleId, mEditProfileListener);
+        Log.i("mModuleId", "mModuleId b" + mModuleId);
+        mModuleId = moduleId;
+        Log.i("mModuleId", "mModuleId a" + mModuleId);
+        mApiInteractor.getUpdateNotification(mView, Constants.ProfileUpdateNotification + "uid=" + moduleId, mEditNotiProfileListener);
 
+    }
+
+    @Override
+    public void getSaveNotification() {
+        mView.updateSaveModules(mPrefsManager.getNotificationModules());
     }
 
     private void closeActivityOnResult(Intent data) {

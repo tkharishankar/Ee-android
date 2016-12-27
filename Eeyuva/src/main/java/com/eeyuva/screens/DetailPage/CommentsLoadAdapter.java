@@ -50,6 +50,14 @@ public class CommentsLoadAdapter extends RecyclerView.Adapter<CommentsLoadAdapte
             holder.txtTitle.setText(comments.getCommentby());
             holder.txtSubDesc.setText(comments.getCommentDescription());
             holder.txtDate.setText(comments.getCommentDate());
+//            holder.txtStatus.setText(comments.getCommentDate());
+            if (comments.getStatus().equalsIgnoreCase("delete")) {
+                holder.txtStatus.setText("UnPublished");
+                holder.txtStatus.setBackground(mContext.getResources().getDrawable(R.drawable.publish_btn));
+            } else {
+                holder.txtStatus.setText("Published");
+                holder.txtStatus.setBackground(mContext.getResources().getDrawable(R.drawable.dialog_green_btn));
+            }
 //            Picasso.with(mContext).load(articles.getPicpath()).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
             holder.txtSubDesc.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,6 +84,7 @@ public class CommentsLoadAdapter extends RecyclerView.Adapter<CommentsLoadAdapte
         public TextView txtTitle;
         public TextView txtSubDesc;
         public TextView txtDate;
+        public TextView txtStatus;
         public ImageView imgArticle;
 
         public ViewHolder(View v) {
@@ -84,6 +93,7 @@ public class CommentsLoadAdapter extends RecyclerView.Adapter<CommentsLoadAdapte
             txtSubDesc = (TextView) v.findViewById(R.id.txtSubDesc);
             txtDate = (TextView) v.findViewById(R.id.txtDate);
             imgArticle = (ImageView) v.findViewById(R.id.imgArticle);
+            txtStatus = (TextView) v.findViewById(R.id.txtStatus);
 
         }
     }

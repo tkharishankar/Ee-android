@@ -3,6 +3,8 @@ package com.eeyuva.interactor;
 
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
+import com.eeyuva.fcmregister.FCMRegisterRequest;
+import com.eeyuva.fcmregister.FCMRegisterResponse;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.DetailPage.DetailContract;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
@@ -82,5 +84,11 @@ public interface ApiInteractor {
     void uploadImageVideo(BaseView mView, String url, ImageFile encodedString, LoadListener<ImageResponse> mEditProfileListener);
 
     void getUpdateNotification(BaseView mView, String s, LoadListener<EditResponse> mCommentListArticleListener);
+
+    void updateFCmToken(String url, LoadListener<EditResponse> updateListener);
+
+    void setforgetpassword(BaseView mView, String s, LoadListener<EditResponse> mEditProfileListener);
+
+    void postShareDetail(BaseView mView, String s, LoadListener<ImageResponse> mEditProfileListener);
 }
 

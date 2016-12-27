@@ -20,6 +20,7 @@ public interface PrefsManager {
     String PREFS_USER_NAME = "UserName";
     String PREFS_USER_DETAILS = "UserName_Detail";
     String PREFS_MODULE_DETAILS = "Module_Detail";
+    String PREFS_NOTI_MODULE_DETAILS = "Noti_Module_Detail";
     String PREFS_HOT_MODULE_DETAILS = "Hot_Module_Detail";
     String PREFS_PHOTO_GALLERY_DETAILS = "photo_gallery_list";
     String PREFS_FCM_TOKEN = "fcm_token";
@@ -53,4 +54,7 @@ public interface PrefsManager {
     void setPhotoGalleryList(PhotoGalleryResponse responseBody);
 
     PhotoGalleryResponse getPhotoGalleryList();
+
+    void setNotificationModules(String mModuleId);
+    String getNotificationModules();
 }

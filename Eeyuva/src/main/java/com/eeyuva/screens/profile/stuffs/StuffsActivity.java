@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -90,6 +91,8 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
     StuffPagerAdapter adapter;
     ProfileList mProfileInfo;
     private int mPrevState = 0;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private int currentItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,11 +137,24 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
             e.printStackTrace();
         }
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (currentItem == 0) {
+                    mPresenter.getComments();
+                } else if (currentItem == 1)
+                    mPresenter.getNews();
+                else if (currentItem == 2)
+                    mPresenter.getNotification();
+            }
+        });
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.i("onTabSelected", "onTabSelected" + tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
+                currentItem = tab.getPosition();
                 if (tab.getPosition() == 0) {
                     mPresenter.getComments();
                 } else if (tab.getPosition() == 1)
@@ -319,6 +335,8 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
 
     @Override
     public void setCommentAdapter(CommentResponse responseBody) {
+        mSwipeRefreshLayout.setRefreshing(false);
+
         Fragment fragment = adapter.getFragment(tabLayout
                 .getSelectedTabPosition());
         if (fragment != null)
@@ -327,6 +345,8 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
 
     @Override
     public void setNewsAdapter(NewsResponse responseBody) {
+        mSwipeRefreshLayout.setRefreshing(false);
+
         Fragment fragment = adapter.getFragment(tabLayout
                 .getSelectedTabPosition());
         if (fragment != null)
@@ -335,6 +355,8 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
 
     @Override
     public void setNotificationAdapter(NotificationResponse responseBody) {
+        mSwipeRefreshLayout.setRefreshing(false);
+
         Fragment fragment = adapter.getFragment(tabLayout
                 .getSelectedTabPosition());
         if (fragment != null)
@@ -352,6 +374,11 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
                 new Intent(StuffsActivity.this, LoginActivity.class);
         intent.putExtra("from", Constants.STUFFS);
         startActivity(intent);
+    }
+
+    @Override
+    public void updateSaveModules(String notificationModules) {
+
     }
 
     @Override

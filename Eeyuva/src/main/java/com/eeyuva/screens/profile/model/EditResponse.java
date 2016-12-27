@@ -1,10 +1,6 @@
 package com.eeyuva.screens.profile.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hari on 08/10/16.
@@ -54,19 +50,5 @@ public class EditResponse {
     public void setSTATUSINFO(String sTATUSINFO) {
         this.sTATUSINFO = sTATUSINFO;
     }
-//
-//    /**
-//     * @return The rESPONSE
-//     */
-//    public List<List<String>> getRESPONSE() {
-//        return rESPONSE;
-//    }
-//
-//    /**
-//     * @param rESPONSE The RESPONSE
-//     */
-//    public void setRESPONSE(List<List<String>> rESPONSE) {
-//        this.rESPONSE = rESPONSE;
-//    }
 
 }

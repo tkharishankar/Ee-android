@@ -107,6 +107,18 @@ public class PrefsManagerImpl implements PrefsManager {
     }
 
     @Override
+    public void setNotificationModules(String mModuleId) {
+        remoteEditor.remove(PREFS_NOTI_MODULE_DETAILS);
+        remoteEditor.putString(PREFS_NOTI_MODULE_DETAILS, mModuleId);
+        remoteEditor.commit();
+    }
+
+    @Override
+    public String getNotificationModules() {
+        return remotePrefs.getString(PREFS_NOTI_MODULE_DETAILS, null);
+    }
+
+    @Override
     public ModuleOrderResponse getModules() {
         return gson.fromJson(remotePrefs.getString(PREFS_MODULE_DETAILS, null), ModuleOrderResponse.class);
     }

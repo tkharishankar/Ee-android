@@ -228,7 +228,6 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mDrawerLayout.closeDrawer(containerView);
 
 //                Intent i = new Intent();
 //                switch (position) {
@@ -236,32 +235,42 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 try {
                     if (!mDrawerItems.get(position).isHeader()) {
                         if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("logout")) {
+                            mDrawerLayout.closeDrawer(containerView);
                             Intent intent =
                                     new Intent(getActivity(), SplashActivity.class);
                             setUserDetail();
                             startActivity(intent);
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("Change Password")) {
+                            mDrawerLayout.closeDrawer(containerView);
                             Intent intent =
                                     new Intent(getActivity(), ChangePasswordActivity.class);
                             startActivity(intent);
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("login")) {
+                            mDrawerLayout.closeDrawer(containerView);
                             Intent intent =
                                     new Intent(getActivity(), LoginActivity.class);
                             startActivity(intent);
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("notification")) {
+                            if (getUserDetails() != null) {
+                                Intent intent =
+                                        new Intent(getActivity(), NotificationActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Intent intent =
+                                        new Intent(getActivity(), LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        } else {
+                            mDrawerLayout.closeDrawer(containerView);
+                            ResponseList rl = getPosition(position);
                             Intent intent =
-                                    new Intent(getActivity(), NotificationActivity.class);
-//                            intent.putExtra("mode", "noti");
+                                    new Intent(getActivity(), ArticlesActivity.class);
+                            intent.putExtra("index", 0);
+                            intent.putExtra("module_id", rl.getModuleid());
+                            intent.putExtra("order_id", rl.getOrderid());
+                            intent.putExtra("module_name", rl.getTitle());
                             startActivity(intent);
                         }
-                        ResponseList rl = getPosition(position);
-                        Intent intent =
-                                new Intent(getActivity(), ArticlesActivity.class);
-                        intent.putExtra("index", 0);
-                        intent.putExtra("module_id", rl.getModuleid());
-                        intent.putExtra("order_id", rl.getOrderid());
-                        intent.putExtra("module_name", rl.getTitle());
-                        startActivity(intent);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

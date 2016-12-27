@@ -41,7 +41,6 @@ public class SplashPresenterImpl implements SplashContract.Presenter {
         mView = (SplashContract.View) view;
         mView.setVersionNo();
         mView.setLoadAnim();
-        moveForward();
     }
 
     @Override

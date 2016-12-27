@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -90,6 +91,7 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
     AlertAdapter mAlertAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +108,13 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getUserAlerts();
+            }
+        });
     }
 
     public void initComponent() {
@@ -258,6 +266,7 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
     @Override
     public void setAdapter(List<AlertList> alertList) {
         try {
+            mSwipeRefreshLayout.setRefreshing(false);
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new GridLayoutManager(this, 1);
             mRecyclerView.setLayoutManager(mLayoutManager);
@@ -296,6 +305,11 @@ public class AlertActivity extends ButterAppCompatActivity implements ProfileCon
                 new Intent(AlertActivity.this, LoginActivity.class);
         intent.putExtra("from", Constants.ALERT);
         startActivity(intent);
+    }
+
+    @Override
+    public void updateSaveModules(String notificationModules) {
+
     }
 
     @Override

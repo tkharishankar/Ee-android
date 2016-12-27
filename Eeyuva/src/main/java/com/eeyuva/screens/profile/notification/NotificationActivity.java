@@ -139,6 +139,7 @@ public class NotificationActivity extends ButterAppCompatActivity implements Pro
         });
         drawerFragment.setImage(mPresenter.getUserdetails());
 
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -283,6 +284,8 @@ public class NotificationActivity extends ButterAppCompatActivity implements Pro
             mAlertAdapter = new NotificationAdapter(this, this, mModuleList);
             mRecyclerView.setAdapter(mAlertAdapter);
             mAlertAdapter.notifyDataSetChanged();
+            mPresenter.getSaveNotification();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -311,9 +314,14 @@ public class NotificationActivity extends ButterAppCompatActivity implements Pro
     @Override
     public void goToLogin() {
         Intent intent =
-                new Intent(NotificationActivity.this, LoginActivity.class);
-        intent.putExtra("from", Constants.ALERT);
+                new Intent(NotificationActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void updateSaveModules(String notificationModules) {
+        if (notificationModules != null)
+            mAlertAdapter.setCheckedItem(notificationModules);
     }
 
     @Override

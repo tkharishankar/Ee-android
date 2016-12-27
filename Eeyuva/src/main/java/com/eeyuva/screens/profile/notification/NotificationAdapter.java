@@ -97,6 +97,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return mAlertList.size();
     }
 
+    public void setCheckedItem(String notificationModules) {
+        String[] modules = notificationModules.split(",");
+        for (String id : modules) {
+            getResult(getPosition(id)).setSelected(true);
+            notifyDataSetChanged();
+        }
+    }
+
+    public ResponseList getResult(int position) {
+        return mAlertList.
+                get(position);
+    }
+
+    private int getPosition(String id) {
+        int k = -1;
+        for (int i = 0; i < mAlertList.size(); i++) {
+            if (mAlertList.get(i).getModuleid().equals(id))
+                k = i;
+        }
+        return k;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtTitle;
         public ImageView imgArticle;
@@ -110,6 +132,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         }
     }
+
     public List<ResponseList> getAlertList() {
         return mAlertList;
     }

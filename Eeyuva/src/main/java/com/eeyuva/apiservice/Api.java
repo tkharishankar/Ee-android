@@ -110,6 +110,9 @@ public interface Api {
     @GET
     Call<LoginResponse> getAuthentication(@Url String s);
 
+    @GET
+    Call<ImageResponse> postShare(@Url String url);
+
 
 //    @POST("driver/deviceid/")
 //    Call<FCMRegisterResponse> updateFCMToken(@Body FCMRegisterRequest fcmRegisterRequest);

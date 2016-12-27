@@ -141,7 +141,11 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
     LoadListener<CommentListResponse> mCommentListArticleListener = new LoadListener<CommentListResponse>() {
         @Override
         public void onSuccess(CommentListResponse responseBody) {
-            mView.setCommentsListToAdapter(responseBody.getResponse());
+            if (responseBody.getStatusInfo().equalsIgnoreCase("No comments")) {
+                mView.setAdpaterNotComments();
+                mView.showErrorDialog("Comment not avaiable.");
+            } else
+                mView.setCommentsListToAdapter(responseBody.getResponse());
         }
 
         @Override
@@ -251,6 +255,12 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
     @Override
     public LoginResponse getUserdetails() {
         return mPrefsManager.getUserDetails();
+    }
+
+    @Override
+    public void postShareDetail(String mModuleId, String mEntityId, String mail) {
+        mApiInteractor.postShareDetail(mView, Constants.DetailPostShareDetail + "module_id=" + mModuleId + "&entity_id=" + mEntityId + "&uid=" + mPrefsManager.getUserDetails().getUserid() + "&email=" + mail, mEditProfileListener);
+
     }
 
     private void closeActivityOnResult(Intent data) {

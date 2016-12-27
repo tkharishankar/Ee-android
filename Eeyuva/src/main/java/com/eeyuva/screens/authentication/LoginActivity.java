@@ -2,13 +2,24 @@ package com.eeyuva.screens.authentication;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eeyuva.di.component.DaggerLoginComponent;
@@ -45,6 +56,11 @@ public class LoginActivity extends ButterAppCompatActivity implements LoginContr
     @Bind(R.id.mBtnLogin)
     Button mLogin;
 
+    @Bind(R.id.mTxtForgot)
+    TextView mTxtForgot;
+
+    AlertDialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +89,10 @@ public class LoginActivity extends ButterAppCompatActivity implements LoginContr
         mPresenter.onSignupClick();
     }
 
+    @OnClick(R.id.mTxtForgot)
+    public void OnForgotClick() {
+        showShareDialog();
+    }
 
 
     @Override
@@ -115,5 +135,58 @@ public class LoginActivity extends ButterAppCompatActivity implements LoginContr
         }
     };
 
+    public void showShareDialog() {
+        try {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_share, null);
+            builder.setView(dialogView);
+
+            RelativeLayout LayRating = (RelativeLayout) dialogView.findViewById(R.id.LayRating);
+            Button mBtnok = (Button) dialogView.findViewById(R.id.btnOk);
+            ImageView imgRate = (ImageView) dialogView.findViewById(R.id.imgRate);
+            imgRate.setVisibility(View.GONE);
+            Button mBtnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
+            TextView txtRate = (TextView) dialogView.findViewById(R.id.mTxtRate);
+            final EditText mail = (EditText) dialogView.findViewById(R.id.mEdtMailid);
+            String mRate = "Please enter your registered e-mail";
+            String start = "Do you want to ";
+            String end = " this article";
+            String complete = start + mRate + end;
+//            SpannableString styledString = new SpannableString(complete);
+//            styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), start.length(), start.length() + mRate.length(), 0);
+            txtRate.setText(mRate);
+            mBtnok.setText("Submit");
+            mBtnok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    mPresenter.onForgetPassword(mail.getText().toString().trim());
+
+                }
+            });
+            mBtnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+
+                }
+            });
+            mDialog = builder.create();
+            mDialog.setCancelable(true);
+            mDialog.show();
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Window window = mDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.verticalMargin = .1f;
+            window.setAttributes(wlp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

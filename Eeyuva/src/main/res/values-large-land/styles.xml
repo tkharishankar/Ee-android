@@ -19,7 +19,7 @@
     </style>
 
     <style name="progress_style" parent="Base.V11.Theme.AppCompat.Light.Dialog">
-        <item name="android:background">@color/transparent_orange</item>
+        <!--<item name="android:background">@color/transparent_orange</item>-->
     </style>
 
 </resources>

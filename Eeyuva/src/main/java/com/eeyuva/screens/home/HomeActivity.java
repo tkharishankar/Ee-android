@@ -13,6 +13,7 @@ import android.support.v4.view.LinkagePager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -154,6 +155,9 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
     boolean mPhoto = true;
     boolean mVideo = false;
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,6 +174,9 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
 
         mModuleList = mPresenter.getModules();
         mHotModuleList = mPresenter.getHotModules();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+
 
         for (int i = 0; i <= 1000; i++) {
             mFinalModuleList.addAll(mModuleList);
@@ -219,8 +226,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         try {
             if (getIntent().getExtras().getString("status").equalsIgnoreCase("clear"))
                 mPresenter.setClearPrefs();
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -252,7 +258,13 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 }
             }
         });
-
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                label.setText(mModuleList.get((mScrolledToPosition % mModuleList.size())).getTitle());
+                mPresenter.getArticles(mModuleList.get((mScrolledToPosition % mModuleList.size())).getModuleid());
+            }
+        });
 //        mAdapter = new CoverFlowAdapter(this);
 //        mAdapter.setData(mModuleList);
 //        mCoverFlow = (FeatureCoverFlow) findViewById(R.id.coverflow);
@@ -448,6 +460,21 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
                 }
             }
         });
+        try {
+            Log.i("Noti", "Noti" + getIntent().getExtras().getString(Constants.TAG_Notification));
+            Log.i("Noti", "Noti" + getIntent().getExtras().getString(Constants.TAG_Article_ID));
+            Log.i("Noti", "Noti" + getIntent().getExtras().getString(Constants.TAG_Module_ID));
+            if (!getIntent().getExtras().getString(Constants.TAG_Module_ID).equalsIgnoreCase(null) && getIntent().getExtras().getString(Constants.TAG_Module_ID).length() != 0) {
+                Intent intent =
+                        new Intent(this, DetailActivity.class);
+                intent.putExtra("article_id", getIntent().getExtras().getString(Constants.TAG_Article_ID));
+                intent.putExtra("module_id", getIntent().getExtras().getString(Constants.TAG_Module_ID));
+                intent.putExtra("type", "home");
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.imgLoadMore)
@@ -498,6 +525,7 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
         mArticleAdapter = new ArticlesAdapter(this, this, responseItem);
         mRecyclerView.setAdapter(mArticleAdapter);
         mArticleAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -763,7 +791,8 @@ public class HomeActivity extends ButterAppCompatActivity implements HomeContrac
             mDialog.getWindow().setGravity(Gravity.TOP);
             Window window = mDialog.getWindow();
             WindowManager.LayoutParams wlp = window.getAttributes();
-            wlp.verticalMargin = .055f;
+            wlp.width = WindowManager.LayoutParams.FILL_PARENT;
+            wlp.verticalMargin = .070f;
             wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
             window.setAttributes(wlp);
 

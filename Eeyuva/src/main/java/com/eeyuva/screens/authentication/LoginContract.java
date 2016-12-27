@@ -28,5 +28,7 @@ public interface LoginContract {
         boolean validatePassword(String pass);
 
         void onSignupClick();
+
+        void onForgetPassword(String trim);
     }
 }

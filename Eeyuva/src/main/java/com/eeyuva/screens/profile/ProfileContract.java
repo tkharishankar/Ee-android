@@ -39,6 +39,8 @@ public interface ProfileContract {
         void setCommentsListToAdapter(List<CommentsList> response);
 
         void goToLogin();
+
+        void updateSaveModules(String notificationModules);
     }
 
     interface Presenter extends BasePresenter {
@@ -73,6 +75,8 @@ public interface ProfileContract {
         LoginResponse getUserdetails();
 
         void updateNotification(String moduleId);
+
+        void getSaveNotification();
     }
 
     interface AdapterCallBack {

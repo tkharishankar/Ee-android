@@ -289,4 +289,9 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
         intent.putExtra("from", Constants.CHANGEPASSWORD);
         startActivity(intent);
     }
+
+    @Override
+    public void updateSaveModules(String notificationModules) {
+
+    }
 }

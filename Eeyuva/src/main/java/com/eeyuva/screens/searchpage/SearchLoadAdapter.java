@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eeyuva.R;
@@ -130,10 +131,12 @@ public class SearchLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TextView txtTitle;
         public TextView txtSubDesc;
         public ImageView imgArticle;
+        public LinearLayout mLayArticle;
 
         public MovieHolder(View v) {
             super(v);
             txtTitle = (TextView) v.findViewById(R.id.txtTitle);
+            mLayArticle = (LinearLayout) v.findViewById(R.id.mLayArticle);
             txtSubDesc = (TextView) v.findViewById(R.id.txtSubDesc);
             imgArticle = (ImageView) v.findViewById(R.id.imgArticle);
         }
@@ -145,7 +148,7 @@ public class SearchLoadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             styledString.setSpan(new ForegroundColorSpan(Color.RED), 0, complete.length(), 0);
             txtSubDesc.setText(styledString);
             Picasso.with(mContext).load("http://pics.eeyuva.com/" + articles.getImgpath()).placeholder(mContext.getResources().getDrawable(R.drawable.ic_big_y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(imgArticle);
-            txtSubDesc.setOnClickListener(new View.OnClickListener() {
+            mLayArticle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mAdapterCallBack.onItemClick(articles.getEntityid(),""+articles.getModid());

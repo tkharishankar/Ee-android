@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,6 +101,7 @@ public class VideoListActivity extends ButterAppCompatActivity implements GridCo
     List<ResponseList> mModuleList = new ArrayList<ResponseList>();
     String mModuleId;
     private String mTitle;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +118,18 @@ public class VideoListActivity extends ButterAppCompatActivity implements GridCo
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mTitle = getIntent().getExtras().getString("title");
         mModuleId = getIntent().getExtras().getString("module_id");
         mTxtHotStories.setText(mTitle);
         mPresenter.getPhotoList(Constants.GridGetVideoAlbum,mModuleId);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getPhotoList(Constants.GridGetVideoAlbum,mModuleId);
+            }
+        });
 
     }
     private void initAdapter() {
@@ -140,6 +149,8 @@ public class VideoListActivity extends ButterAppCompatActivity implements GridCo
         mGridLoadAdapter = new PhotoListAdapter(this, this, responseBody.getResponse());
         mRecyclerView.setAdapter(mGridLoadAdapter);
         mGridLoadAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override

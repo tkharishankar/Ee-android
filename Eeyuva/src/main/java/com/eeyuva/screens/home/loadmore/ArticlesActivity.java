@@ -221,6 +221,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
         });
         drawerFragment.setList(mPresenter.getModules());
         drawerFragment.setImage(mPresenter.getUserdetails());
+//        mArticleAdapter.notifyDataChanged();
     }
 
     private void initComponent() {
@@ -361,6 +362,7 @@ public class ArticlesActivity extends ButterAppCompatActivity implements HomeCon
             Window window = mDialog.getWindow();
             WindowManager.LayoutParams wlp = window.getAttributes();
             wlp.verticalMargin = .055f;
+            wlp.horizontalMargin=-.055f;
             wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
             window.setAttributes(wlp);
 

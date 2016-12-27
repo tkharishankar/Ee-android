@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -98,6 +99,7 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
 
     boolean mProfile = false;
     boolean mPhotoVideo = false;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +117,16 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getProfile();
+            }
+        });
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ArrayList<String> tabs = new ArrayList<>();
         tabs.add("Personal");
-        tabs.add("Settings");
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -300,6 +307,8 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
                     .getSelectedTabPosition());
             if (fragment != null)
                 ((TabFragment1) fragment).onRefresh(responseBody);
+            mSwipeRefreshLayout.setRefreshing(false);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -347,6 +356,11 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
                 new Intent(ProfileActivity.this, LoginActivity.class);
         intent.putExtra("from", Constants.PROFILE);
         startActivity(intent);
+    }
+
+    @Override
+    public void updateSaveModules(String notificationModules) {
+
     }
 
     @Override
