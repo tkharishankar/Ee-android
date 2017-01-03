@@ -8,6 +8,7 @@ import com.eeyuva.base.UiCallback;
 import com.eeyuva.fcmregister.FCMRegisterRequest;
 import com.eeyuva.fcmregister.FCMRegisterResponse;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
+import com.eeyuva.screens.DetailPage.SmallServerResponse;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
 import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
 import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
@@ -230,9 +231,9 @@ public class ApiInteractorImpl implements ApiInteractor {
     }
 
     @Override
-    public void postShareDetail(BaseView mView, String url, LoadListener<ImageResponse> mEditProfileListener) {
-        UiCallback<ImageResponse> callback = new UiCallback(null, mEditProfileListener, true);
-        Call<ImageResponse> call = mApi.postShare(url);
+    public void postShareDetail(BaseView mView, String url, LoadListener<SmallServerResponse> mEditProfileListener) {
+        UiCallback<SmallServerResponse> callback = new UiCallback(null, mEditProfileListener, true);
+        Call<SmallServerResponse> call = mApi.postShare(url);
         callback.start(call);
     }
 

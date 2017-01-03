@@ -45,6 +45,8 @@ public class CustomProgressDialog extends android.app.ProgressDialog implements 
 //        zoomInAnimation.setRepeatCount(-1);
 //        zoomInAnimation.setRepeatMode(Animation.INFINITE);
         getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        getWindow().setDimAmount(0.0f);
+
 //        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
     }

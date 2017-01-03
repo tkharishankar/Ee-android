@@ -2,6 +2,7 @@ package com.eeyuva.apiservice;
 
 
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
+import com.eeyuva.screens.DetailPage.SmallServerResponse;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
 import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
 import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
@@ -111,7 +112,7 @@ public interface Api {
     Call<LoginResponse> getAuthentication(@Url String s);
 
     @GET
-    Call<ImageResponse> postShare(@Url String url);
+    Call<SmallServerResponse> postShare(@Url String url);
 
 
 //    @POST("driver/deviceid/")

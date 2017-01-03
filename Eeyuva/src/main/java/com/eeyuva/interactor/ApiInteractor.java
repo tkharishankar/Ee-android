@@ -7,6 +7,7 @@ import com.eeyuva.fcmregister.FCMRegisterRequest;
 import com.eeyuva.fcmregister.FCMRegisterResponse;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.DetailPage.DetailContract;
+import com.eeyuva.screens.DetailPage.SmallServerResponse;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
 import com.eeyuva.screens.DetailPage.model.CommentPostResponse;
 import com.eeyuva.screens.DetailPage.model.LikeDislikeResponse;
@@ -89,6 +90,6 @@ public interface ApiInteractor {
 
     void setforgetpassword(BaseView mView, String s, LoadListener<EditResponse> mEditProfileListener);
 
-    void postShareDetail(BaseView mView, String s, LoadListener<ImageResponse> mEditProfileListener);
+    void postShareDetail(BaseView mView, String s, LoadListener<SmallServerResponse> mEditProfileListener);
 }
 

@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by hari on 14/09/16.
@@ -259,10 +261,25 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void postShareDetail(String mModuleId, String mEntityId, String mail) {
-        mApiInteractor.postShareDetail(mView, Constants.DetailPostShareDetail + "module_id=" + mModuleId + "&entity_id=" + mEntityId + "&uid=" + mPrefsManager.getUserDetails().getUserid() + "&email=" + mail, mEditProfileListener);
+        if (isValidEmail(mail))
+            mApiInteractor.postShareDetail(mView, Constants.DetailPostShareDetail + "module_id=" + mModuleId + "&entity_id=" + mEntityId + "&uid=" + mPrefsManager.getUserDetails().getUserid() + "&email=" + mail, mServerListener);
+        else
+            mView.showErrorDialog("Please enter valid e-mail address.");
 
     }
 
+    private boolean isValidEmail(String email) {// validation for email Id
+        boolean isValid = false;
+        String expression = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.matches()) {
+            isValid = true;
+
+        }
+        return isValid;
+    }
     private void closeActivityOnResult(Intent data) {
         mView.setResultAndCloseActivity(data);
     }
@@ -349,6 +366,23 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         @Override
         public void onSuccess(ImageResponse responseBody) {
             mView.showErrorDialog(responseBody.getStatusResponse());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<SmallServerResponse> mServerListener = new LoadListener<SmallServerResponse>() {
+        @Override
+        public void onSuccess(SmallServerResponse responseBody) {
+            mView.showErrorDialog(responseBody.getStatusInfo());
         }
 
         @Override
