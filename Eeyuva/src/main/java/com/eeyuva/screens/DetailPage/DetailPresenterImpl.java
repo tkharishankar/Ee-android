@@ -84,8 +84,11 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void setPostComments(String trim, String mModuleId, String articleid) {
-        mApiInteractor.getPostComments(mView, Constants.DetailPostComments + "uid=" + mPrefsManager.getUserDetails().getUserid() + "&modid="
-                + mModuleId + "&eid=" + articleid + "&msg=" + trim, mCommentPostListener);
+        if (trim.length() != 0 && trim != null)
+            mApiInteractor.getPostComments(mView, Constants.DetailPostComments + "uid=" + mPrefsManager.getUserDetails().getUserid() + "&modid="
+                    + mModuleId + "&eid=" + articleid + "&msg=" + trim, mCommentPostListener);
+        else
+            mView.showListenerDialog("Please enter your comments.");
 
     }
 
@@ -261,6 +264,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
 
     @Override
     public void postShareDetail(String mModuleId, String mEntityId, String mail) {
+
         if (isValidEmail(mail))
             mApiInteractor.postShareDetail(mView, Constants.DetailPostShareDetail + "module_id=" + mModuleId + "&entity_id=" + mEntityId + "&uid=" + mPrefsManager.getUserDetails().getUserid() + "&email=" + mail, mServerListener);
         else
@@ -280,6 +284,7 @@ public class DetailPresenterImpl implements DetailContract.Presenter {
         }
         return isValid;
     }
+
     private void closeActivityOnResult(Intent data) {
         mView.setResultAndCloseActivity(data);
     }

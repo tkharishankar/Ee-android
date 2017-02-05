@@ -5,8 +5,6 @@ import com.eeyuva.apiservice.Api;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.base.UiCallback;
-import com.eeyuva.fcmregister.FCMRegisterRequest;
-import com.eeyuva.fcmregister.FCMRegisterResponse;
 import com.eeyuva.screens.DetailPage.ArticleDetailResponse;
 import com.eeyuva.screens.DetailPage.SmallServerResponse;
 import com.eeyuva.screens.DetailPage.model.CommentListResponse;
@@ -22,6 +20,7 @@ import com.eeyuva.screens.home.ImageFile;
 import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.ChangePasswordResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.EditResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
@@ -196,9 +195,9 @@ public class ApiInteractorImpl implements ApiInteractor {
     }
 
     @Override
-    public void changePassword(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener) {
-        UiCallback<EditResponse> callback = new UiCallback(mView, mEditProfileListener, true);
-        Call<EditResponse> call = mApi.getEditProfile(url);
+    public void changePassword(BaseView mView, String url, LoadListener<ChangePasswordResponse> mChangePasswordListener) {
+        UiCallback<ChangePasswordResponse> callback = new UiCallback(mView, mChangePasswordListener, true);
+        Call<ChangePasswordResponse> call = mApi.ChangePassword(url);
         callback.start(call);
     }
 

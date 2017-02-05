@@ -44,6 +44,7 @@ import com.eeyuva.screens.profile.model.ProfileList;
 import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.eeyuva.utils.Constants;
+import com.eeyuva.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -430,6 +431,8 @@ public class ProfileActivity extends ButterAppCompatActivity implements ProfileC
                             mEdtDob.getText().toString().trim(),
                             mEdtAbout.getText().toString().trim());
                     mDialog.dismiss();
+                    Utils.hideSoftKeyBoard(ProfileActivity.this);
+
                 }
             });
 

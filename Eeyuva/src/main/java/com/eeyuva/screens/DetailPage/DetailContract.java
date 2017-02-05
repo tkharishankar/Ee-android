@@ -22,6 +22,7 @@ public interface DetailContract {
         void setOtherArticleDetails(List<ArticleDetail> response);
 
         void setCommentsListToAdapter(List<CommentsList> response);
+
         void setPhoto(File photoFile);
 
         void setLikeCount(Integer countLike);
@@ -29,6 +30,8 @@ public interface DetailContract {
         void setDisLikeCount(Integer countLike);
 
         void setAdpaterNotComments();
+
+
     }
 
     interface Presenter extends BasePresenter {

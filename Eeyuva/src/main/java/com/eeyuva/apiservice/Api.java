@@ -16,6 +16,7 @@ import com.eeyuva.screens.home.ImageFile;
 import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.ChangePasswordResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.EditResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
@@ -113,6 +114,9 @@ public interface Api {
 
     @GET
     Call<SmallServerResponse> postShare(@Url String url);
+
+    @GET
+    Call<ChangePasswordResponse> ChangePassword(@Url String url);
 
 
 //    @POST("driver/deviceid/")

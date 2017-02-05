@@ -42,10 +42,38 @@ public class RegistrationPresenterImpl implements RegistrationContract.Presenter
 
     @Override
     public void onSignupClicked() {
-        if (validateUserInput()) {
-            mDriverInteractor.getRegistrationResponse(mView, mView.getFirstName(), mView.getLastName(), mView.getGender(), mView.getEmail(),
+        if (validateUserInput())
+            if (validatePassword(mView.getPassword()))
+            if (validateconPassword(mView.getConfirmPassword()))
+                mDriverInteractor.getRegistrationResponse(mView, mView.getFirstName(), mView.getLastName(), mView.getGender(), mView.getEmail(),
                     mView.getPassword(), mRegisterListener);
+
+    }
+    public boolean validatePassword(String pass) {
+        if (pass.length() == 0) {
+            mView.showErrorDialog(R.string.enter_password);
+            return false;
+        } else if (pass.length() < 8) {
+            mView.showErrorDialog(R.string.enter_min_character_password);
+            return false;
+        } else if (pass.length() > 12) {
+            mView.showErrorDialog(R.string.enter_min_character_maxpassword);
+            return false;
         }
+        return true;
+    }
+    private boolean validateconPassword(String conpass) {
+        if (conpass.length() == 0) {
+            mView.showErrorDialog("Please enter confirm password.");
+            return false;
+        } else if (conpass.length() < 8) {
+            mView.showErrorDialog("Sorry, your new password must be at least 8 characters long.");
+            return false;
+        } else if (conpass.length() > 12) {
+            mView.showErrorDialog("Sorry, your confirm password must be max 12 characters long.");
+            return false;
+        }
+        return true;
     }
 
     boolean validateUserInput() {

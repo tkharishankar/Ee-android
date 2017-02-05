@@ -16,6 +16,7 @@ import com.eeyuva.R;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
 import com.eeyuva.screens.profile.ProfileContract;
 import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -57,7 +58,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.ViewHolder> 
                 holder.txtTitle.setText(getApproveExactString(articles));
 
             holder.txtType.setText(articles.getModuleName());
-            holder.txtDate.setText(getISOTime(articles.getDate()));
+            holder.txtDate.setText(Utils.getISOTime(articles.getDate()));
             Picasso.with(mContext).load(articles.getThumbimg()).placeholder(mContext.getResources().getDrawable(R.drawable.y_logo)).transform(new RoundedTransformation(8, 0)).resize(80, 80).into(holder.imgArticle);
 
 

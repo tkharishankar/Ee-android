@@ -33,6 +33,8 @@ import com.eeyuva.screens.profile.notification.NotificationActivity;
 import com.eeyuva.screens.profile.stuffs.StuffsActivity;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.splash.SplashActivity;
+import com.eeyuva.utils.customdialog.DialogListener;
+import com.eeyuva.utils.customdialog.DialogUtils;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -236,12 +238,17 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                     if (!mDrawerItems.get(position).isHeader()) {
                         if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("logout")) {
                             mDrawerLayout.closeDrawer(containerView);
-                            Intent intent =
-                                    new Intent(getActivity(), SplashActivity.class);
-                            setUserDetail();
-                            startActivity(intent);
+                            showListenerDialog("User logged out succesfully");
                         } else if (mDrawerItems.get(position).getTitle().equalsIgnoreCase("Change Password")) {
-                            mDrawerLayout.closeDrawer(containerView);
+                            if (getUserDetails() != null) {
+                                Intent intent =
+                                        new Intent(getActivity(), ChangePasswordActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Intent intent =
+                                        new Intent(getActivity(), LoginActivity.class);
+                                startActivity(intent);
+                            }
                             Intent intent =
                                     new Intent(getActivity(), ChangePasswordActivity.class);
                             startActivity(intent);
@@ -335,5 +342,23 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 return Rl;
         }
         return null;
+    }
+
+    public void showListenerDialog(String errorMsg) {
+        DialogUtils.showDialog(getActivity(), errorMsg, getString(R.string.sig__default_dialog_action_confirm), "", new DialogListener() {
+            @Override
+            public void onConfirm() {
+                Intent intent =
+                        new Intent(getActivity(), SplashActivity.class);
+                setUserDetail();
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+                return;
+            }
+        });
+
     }
 }

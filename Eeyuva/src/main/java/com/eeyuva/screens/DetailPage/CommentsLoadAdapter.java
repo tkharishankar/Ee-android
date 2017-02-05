@@ -15,6 +15,7 @@ import com.eeyuva.screens.home.HomeContract;
 import com.eeyuva.screens.home.ResponseItem;
 import com.eeyuva.screens.home.coverflow.ArticlesAdapter;
 import com.eeyuva.screens.home.loadmore.RoundedTransformation;
+import com.eeyuva.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class CommentsLoadAdapter extends RecyclerView.Adapter<CommentsLoadAdapte
         try {
             holder.txtTitle.setText(comments.getCommentby());
             holder.txtSubDesc.setText(comments.getCommentDescription());
-            holder.txtDate.setText(comments.getCommentDate());
+            holder.txtDate.setText(Utils.getISOTime(comments.getCommentDate()));
 //            holder.txtStatus.setText(comments.getCommentDate());
             if (comments.getStatus().equalsIgnoreCase("delete")) {
                 holder.txtStatus.setText("UnPublished");

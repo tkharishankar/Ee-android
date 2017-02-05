@@ -92,8 +92,11 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
         if (pass.length() == 0) {
             mView.showErrorDialog(R.string.enter_password);
             return false;
-        } else if (pass.length() <= 2) {
+        } else if (pass.length() < 8) {
             mView.showErrorDialog(R.string.enter_min_character_password);
+            return false;
+        } else if (pass.length() > 12) {
+            mView.showErrorDialog(R.string.enter_min_character_maxpassword);
             return false;
         }
         return true;
@@ -107,7 +110,7 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     @Override
     public void onForgetPassword(String mail) {
         if (isValidEmail(mail))
-            mDriverInteractor.setforgetpassword(mView,"mforgotpassdata?email=" + mail,mEditProfileListener);
+            mDriverInteractor.setforgetpassword(mView, "mforgotpassdata?email=" + mail, mEditProfileListener);
         else
             mView.showErrorDialog("Please enter valid e-mail address.");
     }

@@ -14,11 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,6 +62,9 @@ import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.eeyuva.utils.Constants;
+import com.eeyuva.utils.Utils;
+import com.eeyuva.utils.customdialog.DialogListener;
+import com.eeyuva.utils.customdialog.DialogUtils;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -334,8 +339,9 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
             pager.setOffscreenPageLimit(15);
             String posted = "Posted by: ";
             String mOn = " on ";
-            String complete = "Posted by: " + articleDetail.getCreatedby() + " on " + articleDetail.getCreateddate();
-            SpannableString styledString = new SpannableString("Posted by: " + articleDetail.getCreatedby() + " on " + articleDetail.getCreateddate());
+            String complete = "Posted by: " + articleDetail.getCreatedby() + " on " + Utils.getISOTime(articleDetail.getCreateddate());
+
+            SpannableString styledString = new SpannableString("Posted by: " + articleDetail.getCreatedby() + " on " + Utils.getISOTime(articleDetail.getCreateddate()));
             styledString.setSpan(new ForegroundColorSpan(Color.RED), 0, posted.length(), 0);
             styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), posted.length(), posted.length() + articleDetail.getCreatedby().length(), 0);
             styledString.setSpan(new ForegroundColorSpan(Color.RED), posted.length() + articleDetail.getCreatedby().length(), complete.length(), 0);
@@ -343,8 +349,14 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
 //            Picasso.with(this).load(articleDetail.getGalleryimg()).placeholder(getResources().getDrawable(R.drawable.ic_big_y_logo)).into(mImgArticleImg);
             mTxtDetailInfo.getSettings().setJavaScriptEnabled(true);
             mTxtDetailInfo.loadDataWithBaseURL("", articleDetail.getSummary(), "text/html", "UTF-8", "");
-            mBtnLike.setText("Like(" + articleDetail.getLikecount() + ")");
-            mBtnDislike.setText("Dislike(" + articleDetail.getDislikecount() + ")");
+            if (!articleDetail.getLikecount().equalsIgnoreCase("0") && !articleDetail.getLikecount().equalsIgnoreCase(null) && articleDetail.getLikecount().length() != 0)
+                mBtnLike.setText("Like(" + articleDetail.getLikecount() + ")");
+            else
+                mBtnLike.setText("Like");
+            if (!articleDetail.getDislikecount().equalsIgnoreCase("0") && !articleDetail.getDislikecount().equalsIgnoreCase(null) && articleDetail.getDislikecount().length() != 0)
+                mBtnDislike.setText("Dislike(" + articleDetail.getDislikecount() + ")");
+            else
+                mBtnDislike.setText("Dislike");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -507,7 +519,8 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
                 mDialog.dismiss();
                 //return;
             }
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.search_dialog));
             View dialogView = LayoutInflater.from(this).inflate(R.layout.search_dialog, null);
             builder.setView(dialogView);
 
@@ -530,10 +543,12 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
                     }
                 }
             });
+
             mDialog = builder.create();
             mDialog.setCancelable(true);
             mDialog.show();
             mDialog.getWindow().setGravity(Gravity.TOP);
+
             Window window = mDialog.getWindow();
             WindowManager.LayoutParams wlp = window.getAttributes();
             wlp.verticalMargin = .055f;
@@ -547,7 +562,10 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
 
     @OnClick(R.id.mBtnShare)
     public void onShareClick() {
-        showRecommendShareDialog();
+        if (mPresenter.getUserDetails() == null)
+            goToLogin();
+        else
+            showRecommendShareDialog();
     }
 
     @OnClick(R.id.mBtnLike)
@@ -600,10 +618,11 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
                 @Override
                 public void onClick(View v) {
                     mDialog.dismiss();
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, mArticleDetail.getTitle());
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, mArticleDetail.getTitle() + "\n" + mArticleDetail.getPicpath());
                     startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
                 }
             });
             mTxtCancel.setOnClickListener(new View.OnClickListener() {
@@ -929,6 +948,22 @@ public class DetailActivity extends ButterAppCompatActivity implements DetailCon
     public void setAdpaterNotComments() {
 //        topListLay.setVisibility(View.GONE);
 //        txtRate.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showListenerDialog(String errorMsg) {
+        DialogUtils.showDialog(this, errorMsg, getString(R.string.sig__default_dialog_action_confirm), "", new DialogListener() {
+            @Override
+            public void onConfirm() {
+                showCommentDialog();
+            }
+
+            @Override
+            public void onCancel() {
+                return;
+            }
+        });
+
     }
 
     public void gotoHome(View v) {

@@ -20,12 +20,14 @@ import android.widget.TextView;
 
 import com.eeyuva.ButterAppCompatActivity;
 import com.eeyuva.R;
+import com.eeyuva.screens.DetailPage.DetailActivity;
 import com.eeyuva.screens.DetailPage.model.CommentsList;
 import com.eeyuva.screens.authentication.LoginActivity;
 import com.eeyuva.screens.gridpages.GridHomeActivity;
 import com.eeyuva.screens.home.HomeActivity;
 import com.eeyuva.screens.navigation.FragmentDrawer;
 import com.eeyuva.screens.profile.model.AlertList;
+import com.eeyuva.screens.profile.model.ChangePasswordResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
 import com.eeyuva.screens.profile.model.NotificationResponse;
@@ -33,6 +35,8 @@ import com.eeyuva.screens.profile.model.ProfileResponse;
 import com.eeyuva.screens.profile.userdetails.ProfileActivity;
 import com.eeyuva.screens.searchpage.SearchActivity;
 import com.eeyuva.utils.Constants;
+import com.eeyuva.utils.customdialog.DialogListener;
+import com.eeyuva.utils.customdialog.DialogUtils;
 
 import java.io.File;
 import java.util.List;
@@ -294,4 +298,23 @@ public class ChangePasswordActivity extends ButterAppCompatActivity implements P
     public void updateSaveModules(String notificationModules) {
 
     }
+
+    public void showListenerDialog(String msg) {
+        DialogUtils.showDialog(this, msg, getString(R.string.sig__default_dialog_action_confirm), "", new DialogListener() {
+            @Override
+            public void onConfirm() {
+                Intent intent =
+                        new Intent(ChangePasswordActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                return;
+            }
+        });
+    }
+
+
 }

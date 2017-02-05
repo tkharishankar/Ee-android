@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.eeyuva.R;
 import com.eeyuva.base.BaseView;
 import com.eeyuva.base.LoadListener;
 import com.eeyuva.interactor.ApiInteractor;
@@ -15,6 +16,7 @@ import com.eeyuva.screens.home.ImageFile;
 import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ResponseList;
 import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.ChangePasswordResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.EditResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
@@ -24,6 +26,7 @@ import com.eeyuva.screens.profile.userdetails.interactor.ImageProcessingListener
 import com.eeyuva.screens.profile.userdetails.interactor.PackageInfoInteractor;
 import com.eeyuva.screens.profile.userdetails.interactor.PermissionGrantedListener;
 import com.eeyuva.utils.Constants;
+import com.eeyuva.utils.Utils;
 import com.eeyuva.utils.preferences.PrefsManager;
 
 import java.io.ByteArrayOutputStream;
@@ -74,7 +77,6 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
     @Override
     public void setUpdateProfile(String fname, String lastname, String mobile, String gender, String dob, String about) {
-
 //        mApiInteractor.getEditProfile(mView, "http://mobile.eeyuva.com/edituserinfo.php?uid=" + mPrefsManager.getUserDetails().getUserid() +
         mApiInteractor.getEditProfile(mView, Constants.ProfileEditUserInfo + "uid=" + mPrefsManager.getUserDetails().getUserid() +
                 "&fname=" + fname +
@@ -138,6 +140,7 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         @Override
         public void onSuccess(EditResponse responseBody) {
             mView.showErrorDialog(responseBody.getSTATUSINFO());
+
         }
 
         @Override
@@ -319,8 +322,67 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
 
     @Override
     public void setChangePassword(String oldpass, String newpass, String conpass) {
-        mApiInteractor.changePassword(mView, Constants.ProfileChangePassword + "oldpwd=" + oldpass + "&newpwd=" + newpass + "&cpwd=" + conpass + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mEditProfileListener);
+        if (validateoldPassword(oldpass))
+            if (validatenewPassword(newpass))
+                if (validateconPassword(conpass))
+                    mApiInteractor.changePassword(mView, Constants.ProfileChangePassword + "oldpwd=" + oldpass + "&newpwd=" + newpass + "&cpwd=" + conpass + "&uid=" + mPrefsManager.getUserDetails().getUserid(), mChangePasswordListener);
 
+    }
+
+    private boolean validateoldPassword(String oldpass) {
+        if (oldpass.length() == 0) {
+            mView.showErrorDialog("Please enter old password.");
+            return false;
+        } else if (oldpass.length() < 8) {
+            mView.showErrorDialog("Sorry, your old password must be at least 8 characters long.");
+            return false;
+        } else if (oldpass.length() > 12) {
+            mView.showErrorDialog("Sorry, your old password must be max 12 characters long.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validatenewPassword(String newpass) {
+        if (newpass.length() == 0) {
+            mView.showErrorDialog("Please enter new password.");
+            return false;
+        } else if (newpass.length() < 8) {
+            mView.showErrorDialog("Sorry, your new password must be at least 8 characters long.");
+            return false;
+        } else if (newpass.length() > 12) {
+            mView.showErrorDialog("Sorry, your confirm password must be max 12 characters long.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateconPassword(String conpass) {
+        if (conpass.length() == 0) {
+            mView.showErrorDialog("Please enter confirm password.");
+            return false;
+        } else if (conpass.length() < 8) {
+            mView.showErrorDialog("Sorry, your new password must be at least 8 characters long.");
+            return false;
+        } else if (conpass.length() > 12) {
+            mView.showErrorDialog("Sorry, your confirm password must be max 12 characters long.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validatePassword(String pass) {
+        if (pass.length() == 0) {
+            mView.showErrorDialog(R.string.enter_password);
+            return false;
+        } else if (pass.length() < 8) {
+            mView.showErrorDialog(R.string.enter_min_character_password);
+            return false;
+        } else if (pass.length() > 12) {
+            mView.showErrorDialog(R.string.enter_min_character_maxpassword);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -441,6 +503,23 @@ public class ProfilePresenterImpl implements ProfileContract.Presenter {
         @Override
         public void onSuccess(CommentListResponse responseBody) {
             mView.setCommentsListToAdapter(responseBody.getResponse());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+
+        @Override
+        public void onError(Object error) {
+
+        }
+    };
+
+    LoadListener<ChangePasswordResponse> mChangePasswordListener = new LoadListener<ChangePasswordResponse>() {
+        @Override
+        public void onSuccess(ChangePasswordResponse responseBody) {
+            mView.showListenerDialog(responseBody.getStatusInfo());
         }
 
         @Override

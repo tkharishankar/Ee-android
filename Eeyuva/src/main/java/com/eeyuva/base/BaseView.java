@@ -21,4 +21,7 @@ public interface BaseView {
     void showErrorDialog(String errorMsg);
 
     void showErrorDialog(int resID);
+
+    void showListenerDialog(String errorMsg);
+
 }

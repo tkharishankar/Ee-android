@@ -114,7 +114,7 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ArrayList<String> tabs = new ArrayList<>();
         tabs.add("Comments");
-        tabs.add("News");
+        tabs.add("It's my post");
         tabs.add("Notifications");
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -535,4 +535,8 @@ public class StuffsActivity extends ButterAppCompatActivity implements ProfileCo
         showModuleVideoPhoto(photoFile);
     }
 
+    @Override
+    public void showListenerDialog(String errorMsg) {
+
+    }
 }

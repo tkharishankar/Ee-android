@@ -202,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:textAllCaps="true"
+                    android:maxLines="10"
                     android:textColor="@color/black" />
 
                 <View

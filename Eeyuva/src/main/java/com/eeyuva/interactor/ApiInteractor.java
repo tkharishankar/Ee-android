@@ -25,6 +25,7 @@ import com.eeyuva.screens.home.ImageResponse;
 import com.eeyuva.screens.home.ModuleOrderResponse;
 import com.eeyuva.screens.profile.ProfileContract;
 import com.eeyuva.screens.profile.model.AlertResponse;
+import com.eeyuva.screens.profile.model.ChangePasswordResponse;
 import com.eeyuva.screens.profile.model.CommentResponse;
 import com.eeyuva.screens.profile.model.EditResponse;
 import com.eeyuva.screens.profile.model.NewsResponse;
@@ -80,7 +81,7 @@ public interface ApiInteractor {
 
     void uploadImage(BaseView mView, String url, String uid, String bitmapImg, LoadListener<EditResponse> mEditProfileListener);
 
-    void changePassword(BaseView mView, String url, LoadListener<EditResponse> mEditProfileListener);
+    void changePassword(BaseView mView, String url, LoadListener<ChangePasswordResponse> mChangePasswordListener);
 
     void uploadImageVideo(BaseView mView, String url, ImageFile encodedString, LoadListener<ImageResponse> mEditProfileListener);
 

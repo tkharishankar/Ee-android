@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.eeyuva.R;
 import com.eeyuva.screens.gridpages.model.PhotoList;
 import com.eeyuva.screens.gridpages.model.UserNewsList;
+import com.eeyuva.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -21,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 /**
  * Created by hari on 17/09/16.
@@ -52,7 +55,7 @@ public class UserNewsListAdapter extends RecyclerView.Adapter<UserNewsListAdapte
         holder.mImgItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
         holder.mImgLabel.setText(rl.getTitle());
         holder.txtSubDesc.setText("Posted By : "+rl.getUsername());
-        holder.txtDate.setText(getISOTime(rl.getDate()));
+        holder.txtDate.setText(Utils.getISOTime(rl.getDate()));
         holder.Layuserdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

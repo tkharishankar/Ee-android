@@ -60,7 +60,7 @@ public class InfiniteGalleryFragment extends Fragment {
 
         PhotoView imageView = (PhotoView) l.findViewById(R.id.hotimage);
         TextView label = (TextView) l.findViewById(R.id.label);
-        TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
+        final TextView labeltitle = (TextView) l.findViewById(R.id.labeltitle);
 //        imageView.setImageBitmap(getBitmapFromURL(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()));
 //        Picasso.with(getActivity()).load(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getPicpath()).placeholder(getActivity().getResources().getDrawable(R.drawable.logo_big)).into(imageView);
 //        imageView.setScaleType(ScaleImageView.ScaleType.FIT_XY);
@@ -74,17 +74,21 @@ public class InfiniteGalleryFragment extends Fragment {
                         public void onSuccess() {
                             Log.i("callback","callbacksuccess");
                             attacher.update();
+                            labeltitle.setVisibility(View.INVISIBLE);
                         }
+
 
                         @Override
                         public void onError() {
                             Log.i("callback","callbackerror");
+                            labeltitle.setVisibility(View.VISIBLE);
+
 
                         }
                     });
-
         } catch (Exception e) {
             e.printStackTrace();
+            labeltitle.setVisibility(View.VISIBLE);
         }
 
         label.setText(getSubString(PhotoGalleryActivity.mHotModuleList.get((pos % PhotoGalleryActivity.mHotModuleList.size())).getTitle()));

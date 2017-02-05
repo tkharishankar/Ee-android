@@ -141,6 +141,11 @@ public class ButterAppCompatActivity extends AppCompatActivity implements BaseVi
     }
 
     @Override
+    public void showListenerDialog(String errorMsg) {
+
+    }
+
+    @Override
     public void hideProgress() {
         if (progressDialog != null && progressDialog.isShowing() && isActivityActive()) {
             progressDialog.dismiss();

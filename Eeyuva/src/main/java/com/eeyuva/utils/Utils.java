@@ -16,6 +16,8 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -109,5 +111,22 @@ public class Utils {
         }
 
         return phoneNumber;
+    }
+
+    public static String getISOTime(String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                    Locale.ENGLISH);
+            Date parsedDate = sdf.parse(date);
+//            Sept. 18, 2016, 9:09 a.m
+            SimpleDateFormat print = new SimpleDateFormat("MMM. d, yyyy, HH:mm a");
+            System.out.println(print.format(parsedDate));
+            Log.i("mArticleImgList", "date" + print.format(parsedDate));
+            return print.format(parsedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.i("mArticleImgList", "date" + e);
+            return date;
+        }
     }
 }

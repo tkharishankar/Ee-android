@@ -257,7 +257,7 @@
 
                                 android:paddingRight="2dp"
                                 android:paddingTop="5dp"
-                                android:text="Share"
+                                android:text="Recommend"
                                 android:textColor="@color/white"
                                 android:textSize="11sp" />
                         </LinearLayout>
